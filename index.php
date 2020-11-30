@@ -1,16 +1,15 @@
 <?php
 
 include __DIR__.'/vendor/autoload.php';
-include __DIR__.'/src/Helpers/helpers.php';
+include __DIR__ . '/core/helpers.php';
 
 use Discord\Discord;
 use Discord\Parts\Channel\Message;
 use Discord\WebSockets\Event;
 
 $discord = new Discord([
-	'token' => 'NzgyMDI4NDcyNTkwNTMyNjU4.X8GOxQ.6BwFhLt1lciKmU4iB1Vv8prBf9E',
+	'token' => env('DISCORD_BOT_SECRET'),
 ]);
-
 
 $discord->on('ready', function ($discord) {
 	echo "Bot is ready!", PHP_EOL;
