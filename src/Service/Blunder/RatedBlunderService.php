@@ -11,9 +11,9 @@ class RatedBlunderService implements BlunderInterface
 {
     private $chessBlunderRequest;
 
-    public function __construct(ChessBlundersRequest $chessBlunderRequest)
+    public function __construct()
     {
-        $this->chessBlunderRequest = $chessBlunderRequest;
+        $this->chessBlunderRequest = new ChessBlundersRequest();
     }
     public function getBlunder(): ChessGame
     {
