@@ -2,7 +2,7 @@
 
 function config(string $file, string $key)
 {
-    $path = dirname(__DIR__, 2);
+    $path = dirname(__DIR__, 1);
     $configArray = include ($path . '/config/' . $file . '.php');
 
     return $configArray[$key];

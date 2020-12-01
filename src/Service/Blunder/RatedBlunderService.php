@@ -15,8 +15,8 @@ class RatedBlunderService implements BlunderInterface
     {
         $this->chessBlunderRequest = new ChessBlundersRequest();
     }
-    public function getBlunder(): ChessGame
+    public function getBlunder()
     {
-        $blunder = $this->chessBlunderRequest->getRatedBlunder();
+        return $this->chessBlunderRequest->getRatedBlunder();
     }
 }

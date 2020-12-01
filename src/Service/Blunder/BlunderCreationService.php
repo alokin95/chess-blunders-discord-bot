@@ -4,20 +4,18 @@
 namespace App\Service\Blunder;
 
 
-class BlunderFactory
+class BlunderCreationService
 {
-    /**
-     * @var $blunder BlunderInterface
-     */
     private $blunder;
 
     public function __construct(BlunderInterface $blunder)
     {
+
         $this->blunder = $blunder;
     }
 
-    public function generateBlunder()
+    public function createBlunder()
     {
-        $this->blunder->getBlunder();
+        $blunder = $this->blunder->getBlunder();
     }
 }

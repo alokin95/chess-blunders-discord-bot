@@ -16,9 +16,8 @@ class RandomBlunderService implements BlunderInterface
         $this->chessBlundersRequest = new ChessBlundersRequest();
     }
 
-    public function getBlunder() : ChessGame
+    public function getBlunder()
     {
-       $blunder = $this->chessBlundersRequest->getRandomBlunder();
-       $chessGame = new ChessGame();
+       return $this->chessBlundersRequest->getRandomBlunder();
     }
 }

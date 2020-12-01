@@ -41,8 +41,8 @@ class ChessBlundersClient implements ClientInterface
             ]
         );
 
-        return $request
+        return json_decode($request
             ->getBody()
-            ->getContents();
+            ->getContents(), true);
     }
 }

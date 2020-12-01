@@ -6,5 +6,5 @@ use App\Entity\ChessGame;
 
 interface BlunderInterface
 {
-    public function getBlunder() : ChessGame;
+    public function getBlunder();
 }
