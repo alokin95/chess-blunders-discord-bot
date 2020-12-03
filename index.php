@@ -5,7 +5,10 @@ include __DIR__.'/core/bootstrap.php';
 use Discord\Discord;
 use Discord\Parts\Channel\Message;
 use Discord\WebSockets\Event;
-
+$b = new \App\Service\Blunder\BlunderCreationService(new \App\Service\Blunder\RandomBlunderService());
+$blunder = $b->createBlunder();
+$embed = new \App\Service\CreateEmbedMessageService($blunder);
+$embed->createEmbed();
 $discord = new Discord([
 	'token' => env('DISCORD_BOT_SECRET'),
 ]);

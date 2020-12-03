@@ -36,9 +36,9 @@ class Blunder extends BaseEntity
     private $solution;
 
     /**
-     * @ORM\Column(name="pv", type="array")
+     * @ORM\Column(name="to_play", type="string")
      */
-    private $pv;
+    private $toPlay;
 
     public function getBlunderId()
     {
@@ -90,14 +90,14 @@ class Blunder extends BaseEntity
         $this->solution = $solution;
     }
 
-    public function getPv()
+    public function getToPlay()
     {
-        return $this->pv;
+        return $this->toPlay;
     }
 
-    public function setPv($pv)
+    public function setToPlay($toPlay)
     {
-        $this->pv = $pv;
+        $this->toPlay = $toPlay;
     }
 
 }
