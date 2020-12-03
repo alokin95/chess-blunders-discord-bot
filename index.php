@@ -1,6 +1,6 @@
 <?php
 
-include __DIR__.'core/bootstrap.php';
+include __DIR__.'/core/bootstrap.php';
 
 use Discord\Discord;
 use Discord\Parts\Channel\Message;

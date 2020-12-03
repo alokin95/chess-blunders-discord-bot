@@ -1,10 +1,5 @@
 <?php
 use Doctrine\ORM\Tools\Console\ConsoleRunner;
+require_once __DIR__.'/../core/bootstrap.php';
 
-// replace with file to your own project bootstrap
-require_once 'core/bootstrap.php';
-
-// replace with mechanism to retrieve EntityManager in your app
-
-
-return ConsoleRunner::createHelperSet($entityManager);
+return ConsoleRunner::createHelperSet($entity_manager);
