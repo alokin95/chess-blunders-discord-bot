@@ -16,7 +16,10 @@ $discord->on('ready', function ($discord) {
 	// Listen for messages.
 
     $discord->on('message', function ($message, $discord) {
-        echo "{$message->author->username}: {$message->content}",PHP_EOL;
+        if (strpos($message->content, '#') === 0) {
+            $handleMessageService = new \App\Service\HandleIncomingMessageService($message);
+            $handleMessageService->handle();
+        }
     });
 
 //    $discord->factory(Channel::class, [
@@ -26,10 +29,10 @@ $discord->on('ready', function ($discord) {
 });
 
 
-$discord->on(Event::MESSAGE_CREATE, function (Message $message, Discord $discord) {
-    if (strpos($message->content, '#') === 0) {
-        echo 'JA SAM', PHP_EOL;
-    }
-});
+//$discord->on(Event::MESSAGE_CREATE, function (Message $message, Discord $discord) {
+//    if (strpos($message->content, '#') === 0) {
+//        echo 'JA SAM', PHP_EOL;
+//    }
+//});
 
 $discord->run();

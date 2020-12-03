@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9fdeae3fc15fb0a4f4164ea7d978abf9",
+    "content-hash": "e9a7021881a7ae82df2f166204e3aa28",
     "packages": [
         {
             "name": "composer/package-versions-deprecated",
@@ -2726,6 +2726,76 @@
                 }
             ],
             "time": "2020-09-07T11:33:47+00:00"
+        },
+        {
+            "name": "symfony/http-foundation",
+            "version": "v5.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/http-foundation.git",
+                "reference": "e4576271ee99123aa59a40564c7b5405f0ebd1e6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/http-foundation/zipball/e4576271ee99123aa59a40564c7b5405f0ebd1e6",
+                "reference": "e4576271ee99123aa59a40564c7b5405f0ebd1e6",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.2.5",
+                "symfony/deprecation-contracts": "^2.1",
+                "symfony/polyfill-mbstring": "~1.1",
+                "symfony/polyfill-php80": "^1.15"
+            },
+            "require-dev": {
+                "predis/predis": "~1.0",
+                "symfony/cache": "^4.4|^5.0",
+                "symfony/expression-language": "^4.4|^5.0",
+                "symfony/mime": "^4.4|^5.0"
+            },
+            "suggest": {
+                "symfony/mime": "To use the file extension guesser"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\HttpFoundation\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony HttpFoundation Component",
+            "homepage": "https://symfony.com",
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2020-11-27T06:13:25+00:00"
         },
         {
             "name": "symfony/options-resolver",
