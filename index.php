@@ -1,7 +1,6 @@
 <?php
 
-include __DIR__.'/vendor/autoload.php';
-include __DIR__ . '/core/helpers.php';
+include __DIR__.'core/bootstrap.php';
 
 use Discord\Discord;
 use Discord\Parts\Channel\Message;

@@ -2,7 +2,8 @@
     "require": {
         "team-reflex/discord-php": "^5.0",
         "guzzlehttp/guzzle": "^7.2",
-        "ryanhs/chess.php": "^1.0"
+        "ryanhs/chess.php": "^1.0",
+        "doctrine/orm": "^2.7"
     },
 
     "autoload": {
