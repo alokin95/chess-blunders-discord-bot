@@ -34,8 +34,7 @@ function entityManager()
         config('doctrine', 'cache'),
         config('doctrine', 'useSimpleAnnotationReader')
     );
-
-
+    
     $connection_parameters = config('doctrine', 'connection');
 
     $entity_manager = Doctrine\ORM\EntityManager::create($connection_parameters, $configuration);
