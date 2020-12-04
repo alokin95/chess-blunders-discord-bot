@@ -1,5 +1,6 @@
 <?php
 
+include 'Connection.php';
 
 function config(string $file, string $key)
 {
@@ -37,7 +38,7 @@ function entityManager()
     
     $connection_parameters = config('doctrine', 'connection');
 
-    $entity_manager = Doctrine\ORM\EntityManager::create($connection_parameters, $configuration);
+    $entity_manager = Connection::getInstance($connection_parameters, $configuration);
 
     return $entity_manager;
 }

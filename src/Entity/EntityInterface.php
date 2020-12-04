@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use DateTime;
+use Doctrine\ORM\Mapping as ORM;
 
 interface EntityInterface
 {
@@ -14,5 +15,9 @@ interface EntityInterface
 
     public function setUpdatedAt(DateTime $updatedAt);
 
+    /**
+     * @ORM\PreUpdate()
+     * @ORM\PrePersist()
+     */
     public function updateTimestamps();
 }

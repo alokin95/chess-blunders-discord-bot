@@ -58,4 +58,14 @@ class BaseEntity implements EntityInterface
             $this->setCreatedAt($dateTimeNow);
         }
     }
+
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
 }

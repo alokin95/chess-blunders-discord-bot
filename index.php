@@ -1,7 +1,7 @@
 <?php
 
 include __DIR__.'/core/bootstrap.php';
-dd(entityManager());
+
 use Discord\Discord;
 use Discord\Parts\Channel\Message;
 use Discord\WebSockets\Event;
