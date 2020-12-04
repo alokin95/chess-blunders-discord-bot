@@ -34,9 +34,19 @@ class BlunderCreationService
 
         $blunderEntity->setToPlay($this->fenFormatService->getColorToPlayFromFen($blunderAddedToFenPosition));
 
+        if (null != $this->checkIfBlunderAlreadyExists($blunderEntity))
+        {
+            $this->createBlunder();
+        }
+
         entityManager()->persist($blunderEntity);
         entityManager()->flush();
 
         return $blunderEntity;
+    }
+
+    private function checkIfBlunderAlreadyExists($blunder)
+    {
+        return entityManager()->getRepository(Blunder::class)->findOneBy(['blunderId' => $blunder->getBlunderId()]);
     }
 }
