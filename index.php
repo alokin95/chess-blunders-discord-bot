@@ -3,12 +3,10 @@
 include __DIR__.'/core/bootstrap.php';
 
 use Discord\Discord;
+use Discord\Parts\Channel\Channel;
 use Discord\Parts\Channel\Message;
-use Discord\WebSockets\Event;
-$b = new \App\Service\Blunder\BlunderCreationService(new \App\Service\Blunder\RandomBlunderService());
-$blunder = $b->createBlunder();
-$embed = new \App\Service\CreateEmbedMessageService($blunder);
-$embed->createEmbed();
+use Discord\Parts\Embed\Embed;
+
 $discord = new Discord([
 	'token' => env('DISCORD_BOT_SECRET'),
 ]);
@@ -25,17 +23,31 @@ $discord->on('ready', function ($discord) {
         }
     });
 
+
+//    $embed = $discord->factory(Embed::class, [
+//        'title' => 'kitica'
+//    ]);
+
 //    $discord->factory(Channel::class, [
 //        'id' =>  '782037360502243332'
-//    ])->sendMessage('test');
+//    ])->sendMessage('adasda', false, $embed);
+
+
+
 
 });
 
 
-//$discord->on(Event::MESSAGE_CREATE, function (Message $message, Discord $discord) {
-//    if (strpos($message->content, '#') === 0) {
-//        echo 'JA SAM', PHP_EOL;
-//    }
-//});
+$blunderCreationService = new \App\Service\Blunder\BlunderCreationService(new \App\Service\Blunder\RandomBlunderService());
+$blunder = $blunderCreationService->createBlunder();
+$embed = new \App\Service\CreateEmbedMessageService($blunder, $discord);
+$embed = $embed->createEmbed();
+
+
+$discord->factory(Channel::class, [
+    'id' =>  '782037360502243332'
+])->sendEmbed($embed)->done(function (Message $message){
+
+});
 
 $discord->run();
