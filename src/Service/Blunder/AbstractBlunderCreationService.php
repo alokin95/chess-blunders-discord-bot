@@ -1,11 +1,9 @@
 <?php
 
-
 namespace App\Service\Blunder;
 
-
 use App\Repository\BlunderRepository;
-use App\Service\FenFormatService;
+use App\Service\Fen\FenFormatService;
 
 abstract class  AbstractBlunderCreationService
 {
