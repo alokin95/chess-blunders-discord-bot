@@ -2,7 +2,7 @@
 
 namespace App\Service;
 
-class FenToPngConverterService
+class FenToPngConverterService implements FenConverterInterface
 {
     public function convert(string $fen)
     {
