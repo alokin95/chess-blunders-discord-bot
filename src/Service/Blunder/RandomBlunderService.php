@@ -1,10 +1,7 @@
 <?php
 
-
 namespace App\Service\Blunder;
 
-
-use App\Entity\ChessGame;
 use App\Request\ChessBlundersRequest;
 
 class RandomBlunderService implements BlunderInterface
