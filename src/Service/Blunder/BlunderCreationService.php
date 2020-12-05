@@ -5,17 +5,20 @@ namespace App\Service\Blunder;
 
 
 use App\Entity\Blunder;
+use App\Repository\BlunderRepository;
 use App\Service\FenFormatService;
 
 class BlunderCreationService
 {
     private $blunder;
     private $fenFormatService;
+    private $blunderRepository;
 
     public function __construct(BlunderInterface $blunder)
     {
-        $this->blunder = $blunder;
-        $this->fenFormatService = new FenFormatService();
+        $this->blunder              = $blunder;
+        $this->fenFormatService     = new FenFormatService();
+        $this->blunderRepository    = new BlunderRepository();
     }
 
     public function createBlunder()
@@ -47,6 +50,6 @@ class BlunderCreationService
 
     private function checkIfBlunderAlreadyExists($blunder)
     {
-        return entityManager()->getRepository(Blunder::class)->findOneBy(['blunderId' => $blunder->getBlunderId()]);
+        return $this->blunderRepository->findOneBy(['blunderId' => $blunder->getBlunderId()]);
     }
 }
