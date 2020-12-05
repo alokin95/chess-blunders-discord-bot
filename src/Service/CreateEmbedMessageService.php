@@ -48,6 +48,7 @@ class CreateEmbedMessageService
         $blunderIdField         = new Field($this->discord);
         $solutionExampleField   = new Field($this->discord);
         $eloField               = new Field($this->discord);
+        $boardEditorsField      = new Field($this->discord);
 
         $blunderIdField->fill([
             'name'      => 'BlunderID',
@@ -64,6 +65,21 @@ class CreateEmbedMessageService
             'value' => $this->blunder->getElo()
         ]);
 
-        return [$eloField, $blunderIdField, $solutionExampleField];
+        $boardEditorsField = $this->createBoardEditorsField($boardEditorsField);
+
+        return [$eloField, $blunderIdField, $solutionExampleField, $boardEditorsField];
+    }
+
+    private function createBoardEditorsField($boardEditorsField)
+    {
+        $lichessBoardUrl = config('boards', 'lichess') . '' . $this->blunder->getFen();
+        $lichessBoardUrl = str_replace(" ", '_', $lichessBoardUrl);
+
+        $boardEditorsField->fill([
+            'name'  => 'Analysis',
+            'value' => '[lichess.org](' . $lichessBoardUrl . ')'
+        ]);
+
+        return $boardEditorsField;
     }
 }

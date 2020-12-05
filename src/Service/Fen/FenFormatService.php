@@ -31,4 +31,15 @@ class FenFormatService
 
         return 'white';
     }
+
+    public function isEnPassantAvailable($fen)
+    {
+        $enPassant = explode(" ", $fen);
+
+        if ('-' == $enPassant[3]) {
+            return false;
+        }
+
+        return true;
+    }
 }
