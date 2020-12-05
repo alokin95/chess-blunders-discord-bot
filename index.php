@@ -26,30 +26,6 @@ $discord->on('ready', function ($discord) {
         }
     });
 
-
-//    $embed = $discord->factory(Embed::class, [
-//        'title' => 'kitica'
-//    ]);
-
-//    $discord->factory(Channel::class, [
-//        'id' =>  '782037360502243332'
-//    ])->sendMessage('adasda', false, $embed);
-
-
-
-
 });
 
-
-$blunderCreationService = new BlunderCreationService(new RandomBlunderService());
-$blunder = $blunderCreationService->createBlunder();
-$embed = new CreateEmbedMessageService($blunder, $discord);
-$embed = $embed->createEmbed();
-
-
-$discord->factory(Channel::class, [
-    'id' =>  env('DISCORD_TEXT_CHANNEL_ID')
-])->sendEmbed($embed)->done(function (Message $message){
-
-});
 $discord->run();
