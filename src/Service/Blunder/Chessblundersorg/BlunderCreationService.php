@@ -1,25 +1,15 @@
 <?php
 
-
-namespace App\Service\Blunder;
-
+namespace App\Service\Blunder\Chessblundersorg;
 
 use App\Entity\Blunder;
 use App\Repository\BlunderRepository;
+use App\Service\Blunder\AbstractBlunderCreationService;
+use App\Service\Blunder\BlunderInterface;
 use App\Service\FenFormatService;
 
-class BlunderCreationService
+class BlunderCreationService extends AbstractBlunderCreationService
 {
-    private $blunder;
-    private $fenFormatService;
-    private $blunderRepository;
-
-    public function __construct(BlunderInterface $blunder)
-    {
-        $this->blunder              = $blunder;
-        $this->fenFormatService     = new FenFormatService();
-        $this->blunderRepository    = new BlunderRepository();
-    }
 
     public function createBlunder()
     {
@@ -46,10 +36,5 @@ class BlunderCreationService
         entityManager()->flush();
 
         return $blunderEntity;
-    }
-
-    private function checkIfBlunderAlreadyExists($blunder)
-    {
-        return $this->blunderRepository->findOneBy(['blunderId' => $blunder->getBlunderId()]);
     }
 }

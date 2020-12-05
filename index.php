@@ -2,6 +2,9 @@
 
 include __DIR__.'/core/bootstrap.php';
 
+use App\Service\Blunder\Chessblundersorg\BlunderCreationService;
+use App\Service\Blunder\Chessblundersorg\RandomBlunderService;
+use App\Service\CreateEmbedMessageService;
 use Discord\Discord;
 use Discord\Parts\Channel\Channel;
 use Discord\Parts\Channel\Message;
@@ -38,16 +41,15 @@ $discord->on('ready', function ($discord) {
 });
 
 
-$blunderCreationService = new \App\Service\Blunder\BlunderCreationService(new \App\Service\Blunder\RandomBlunderService());
+$blunderCreationService = new BlunderCreationService(new RandomBlunderService());
 $blunder = $blunderCreationService->createBlunder();
-$embed = new \App\Service\CreateEmbedMessageService($blunder, $discord);
+$embed = new CreateEmbedMessageService($blunder, $discord);
 $embed = $embed->createEmbed();
 
 
 $discord->factory(Channel::class, [
-    'id' =>  '782037360502243332'
+    'id' =>  env('DISCORD_TEXT_CHANNEL_ID')
 ])->sendEmbed($embed)->done(function (Message $message){
 
 });
-
 $discord->run();

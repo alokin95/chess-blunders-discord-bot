@@ -1,11 +1,9 @@
 <?php
 
+namespace App\Service\Blunder\Chessblundersorg;
 
-namespace App\Service\Blunder;
-
-
-use App\Entity\ChessGame;
 use App\Request\ChessBlundersRequest;
+use App\Service\Blunder\BlunderInterface;
 
 class RatedBlunderService implements BlunderInterface
 {

@@ -2,8 +2,8 @@
 
 include __DIR__.'/core/bootstrap.php';
 
-use App\Service\Blunder\BlunderCreationService;
-use App\Service\Blunder\RandomBlunderService;
+use App\Service\Blunder\Chessblundersorg\BlunderCreationService;
+use App\Service\Blunder\Chessblundersorg\RandomBlunderService;
 use App\Service\CreateEmbedMessageService;
 use Discord\Discord;
 use Discord\Parts\Channel\Channel;
