@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -39,6 +40,16 @@ class Blunder extends BaseEntity
      * @ORM\Column(name="to_play", type="string")
      */
     private $toPlay;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Solution", mappedBy="blunder")
+     */
+    private $userSolutions;
+
+    public function __construct()
+    {
+        $this->userSolutions = new ArrayCollection();
+    }
 
     public function getBlunderId()
     {
