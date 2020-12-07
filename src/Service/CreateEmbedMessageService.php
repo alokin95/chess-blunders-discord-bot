@@ -33,8 +33,8 @@ class CreateEmbedMessageService
         ]);
 
         $embed->fill([
-            'title'         => 'See full image',
-            'description'   => 'Find the best move for ' . $this->blunder->getToPlay(),
+            'title'         => ucfirst($this->blunder->getToPlay()) . ' to play',
+            'description'   => 'Find the forced line (' . $this->countTheMoves($this->blunder->getSolution()) . ')',
             'url'           => $pngUrl,
             'thumbnail'     => $image,
             'fields'        => $this->createCustomFields()
@@ -81,5 +81,10 @@ class CreateEmbedMessageService
         ]);
 
         return $boardEditorsField;
+    }
+
+    private function countTheMoves(array $solution)
+    {
+        return count($solution) === 1 ? '1 move' : count($solution) . ' moves';
     }
 }
