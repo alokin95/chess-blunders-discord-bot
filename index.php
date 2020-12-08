@@ -2,6 +2,7 @@
 
 include __DIR__.'/core/bootstrap.php';
 
+use App\Response\CommandHelpResponse;
 use App\Service\Command\HandleCommandService;
 use Discord\Discord;
 
@@ -16,8 +17,12 @@ $discord->on('ready', function ($discord) {
 
     $discord->on('message', function ($message, $discord) {
         if (strpos($message->content, '#') === 0) {
-            $handleMessageService = new HandleCommandService($message);
-            $handleMessageService->handle();
+            try {
+                $handleMessageService = new HandleCommandService($message);
+                $handleMessageService->handle();
+            } catch (Throwable $exception) {
+               return new CommandHelpResponse($message);
+            }
         }
     });
 
