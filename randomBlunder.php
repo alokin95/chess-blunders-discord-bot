@@ -4,7 +4,7 @@ include __DIR__.'/core/bootstrap.php';
 
 use App\Service\Blunder\Chessblundersorg\BlunderCreationService;
 use App\Service\Blunder\Chessblundersorg\RandomBlunderService;
-use App\Service\CreateEmbedMessageService;
+use App\Service\CreateBlunderEmbedMessageService;
 use Discord\Discord;
 use Discord\Parts\Channel\Channel;
 use Discord\Parts\Channel\Message;
@@ -16,7 +16,7 @@ $discord = new Discord([
 
 $blunderCreationService = new BlunderCreationService(new RandomBlunderService());
 $blunder = $blunderCreationService->createBlunder();
-$embed = new CreateEmbedMessageService($blunder, $discord);
+$embed = new CreateBlunderEmbedMessageService($blunder, $discord);
 $embed = $embed->createEmbed();
 
 

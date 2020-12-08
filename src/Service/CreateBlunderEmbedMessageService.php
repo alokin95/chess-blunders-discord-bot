@@ -8,7 +8,7 @@ use Discord\Parts\Embed\Embed;
 use Discord\Parts\Embed\Field;
 use Discord\Parts\Embed\Image;
 
-class CreateEmbedMessageService
+class CreateBlunderEmbedMessageService
 {
     private $blunder;
     private $discord;

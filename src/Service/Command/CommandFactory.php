@@ -16,6 +16,7 @@ class CommandFactory
         {
             case "solution":
                 return new SolutionCommand($message);
+            case "help":
             default:
                 return new NonExistentCommand($message);
         }

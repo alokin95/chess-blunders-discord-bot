@@ -13,8 +13,6 @@ $discord = new Discord([
 $discord->on('ready', function ($discord) {
 	echo "Bot is ready!", PHP_EOL;
 
-	// Listen for messages.
-
     $discord->on('message', function ($message, $discord) {
         if (strpos($message->content, '#') === 0) {
             try {
