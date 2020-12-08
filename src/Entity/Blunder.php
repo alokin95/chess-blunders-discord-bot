@@ -46,6 +46,11 @@ class Blunder extends BaseEntity
      */
     private $userSolutions;
 
+    /**
+     * @ORM\OneToMany(targetEntity="SolvedBlunder", mappedBy="blunder")
+     */
+    private $correctSubmissions;
+
     public function __construct()
     {
         $this->userSolutions = new ArrayCollection();
