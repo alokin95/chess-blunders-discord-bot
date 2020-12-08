@@ -6,7 +6,9 @@ class CommandFactory
 {
     public function getCommandType($message)
     {
-        $command = explode('#', $message->content)[1];
+        $messageContent = trim($message->content);
+
+        $command = explode('#', $messageContent)[1];
 
         $command = explode(" ", $command)[0];
 
