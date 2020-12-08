@@ -9,6 +9,6 @@ class BlunderNotSolvedResponse extends AbstractResponse
 
     protected function sendResponse()
     {
-        $this->message->author->sendMessage('Error :(');
+        $this->message->author->sendMessage('Whoops! Try again!');
     }
 }
