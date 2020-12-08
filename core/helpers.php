@@ -1,6 +1,7 @@
 <?php
 
 include 'Connection.php';
+include 'DiscordConnection.php';
 
 function config(string $file, string $key)
 {
@@ -41,4 +42,9 @@ function entityManager()
     $entity_manager = Connection::getInstance($connection_parameters, $configuration);
 
     return $entity_manager;
+}
+
+function discordApp()
+{
+    return DiscordConnection::getInstance();
 }

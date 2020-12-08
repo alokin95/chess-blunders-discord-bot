@@ -6,9 +6,7 @@ use App\Response\CommandHelpResponse;
 use App\Service\Command\HandleCommandService;
 use Discord\Discord;
 
-$discord = new Discord([
-	'token' => env('DISCORD_BOT_SECRET'),
-]);
+$discord = discordApp();
 
 $discord->on('ready', function ($discord) {
 	echo "Bot is ready!", PHP_EOL;
