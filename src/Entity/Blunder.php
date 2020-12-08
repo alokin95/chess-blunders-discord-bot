@@ -42,7 +42,7 @@ class Blunder extends BaseEntity
     private $toPlay;
 
     /**
-     * @ORM\OneToMany(targetEntity="Solution", mappedBy="blunder")
+     * @ORM\OneToMany(targetEntity="AttemptedSolution", mappedBy="blunder")
      */
     private $userSolutions;
 

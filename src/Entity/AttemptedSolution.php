@@ -7,8 +7,10 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity()
+ * @ORM\HasLifecycleCallbacks()
+ * @ORM\Table(name="AttemptedSolutions")
  */
-class Solution extends BaseEntity
+class AttemptedSolution extends BaseEntity
 {
     /**
      * @ORM\ManyToOne(targetEntity="Blunder", inversedBy="userSolutions")
