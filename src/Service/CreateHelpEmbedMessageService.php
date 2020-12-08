@@ -15,9 +15,7 @@ class CreateHelpEmbedMessageService
 
     public function __construct()
     {
-        $this->discord = new Discord([
-            'token' => env('DISCORD_BOT_SECRET'),
-        ]);
+        $this->discord = discordApp();
 
     }
 

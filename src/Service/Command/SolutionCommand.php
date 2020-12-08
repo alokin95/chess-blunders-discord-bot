@@ -17,14 +17,14 @@ use App\Response\CommandHelpResponse;
 class SolutionCommand extends AbstractCommand
 {
     private $blunderRepository;
-    private $solutionRepository;
+    private $attemptedSolutionRepository;
     private $solvedBlunderRepository;
 
     public function __construct($message)
     {
-        $this->solutionRepository       = new AttemptedSolutionRepository();
-        $this->blunderRepository        = new BlunderRepository();
-        $this->solvedBlunderRepository  = new SolvedBlunderRepository();
+        $this->attemptedSolutionRepository  = new AttemptedSolutionRepository();
+        $this->blunderRepository            = new BlunderRepository();
+        $this->solvedBlunderRepository      = new SolvedBlunderRepository();
         parent::__construct($message);
     }
 
@@ -77,7 +77,9 @@ class SolutionCommand extends AbstractCommand
         {
             $this->saveSolution($blunder);
 
-            return new BlunderSolvedResponse($this->message);
+            $numberOfTries = $this->attemptedSolutionRepository->getNumberOfTries($this->message->author->id, $blunder);
+
+            return new BlunderSolvedResponse($this->message, $blunder, $numberOfTries);
         }
 
         return new BlunderNotSolvedResponse($this->message);
