@@ -73,7 +73,7 @@ class SolutionCommand extends AbstractCommand
 
         $this->saveAttemptedSolution($blunder, $submittedSolution);
 
-        if (array_reverse($submittedSolution) == $blunder->getSolution())
+        if ($submittedSolution == $blunder->getSolution())
         {
             $this->saveSolution($blunder);
 
