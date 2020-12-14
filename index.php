@@ -14,9 +14,9 @@ $discord->on('ready', function ($discord) {
 	echo "Bot is ready!", PHP_EOL;
 
     $discord->on('message', function ($message, $discord) {
+        $exceptionHandler = new ExceptionHandler();
         if (strpos($message->content, '#') === 0) {
             try {
-                $exceptionHandler = new ExceptionHandler();
                 $handleMessageService = new HandleCommandService($message);
                 $handleMessageService->handle();
             } catch (Throwable $exception) {

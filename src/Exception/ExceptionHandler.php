@@ -12,7 +12,7 @@ class ExceptionHandler
     private $errors;
 
     public function __construct() {
-        $this->logger = new Logger('discord_bot', [ new StreamHandler(__DIR__ . '/../var/log/bot.log') ] );
+        $this->logger = new Logger('discord_bot', [ new StreamHandler(__DIR__ . '/../../var/log/error.log') ] );
     }
 
     public function handle( \Throwable $ex , $discordMessage) {
