@@ -8,23 +8,27 @@ use App\Entity\SolvedBlunder;
 use App\Exception\BlunderNotFoundException;
 use App\Repository\AttemptedSolutionRepository;
 use App\Repository\BlunderRepository;
+use App\Repository\ResignRepository;
 use App\Repository\SolvedBlunderRepository;
 use App\Response\BlunderAlreadySolvedResponse;
 use App\Response\BlunderNotSolvedResponse;
 use App\Response\BlunderSolvedResponse;
 use App\Response\CommandHelpResponse;
+use App\Response\TryingToSolveAfterResignationResponse;
 
 class SolutionCommand extends AbstractCommand
 {
     private $blunderRepository;
     private $attemptedSolutionRepository;
     private $solvedBlunderRepository;
+    private $resignRepository;
 
     public function __construct($message)
     {
         $this->attemptedSolutionRepository  = new AttemptedSolutionRepository();
         $this->blunderRepository            = new BlunderRepository();
         $this->solvedBlunderRepository      = new SolvedBlunderRepository();
+        $this->resignRepository             = new ResignRepository();
         parent::__construct($message);
     }
 
@@ -56,7 +60,7 @@ class SolutionCommand extends AbstractCommand
     /**
      * @param array $commandArray
      * @param Blunder $blunder
-     * @return BlunderNotSolvedResponse|BlunderSolvedResponse|BlunderAlreadySolvedResponse
+     * @return BlunderNotSolvedResponse|BlunderSolvedResponse|BlunderAlreadySolvedResponse|TryingToSolveAfterResignationResponse
      */
     private function submitSolution(array $commandArray, Blunder $blunder)
     {
@@ -69,6 +73,10 @@ class SolutionCommand extends AbstractCommand
         if ($this->solvedBlunderRepository->checkIfUserSolvedTheBlunder($blunder, $this->message->author->id))
         {
             return new BlunderAlreadySolvedResponse($this->message);
+        }
+
+        if ($this->resignRepository->getResignsByUserAndBlunder($this->message->author->id, $blunder)) {
+            return new TryingToSolveAfterResignationResponse($this->message);
         }
 
         $this->saveAttemptedSolution($blunder, $submittedSolution);

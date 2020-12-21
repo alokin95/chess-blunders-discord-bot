@@ -1,10 +1,8 @@
 <?php
 
-
 namespace App\Response;
 
-
-use App\Service\CreateHelpEmbedMessageService;
+use App\Service\Embed\CreateHelpEmbedMessageService;
 
 class CommandHelpResponse extends AbstractResponse
 {

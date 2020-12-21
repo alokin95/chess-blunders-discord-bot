@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Service;
+namespace App\Service\Embed;
 
 use App\Entity\Blunder;
 use App\Service\Fen\FenToPngConverterService;
