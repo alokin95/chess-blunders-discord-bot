@@ -4,7 +4,7 @@ include __DIR__.'/core/bootstrap.php';
 
 use App\Service\Blunder\Chessblundersorg\BlunderCreationService;
 use App\Service\Blunder\Chessblundersorg\RandomBlunderService;
-use App\Service\CreateBlunderEmbedMessageService;
+use App\Service\Embed\CreateBlunderEmbedMessageService;
 use Discord\Parts\Channel\Channel;
 use Discord\Parts\Channel\Message;
 
