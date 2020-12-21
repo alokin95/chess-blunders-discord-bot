@@ -19,7 +19,7 @@ $customField->fill([
 ]);
 
 $embed->fill([
-    'title'         => 'Chess Blunder Bot received an update!',
+    'title'         => 'Chess Blunders Bot received an update!',
     'description'   => '**New command available:**',
     'fields'        => [$customField]
 ]);
