@@ -8,21 +8,26 @@ use App\Entity\Resign;
 use App\Exception\BlunderNotFoundException;
 use App\Repository\BlunderRepository;
 use App\Repository\ResignRepository;
+use App\Repository\SolvedBlunderRepository;
 use App\Response\BlunderAlreadyResignedResponse;
+use App\Response\BlunderAlreadySolvedResponse;
 use App\Response\BlunderResignedResponse;
 use App\Response\CommandHelpResponse;
+use App\Response\ResignAfterSolvedResponse;
 use Symfony\Component\Console\Command\HelpCommand;
 
 class ResignCommand extends AbstractCommand
 {
     private $resignRepository;
     private $blunderRepository;
+    private $solvedBlunderRepository;
 
     public function __construct($message)
     {
-        $this->resignRepository     = new ResignRepository();
-        $this->blunderRepository    = new BlunderRepository();
-        $this->message              = $message;
+        $this->resignRepository         = new ResignRepository();
+        $this->blunderRepository        = new BlunderRepository();
+        $this->solvedBlunderRepository  = new SolvedBlunderRepository();
+        $this->message                  = $message;
         parent::__construct($message);
     }
 
@@ -40,6 +45,12 @@ class ResignCommand extends AbstractCommand
 
         if (!$blunder) {
             throw new BlunderNotFoundException($this->message);
+        }
+
+        $blunderAlreadySolvedByUser = $this->solvedBlunderRepository->checkIfUserSolvedTheBlunder($blunder, $this->message->author->id);
+
+        if ($blunderAlreadySolvedByUser) {
+            return new ResignAfterSolvedResponse($this->message);
         }
 
         $userAlreadyResigned = $this->resignRepository->getResignsByUserAndBlunder($this->message->author->id, $blunderToResign);
