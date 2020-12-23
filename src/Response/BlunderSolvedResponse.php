@@ -21,7 +21,7 @@ class BlunderSolvedResponse extends AbstractResponse
     protected function sendResponse()
     {
         $pluralize = $this->numberOfTries > 1 ? 'attempts' : 'attempt';
-        $message = $this->message->author->username . ' has solved the blunder ' . $this->blunder->getId() . ' after ' . $this->numberOfTries . ' ' . $pluralize;
+        $message = $this->message->author->username . ' has solved the blunder ' . $this->blunder->getId() . ' after ' . $this->numberOfTries . ' ' . $pluralize . '!';
 
         $this->discordApp->factory(Channel::class, [
             'id' => env('DISCORD_TEXT_CHANNEL_ID')

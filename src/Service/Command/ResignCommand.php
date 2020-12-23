@@ -6,6 +6,7 @@ namespace App\Service\Command;
 
 use App\Entity\Resign;
 use App\Exception\BlunderNotFoundException;
+use App\Repository\AttemptedSolutionRepository;
 use App\Repository\BlunderRepository;
 use App\Repository\ResignRepository;
 use App\Repository\SolvedBlunderRepository;
@@ -21,12 +22,14 @@ class ResignCommand extends AbstractCommand
     private $resignRepository;
     private $blunderRepository;
     private $solvedBlunderRepository;
+    private $attemptedSolutionRepository;
 
     public function __construct($message)
     {
-        $this->resignRepository         = new ResignRepository();
-        $this->blunderRepository        = new BlunderRepository();
-        $this->solvedBlunderRepository  = new SolvedBlunderRepository();
+        $this->resignRepository             = new ResignRepository();
+        $this->blunderRepository            = new BlunderRepository();
+        $this->solvedBlunderRepository      = new SolvedBlunderRepository();
+        $this->attemptedSolutionRepository  = new AttemptedSolutionRepository();
         $this->message                  = $message;
         parent::__construct($message);
     }
@@ -62,7 +65,9 @@ class ResignCommand extends AbstractCommand
         $this->saveResignation($blunder);
         $solution = $blunder->getSolution();
 
-        return new BlunderResignedResponse($this->message, $blunder, $solution);
+        $attempts = $this->attemptedSolutionRepository->getNumberOfTries($this->message->author->id, $blunder);
+
+        return new BlunderResignedResponse($this->message, $blunder, $solution, $attempts);
     }
 
     private function saveResignation($blunder)
