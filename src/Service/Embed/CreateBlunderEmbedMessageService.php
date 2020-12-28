@@ -8,17 +8,16 @@ use Discord\Parts\Embed\Embed;
 use Discord\Parts\Embed\Field;
 use Discord\Parts\Embed\Image;
 
-class CreateBlunderEmbedMessageService
+class CreateBlunderEmbedMessageService extends AbstractEmbed
 {
     private $blunder;
-    private $discord;
     private $fenToPngConverter;
 
     public function __construct(Blunder $blunder, $discord)
     {
         $this->blunder              = $blunder;
-        $this->discord              = $discord;
         $this->fenToPngConverter    = new FenToPngConverterService();
+        parent::__construct();
     }
 
     public function createEmbed()

@@ -9,16 +9,8 @@ use Discord\Parts\Embed\Embed;
 use Discord\Parts\Embed\Field;
 use Discord\Parts\Embed\Image;
 
-class CreateHelpEmbedMessageService
+class CreateHelpEmbedMessageService extends AbstractEmbed
 {
-    private $discord;
-
-    public function __construct()
-    {
-        $this->discord = discordApp();
-
-    }
-
     public function createEmbed()
     {
         $embed  = new Embed($this->discord);
