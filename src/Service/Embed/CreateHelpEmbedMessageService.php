@@ -28,6 +28,7 @@ class CreateHelpEmbedMessageService extends AbstractEmbed
     {
         $solution   = new Field($this->discord);
         $resign     = new Field($this->discord);
+        $stats      = new Field($this->discord);
         $help       = new Field($this->discord);
 
         $solution->fill([
@@ -40,11 +41,16 @@ class CreateHelpEmbedMessageService extends AbstractEmbed
             'value' => "*Give up solving the blunder and see the solution*\n```[blunderID] - ID of the blunder```"
         ]);
 
-        $help->fill([
-            'name'  => '#help',
-            'value' => 'Show all bot commands'
+        $stats->fill([
+            'name'  => "#stats",
+            'value' => "*Shows the user stats*"
         ]);
 
-        return [$solution, $resign, $help];
+        $help->fill([
+            'name'  => '#help',
+            'value' => '*Show all bot commands*'
+        ]);
+
+        return [$solution, $resign, $stats, $help];
     }
 }
