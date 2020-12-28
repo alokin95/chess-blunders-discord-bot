@@ -57,7 +57,7 @@ class CreateBlunderEmbedMessageService
 
         $solutionExampleField->fill([
             'name'  => 'Solution Example',
-            'value' => '#solution ' . $this->blunder->getId() . ' Qxf7+ Kd8 Rd8#'
+            'value' => '#solution ' . $this->blunder->getId() . ' Qxf7+ Kd8 Rd7#'
         ]);
 
         $eloField->fill([
