@@ -65,12 +65,12 @@ class CreateStatsBlunderMessageService extends AbstractEmbed
 
         $averageNumberPerSolved->fill([
             'name'  => 'Average moves before solving',
-            'value' => '' . $userStatistics['averageNumberPerSolved'],
+            'value' => '' . round($userStatistics['averageNumberPerSolved'], 2),
         ]);
 
         $averageNumberPerResign->fill([
             'name'  => 'Average moves before resigning',
-            'value' => '' . $userStatistics['averageNumberPerResign']
+            'value' => '' . round($userStatistics['averageNumberPerResign'], 2)
         ]);
 
         return [$solvedBlunders, $resignedBlunders, $highestRatedSolved, $lowestRatedResigned, $averageNumberPerSolved, $averageNumberPerResign];
