@@ -27,7 +27,7 @@ class CreateStatsBlunderMessageService extends AbstractEmbed
         $embed  = new Embed($this->discord);
 
         $embed->fill([
-            'title'         => 'User stats',
+            'title'         => $this->message->author->username . ' stats',
             'fields'        => $this->createCustomFields($userStatistics)
         ]);
 
