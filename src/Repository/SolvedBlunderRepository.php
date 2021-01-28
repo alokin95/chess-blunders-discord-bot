@@ -43,6 +43,17 @@ class SolvedBlunderRepository extends AbstractRepository
             return $item['tries'];
         }, $result));
 
+        if (count($result) == 0)
+        {
+            return count($result);
+        }
+
         return $numberOfTries / count($result);
+    }
+
+    public function getAverageEloOfSolvedBlunders($user)
+    {
+        $qb = entityManager()->createQuery('SELECT AVG(b.elo) FROM App\Entity\SolvedBlunder sb JOIN sb.blunder b WHERE sb.user =' . $user);
+        return $qb->getResult();
     }
 }

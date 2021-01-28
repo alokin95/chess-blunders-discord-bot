@@ -38,6 +38,17 @@ class ResignRepository extends AbstractRepository
             return $item['tries'];
         }, $result));
 
+        if (count($result) == 0)
+        {
+            return count($result);
+        }
+
         return $numberOfTries / count($result);
+    }
+
+    public function getAverageEloOfResignedBlunders($user)
+    {
+        $qb = entityManager()->createQuery('SELECT AVG(b.elo) FROM App\Entity\Resign r JOIN r.blunder b WHERE r.user =' . $user);
+        return $qb->getResult();
     }
 }

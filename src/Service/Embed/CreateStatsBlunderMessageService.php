@@ -36,12 +36,14 @@ class CreateStatsBlunderMessageService extends AbstractEmbed
 
     private function createCustomFields($userStatistics)
     {
-        $solvedBlunders         = new Field($this->discord);
-        $resignedBlunders       = new Field($this->discord);
-        $highestRatedSolved     = new Field($this->discord);
-        $lowestRatedResigned    = new Field($this->discord);
-        $averageNumberPerSolved = new Field($this->discord);
-        $averageNumberPerResign = new Field($this->discord);
+        $solvedBlunders             = new Field($this->discord);
+        $resignedBlunders           = new Field($this->discord);
+        $highestRatedSolved         = new Field($this->discord);
+        $lowestRatedResigned        = new Field($this->discord);
+        $averageNumberPerSolved     = new Field($this->discord);
+        $averageNumberPerResign     = new Field($this->discord);
+        $averageEloOfSolvedBlunders = new Field($this->discord);
+        $averageEloOfResignedBlunders = new Field($this->discord);
 
         $solvedBlunders->fill([
             'name'  => "Solved blunders",
@@ -55,12 +57,12 @@ class CreateStatsBlunderMessageService extends AbstractEmbed
 
         $highestRatedSolved->fill([
             'name'  => 'Highest rated solved blunder',
-            'value' => $userStatistics['highestRatedSolved'][0][1]
+            'value' => $userStatistics['highestRatedSolved'][0][1] ?? 0
         ]);
 
         $lowestRatedResigned->fill([
             'name'  => 'Lowest rated resigned blunder',
-            'value' => $userStatistics['lowestRatedResigned'][0][1]
+            'value' => $userStatistics['lowestRatedResigned'][0][1] ?? 0
         ]);
 
         $averageNumberPerSolved->fill([
@@ -73,6 +75,24 @@ class CreateStatsBlunderMessageService extends AbstractEmbed
             'value' => '' . round($userStatistics['averageNumberPerResign'], 2)
         ]);
 
-        return [$solvedBlunders, $resignedBlunders, $highestRatedSolved, $lowestRatedResigned, $averageNumberPerSolved, $averageNumberPerResign];
+        $averageEloOfSolvedBlunders->fill([
+            'name'  => 'Average ELO of solved blunders',
+            'value' => '' . round($userStatistics['averageEloOfSolvedBlunders'][0][1], 0)
+        ]);
+
+        $averageEloOfResignedBlunders->fill([
+            'name'  => 'Average ELO of resigned blunders',
+            'value' => round($userStatistics['averageEloOfResignedBlunders'][0][1], 0)
+        ]);
+
+        return [
+            $solvedBlunders,
+            $resignedBlunders,
+            $highestRatedSolved,
+            $lowestRatedResigned,
+            $averageNumberPerSolved,
+            $averageNumberPerResign,
+            $averageEloOfSolvedBlunders,
+            $averageEloOfResignedBlunders];
     }
 }

@@ -32,7 +32,18 @@ class UserStatisticService
         $lowestRatedResigned = $this->resignationRepository->getLowestRatedResigned($user);
         $averageNumberPerSolved = $this->solvedBlunderRepository->getAverageNumberOfAttempts($user);
         $averageNumberPerResign = $this->resignationRepository->getAverageNumberOfAttempts($user);
+        $averageEloOfSolvedBlunders = $this->solvedBlunderRepository->getAverageEloOfSolvedBlunders($user);
+        $averageEloOfResignedBlunders = $this->resignationRepository->getAverageEloOfResignedBlunders($user);
 
-        return compact('solvedBlunders', 'resignedBlunders', 'highestRatedSolved', 'lowestRatedResigned', 'averageNumberPerSolved', 'averageNumberPerResign');
+        return compact(
+            'solvedBlunders',
+            'resignedBlunders',
+            'highestRatedSolved',
+            'lowestRatedResigned',
+            'averageNumberPerSolved',
+            'averageNumberPerResign', 
+            'averageEloOfSolvedBlunders',
+            'averageEloOfResignedBlunders'
+        );
     }
 }
