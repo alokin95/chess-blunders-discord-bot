@@ -15,14 +15,19 @@ use App\Response\BlunderAlreadySolvedResponse;
 use App\Response\BlunderResignedResponse;
 use App\Response\CommandHelpResponse;
 use App\Response\ResignAfterSolvedResponse;
+use App\Security\ChannelIsPrivate;
+use App\Security\CheckPermissionsTrait;
 use Symfony\Component\Console\Command\HelpCommand;
 
 class ResignCommand extends AbstractCommand
 {
+    use CheckPermissionsTrait;
+
     private $resignRepository;
     private $blunderRepository;
     private $solvedBlunderRepository;
     private $attemptedSolutionRepository;
+    private $channelIsPrivate;
 
     public function __construct($message)
     {
@@ -30,12 +35,15 @@ class ResignCommand extends AbstractCommand
         $this->blunderRepository            = new BlunderRepository();
         $this->solvedBlunderRepository      = new SolvedBlunderRepository();
         $this->attemptedSolutionRepository  = new AttemptedSolutionRepository();
-        $this->message                  = $message;
+        $this->channelIsPrivate             = new ChannelIsPrivate($message);
+        $this->message                      = $message;
         parent::__construct($message);
     }
 
     public function execute()
     {
+        $this->denyAccessUnless($this->channelIsPrivate);
+
         $commandArray = explode(' ', $this->message->content);
 
         if (count($commandArray) != 2) {

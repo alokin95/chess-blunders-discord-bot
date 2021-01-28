@@ -15,13 +15,18 @@ use App\Response\BlunderNotSolvedResponse;
 use App\Response\BlunderSolvedResponse;
 use App\Response\CommandHelpResponse;
 use App\Response\TryingToSolveAfterResignationResponse;
+use App\Security\ChannelIsPrivate;
+use App\Security\CheckPermissionsTrait;
 
 class SolutionCommand extends AbstractCommand
 {
+    use CheckPermissionsTrait;
+
     private $blunderRepository;
     private $attemptedSolutionRepository;
     private $solvedBlunderRepository;
     private $resignRepository;
+    private $channelIsPrivate;
 
     public function __construct($message)
     {
@@ -29,11 +34,14 @@ class SolutionCommand extends AbstractCommand
         $this->blunderRepository            = new BlunderRepository();
         $this->solvedBlunderRepository      = new SolvedBlunderRepository();
         $this->resignRepository             = new ResignRepository();
+        $this->channelIsPrivate             = new ChannelIsPrivate($message);
         parent::__construct($message);
     }
 
     public function execute()
     {
+        $this->denyAccessUnless($this->channelIsPrivate);
+
         $commandArray = explode(" ", $this->message->content);
 
         if (count($commandArray) <= 2)
