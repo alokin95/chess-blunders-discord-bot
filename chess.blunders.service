@@ -1,0 +1,17 @@
+# Put this in /lib/systemd/system/
+# and run sudo systemctl enable chess.blunders.service  
+
+[Unit]
+Description=Chess Blunders Discord Bot
+After=network-online.target
+ 
+[Service]
+ExecStart=php /path/to/index/file/index.php
+WorkingDirectory=/path/to/directory/pi/discord-chess-bot
+StandardOutput=inherit
+StandardError=inherit
+Restart=always
+User=pi
+ 
+[Install]
+WantedBy=multi-user.target
