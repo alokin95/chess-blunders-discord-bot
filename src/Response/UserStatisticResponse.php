@@ -10,8 +10,8 @@ use Discord\Parts\Embed\Embed;
 
 class UserStatisticResponse extends AbstractResponse
 {
-    private Embed $embed;
-    private ?Discord $discordApp;
+    private ?Embed $embed = null;
+    private ?Discord $discordApp = null;
 
     public function __construct(Message $message, Embed $embed)
     {
