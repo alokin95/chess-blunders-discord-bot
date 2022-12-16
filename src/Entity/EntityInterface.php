@@ -7,6 +7,8 @@ use Doctrine\ORM\Mapping as ORM;
 
 interface EntityInterface
 {
+    public function getId(): ?int;
+
     public function getCreatedAt();
 
     public function setCreatedAt(DateTime $createdAt);

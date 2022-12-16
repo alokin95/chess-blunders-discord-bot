@@ -7,7 +7,7 @@ use App\Service\Blunder\BlunderInterface;
 
 class RatedBlunderService implements BlunderInterface
 {
-    private $chessBlunderRequest;
+    private ChessBlundersRequest $chessBlunderRequest;
 
     public function __construct()
     {

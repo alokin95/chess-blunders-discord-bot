@@ -6,14 +6,14 @@ use Ryanhs\Chess\Chess;
 
 class FenFormatService
 {
-    private $chessGame;
+    private Chess $chessGame;
 
     public function __construct()
     {
         $this->chessGame = new Chess();
     }
 
-    public function addBlunderMoveToFenPosition($fenBefore, $blunderMove)
+    public function addBlunderMoveToFenPosition($fenBefore, $blunderMove): string
     {
         $this->chessGame->load($fenBefore);
         $this->chessGame->move($blunderMove);
@@ -21,7 +21,7 @@ class FenFormatService
         return $this->chessGame->fen();
     }
 
-    public function getColorToPlayFromFen(string $fen)
+    public function getColorToPlayFromFen(string $fen): string
     {
         $colorToPlay = explode(" ", $fen)[1];
 
@@ -32,7 +32,7 @@ class FenFormatService
         return 'white';
     }
 
-    public function isEnPassantAvailable($fen)
+    public function isEnPassantAvailable($fen): bool
     {
         $enPassant = explode(" ", $fen);
 

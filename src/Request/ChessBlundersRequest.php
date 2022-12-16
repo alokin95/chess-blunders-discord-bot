@@ -8,7 +8,7 @@ use App\Client\ChessBlundersClient;
 
 class ChessBlundersRequest
 {
-    private $client;
+    private ChessBlundersClient $client;
 
     public function __construct()
     {

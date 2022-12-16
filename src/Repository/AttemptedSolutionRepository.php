@@ -6,7 +6,7 @@ use App\Entity\AttemptedSolution;
 
 class AttemptedSolutionRepository extends AbstractRepository
 {
-    protected $entity = AttemptedSolution::class;
+    protected string $entity = AttemptedSolution::class;
 
     public function getNumberOfTries($user, $blunder)
     {

@@ -6,7 +6,7 @@ namespace App\Repository;
 
 abstract class AbstractRepository
 {
-    protected $entity;
+    protected string $entity;
 
     public function findOneBy(array $criteria, array $orderBy = null)
     {
@@ -23,7 +23,7 @@ abstract class AbstractRepository
         return entityManager()->getRepository($this->entity)->findBy([]);
     }
 
-    public function findBy(array $criteria, array $orderBy = null)
+    public function findBy(array $criteria, array $orderBy = null): array
     {
         return entityManager()->getRepository($this->entity)->findBy($criteria, $orderBy);
     }

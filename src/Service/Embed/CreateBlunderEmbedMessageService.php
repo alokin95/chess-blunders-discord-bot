@@ -10,8 +10,8 @@ use Discord\Parts\Embed\Image;
 
 class CreateBlunderEmbedMessageService extends AbstractEmbed
 {
-    private $blunder;
-    private $fenToPngConverter;
+    private Blunder $blunder;
+    private FenToPngConverterService $fenToPngConverter;
 
     public function __construct(Blunder $blunder, $discord)
     {
@@ -20,7 +20,7 @@ class CreateBlunderEmbedMessageService extends AbstractEmbed
         parent::__construct();
     }
 
-    public function createEmbed()
+    public function createEmbed(): Embed
     {
         $embed  = new Embed($this->discord);
         $image  = new Image($this->discord);
@@ -42,7 +42,7 @@ class CreateBlunderEmbedMessageService extends AbstractEmbed
         return $embed;
     }
 
-    private function createCustomFields()
+    private function createCustomFields(): array
     {
         $blunderIdField         = new Field($this->discord);
         $solutionExampleField   = new Field($this->discord);
@@ -82,7 +82,7 @@ class CreateBlunderEmbedMessageService extends AbstractEmbed
         return $boardEditorsField;
     }
 
-    private function countTheMoves(array $solution)
+    private function countTheMoves(array $solution): string
     {
         return count($solution) === 1 ? '1 move' : count($solution) . ' moves';
     }

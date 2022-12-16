@@ -4,16 +4,19 @@
 namespace App\Response;
 
 
+use App\Entity\Blunder;
+use Discord\Discord;
 use Discord\Parts\Channel\Channel;
+use Discord\Parts\Channel\Message;
 
 class BlunderResignedResponse extends AbstractResponse
 {
-    private $blunder;
-    private $discordApp;
-    private $solution;
-    private $attempts;
+    private Blunder $blunder;
+    private ?Discord $discordApp;
+    private array $solution;
+    private int $attempts;
 
-    public function __construct($message, $blunder, $solution, $attempts)
+    public function __construct(Message $message, Blunder $blunder, array $solution, int $attempts)
     {
         $this->blunder      = $blunder;
         $this->discordApp   = discordApp();
@@ -45,7 +48,7 @@ class BlunderResignedResponse extends AbstractResponse
         $this->message->author->sendMessage('The solution for blunder ' . $this->blunder->getId() . ' is ' . $solution . '.');
     }
 
-    private function formatSolution()
+    private function formatSolution(): string
     {
         return implode(" ", $this->solution);
     }

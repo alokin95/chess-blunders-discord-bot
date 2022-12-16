@@ -7,14 +7,14 @@ use App\Entity\SolvedBlunder;
 
 class SolvedBlunderRepository extends AbstractRepository
 {
-    protected $entity = SolvedBlunder::class;
+    protected string $entity = SolvedBlunder::class;
 
     public function checkIfUserSolvedTheBlunder($blunder, string $user)
     {
         return $this->findOneBy(['blunder' => $blunder, 'user' => $user]);
     }
 
-    public function countSolvedBlunders($user)
+    public function countSolvedBlunders($user): int
     {
         return entityManager()->getRepository($this->entity)->count(['user' => $user]);
     }

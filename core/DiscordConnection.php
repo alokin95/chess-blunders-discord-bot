@@ -2,16 +2,19 @@
 
 
 use Discord\Discord;
+use Discord\Exceptions\IntentException;
 
 class DiscordConnection
 {
-    private static $instance = null;
+    private static ?Discord $instance = null;
 
     private function __construct()
-    {
-    }
+    {}
 
-    public static function getInstance()
+    /**
+     * @throws IntentException
+     */
+    public static function getInstance(): ?Discord
     {
         if (null == self::$instance)
         {

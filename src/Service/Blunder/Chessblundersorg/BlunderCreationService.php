@@ -3,15 +3,18 @@
 namespace App\Service\Blunder\Chessblundersorg;
 
 use App\Entity\Blunder;
-use App\Repository\BlunderRepository;
 use App\Service\Blunder\AbstractBlunderCreationService;
-use App\Service\Blunder\BlunderInterface;
-use App\Service\FenFormatService;
+use Doctrine\ORM\OptimisticLockException;
+use Doctrine\ORM\ORMException;
 
 class BlunderCreationService extends AbstractBlunderCreationService
 {
 
-    public function createBlunder()
+    /**
+     * @throws OptimisticLockException
+     * @throws ORMException
+     */
+    public function createBlunder(): Blunder
     {
         $blunderApi = $this->blunder->getBlunder();
         $blunderApi = $blunderApi['data'];

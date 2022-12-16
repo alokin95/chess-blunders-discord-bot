@@ -12,19 +12,19 @@ class BaseEntity implements EntityInterface
      * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Column(name="id", type="integer")
      */
-    protected $id;
+    protected ?int $id = null;
 
     /**
      * @ORM\Column(name="created_at", type="datetime", nullable=false)
      */
-    protected $createdAt;
+    protected ?DateTime $createdAt = null;
 
     /**
      * @ORM\Column(name="updated_at", type="datetime", nullable=false)
      */
-    protected $updatedAt;
+    protected ?DateTime $updatedAt = null;
 
-    public function getCreatedAt()
+    public function getCreatedAt(): ?DateTime
     {
         return $this->createdAt;
     }
@@ -34,7 +34,7 @@ class BaseEntity implements EntityInterface
         $this->createdAt = $createdAt;
     }
 
-    public function getUpdatedAt()
+    public function getUpdatedAt(): ?DateTime
     {
         return $this->updatedAt;
     }
@@ -59,7 +59,7 @@ class BaseEntity implements EntityInterface
         }
     }
 
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }

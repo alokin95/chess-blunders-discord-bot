@@ -19,7 +19,7 @@ class ChessBlundersClient implements ClientInterface
 
     public function get(string $url, array $query = [], array $headers = [])
     {
-        // TODO: Implement get() method.
+        throw new \BadMethodCallException();
     }
 
     public function post(string $url, array $body = [], array $headers = [])

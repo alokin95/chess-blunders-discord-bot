@@ -6,7 +6,7 @@ use App\Response\CommandHelpResponse;
 
 class NonExistentCommand extends AbstractCommand
 {
-    public function execute()
+    public function execute(): CommandHelpResponse
     {
         return new CommandHelpResponse($this->message);
     }

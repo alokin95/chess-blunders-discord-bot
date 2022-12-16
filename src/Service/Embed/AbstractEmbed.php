@@ -4,9 +4,11 @@
 namespace App\Service\Embed;
 
 
+use Discord\Discord;
+
 abstract class AbstractEmbed
 {
-    protected $discord;
+    protected ?Discord $discord = null;
 
     public function __construct()
     {

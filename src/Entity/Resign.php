@@ -15,15 +15,15 @@ class Resign extends BaseEntity
     /**
      * @ORM\Column(name="user", type="string", nullable=false)
      */
-    private $user;
+    private ?string $user = null;
 
     /**
      * @ORM\ManyToOne(targetEntity="Blunder")
      * @ORM\JoinColumn(name="blunder_id", referencedColumnName="id")
      */
-    private $blunder;
+    private Blunder $blunder;
 
-    public function getUser()
+    public function getUser(): ?string
     {
         return $this->user;
     }
@@ -33,7 +33,7 @@ class Resign extends BaseEntity
         $this->user = $user;
     }
 
-    public function getBlunder()
+    public function getBlunder(): Blunder
     {
         return $this->blunder;
     }

@@ -13,22 +13,22 @@ use Doctrine\ORM\Mapping as ORM;
 class AttemptedSolution extends BaseEntity
 {
     /**
-     * @ORM\ManyToOne(targetEntity="Blunder", inversedBy="userSolutions")
+     * @ORM\ManyToOne(targetEntity="Blunder")
      * @ORM\JoinColumn(name="blunder_id", referencedColumnName="id")
      */
-    private $blunder;
+    private Blunder $blunder;
 
     /**
      * @ORM\Column(name="user_id", type="string")
      */
-    private $user;
+    private ?string $user = null;
 
     /**
      * @ORM\Column(name="submitted_solution", type="array")
      */
-    private $submittedSolution;
+    private ?string $submittedSolution = null;
 
-    public function getBlunder()
+    public function getBlunder(): Blunder
     {
         return $this->blunder;
     }
@@ -38,7 +38,7 @@ class AttemptedSolution extends BaseEntity
         $this->blunder = $blunder;
     }
 
-    public function getUser()
+    public function getUser(): ?string
     {
         return $this->user;
     }
@@ -48,7 +48,7 @@ class AttemptedSolution extends BaseEntity
         $this->user = $user;
     }
 
-    public function getSubmittedSolution()
+    public function getSubmittedSolution(): ?string
     {
         return $this->submittedSolution;
     }

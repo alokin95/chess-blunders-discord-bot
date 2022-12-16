@@ -10,6 +10,7 @@ use App\Repository\AttemptedSolutionRepository;
 use App\Repository\BlunderRepository;
 use App\Repository\ResignRepository;
 use App\Repository\SolvedBlunderRepository;
+use App\Response\AbstractResponse;
 use App\Response\BlunderAlreadySolvedResponse;
 use App\Response\BlunderNotSolvedResponse;
 use App\Response\BlunderSolvedResponse;
@@ -17,16 +18,18 @@ use App\Response\CommandHelpResponse;
 use App\Response\TryingToSolveAfterResignationResponse;
 use App\Security\ChannelIsPrivate;
 use App\Security\CheckPermissionsTrait;
+use Doctrine\ORM\OptimisticLockException;
+use Doctrine\ORM\ORMException;
 
 class SolutionCommand extends AbstractCommand
 {
     use CheckPermissionsTrait;
 
-    private $blunderRepository;
-    private $attemptedSolutionRepository;
-    private $solvedBlunderRepository;
-    private $resignRepository;
-    private $channelIsPrivate;
+    private BlunderRepository $blunderRepository;
+    private AttemptedSolutionRepository $attemptedSolutionRepository;
+    private SolvedBlunderRepository $solvedBlunderRepository;
+    private ResignRepository $resignRepository;
+    private ChannelIsPrivate $channelIsPrivate;
 
     public function __construct($message)
     {
@@ -38,7 +41,12 @@ class SolutionCommand extends AbstractCommand
         parent::__construct($message);
     }
 
-    public function execute()
+    /**
+     * @throws BlunderNotFoundException
+     * @throws ORMException
+     * @throws OptimisticLockException
+     */
+    public function execute(): AbstractResponse
     {
         $this->denyAccessUnless($this->channelIsPrivate);
 
@@ -54,6 +62,9 @@ class SolutionCommand extends AbstractCommand
         return $this->submitSolution($commandArray, $blunder);
     }
 
+    /**
+     * @throws BlunderNotFoundException
+     */
     private function findBlunder(int $blunderId)
     {
         $blunder = $this->blunderRepository->find($blunderId);
@@ -66,11 +77,10 @@ class SolutionCommand extends AbstractCommand
     }
 
     /**
-     * @param array $commandArray
-     * @param Blunder $blunder
-     * @return BlunderNotSolvedResponse|BlunderSolvedResponse|BlunderAlreadySolvedResponse|TryingToSolveAfterResignationResponse
+     * @throws OptimisticLockException
+     * @throws ORMException
      */
-    private function submitSolution(array $commandArray, Blunder $blunder)
+    private function submitSolution(array $commandArray, Blunder $blunder): AbstractResponse
     {
         $submittedSolution = [];
         for ($i = 2; $i < count($commandArray); $i++)
@@ -101,6 +111,10 @@ class SolutionCommand extends AbstractCommand
         return new BlunderNotSolvedResponse($this->message);
     }
 
+    /**
+     * @throws OptimisticLockException
+     * @throws ORMException
+     */
     private function saveSolution(Blunder $blunder)
     {
         $solvedBlunder = new SolvedBlunder();
@@ -111,6 +125,10 @@ class SolutionCommand extends AbstractCommand
         entityManager()->flush();
     }
 
+    /**
+     * @throws OptimisticLockException
+     * @throws ORMException
+     */
     private function saveAttemptedSolution(Blunder $blunder, array $submittedSolution)
     {
         $newSolution = new AttemptedSolution();

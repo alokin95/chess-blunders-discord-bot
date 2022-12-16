@@ -6,7 +6,7 @@ use App\Service\Embed\CreateHelpEmbedMessageService;
 
 class CommandHelpResponse extends AbstractResponse
 {
-    private $embedHelpService;
+    private CreateHelpEmbedMessageService $embedHelpService;
 
     public function __construct($message)
     {

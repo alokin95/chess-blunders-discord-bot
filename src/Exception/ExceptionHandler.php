@@ -4,19 +4,19 @@ namespace App\Exception;
 
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
+use Throwable;
 
 class ExceptionHandler
 {
 
-    private $logger;
-    private $errors;
+    private Logger $logger;
 
     public function __construct() {
         $this->logger = new Logger('discord_bot', [ new StreamHandler(__DIR__ . '/../../var/log/error.log') ] );
     }
 
-    public function handle( \Throwable $ex , $discordMessage) {
-
+    public function handle( Throwable $ex , $discordMessage)
+    {
         $message = $this->get_message($ex);
 
         if($detailed_message = $this->get_caller($ex)){
@@ -30,14 +30,8 @@ class ExceptionHandler
         $this->errors[] = $ex->getMessage();
     }
 
-    /**
-     * @return array
-     */
-    public function getErrors() {
-        return $this->errors;
-    }
-
-    public function get_message(\Throwable $ex){
+    public function get_message(Throwable $ex): string
+    {
         return <<<EOD
  Message: {$ex->getMessage()} 
  Trace: {$ex->getTraceAsString()}
@@ -45,7 +39,8 @@ EOD;
 
     }
 
-    public function get_caller(\Throwable $ex){
+    public function get_caller(Throwable $ex): ?string
+    {
 
         $trace = $ex->getTrace();
         foreach ($trace as $key => $value){
@@ -57,7 +52,7 @@ EOD;
             return 'File: ' .  $trace[$caller_key]['file'] . ' Line: ' . $trace[$caller_key]['line'];
 
         }
-
+        return null;
     }
 
     public function __destruct() {

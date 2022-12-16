@@ -6,6 +6,7 @@ use App\Exception\ExceptionHandler;
 use App\Response\CommandHelpResponse;
 use App\Service\Command\HandleCommandService;
 use Discord\Discord;
+use Discord\Parts\Channel\Message;
 
 $discord = discordApp();
 
@@ -13,7 +14,7 @@ $discord = discordApp();
 $discord->on('ready', function ($discord) {
 	echo "Bot is ready!", PHP_EOL;
 
-    $discord->on('message', function ($message, $discord) {
+    $discord->on('message', function (Message $message, $discord) {
         $exceptionHandler = new ExceptionHandler();
         if (strpos($message->content, '#') === 0) {
             try {

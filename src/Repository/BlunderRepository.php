@@ -6,5 +6,5 @@ use App\Entity\Blunder;
 
 class BlunderRepository extends AbstractRepository
 {
-    protected $entity = Blunder::class;
+    protected string $entity = Blunder::class;
 }

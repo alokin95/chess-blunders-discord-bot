@@ -5,22 +5,23 @@ namespace App\Service\Embed;
 
 
 use App\Service\Statistic\UserStatisticService;
+use Discord\Parts\Channel\Message;
 use Discord\Parts\Embed\Embed;
 use Discord\Parts\Embed\Field;
 
 class CreateStatsBlunderMessageService extends AbstractEmbed
 {
-    private $statisticService;
-    private $message;
+    private UserStatisticService $statisticService;
+    private Message $message;
 
-    public function __construct($message)
+    public function __construct(Message $message)
     {
         $this->message          = $message;
         $this->statisticService = new UserStatisticService();
         parent::__construct();
     }
 
-    public function createEmbed()
+    public function createEmbed(): Embed
     {
         $userStatistics = $this->statisticService->getUserStatistics($this->message->author->id);
 
@@ -34,7 +35,7 @@ class CreateStatsBlunderMessageService extends AbstractEmbed
         return $embed;
     }
 
-    private function createCustomFields($userStatistics)
+    private function createCustomFields($userStatistics): array
     {
         $solvedBlunders             = new Field($this->discord);
         $resignedBlunders           = new Field($this->discord);

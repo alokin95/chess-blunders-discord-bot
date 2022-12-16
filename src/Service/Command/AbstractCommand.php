@@ -4,11 +4,13 @@
 namespace App\Service\Command;
 
 
+use Discord\Parts\Channel\Message;
+
 abstract class AbstractCommand implements CommandInterface
 {
-    protected $message;
+    protected Message $message;
 
-    public function __construct($message)
+    public function __construct(Message $message)
     {
         $this->message = $message;
     }

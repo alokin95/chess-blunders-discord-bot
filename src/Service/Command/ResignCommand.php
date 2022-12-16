@@ -1,33 +1,33 @@
 <?php
 
-
 namespace App\Service\Command;
 
-
+use App\Entity\Blunder;
 use App\Entity\Resign;
 use App\Exception\BlunderNotFoundException;
 use App\Repository\AttemptedSolutionRepository;
 use App\Repository\BlunderRepository;
 use App\Repository\ResignRepository;
 use App\Repository\SolvedBlunderRepository;
+use App\Response\AbstractResponse;
 use App\Response\BlunderAlreadyResignedResponse;
-use App\Response\BlunderAlreadySolvedResponse;
 use App\Response\BlunderResignedResponse;
 use App\Response\CommandHelpResponse;
 use App\Response\ResignAfterSolvedResponse;
 use App\Security\ChannelIsPrivate;
 use App\Security\CheckPermissionsTrait;
-use Symfony\Component\Console\Command\HelpCommand;
+use Doctrine\ORM\OptimisticLockException;
+use Doctrine\ORM\ORMException;
 
 class ResignCommand extends AbstractCommand
 {
     use CheckPermissionsTrait;
 
-    private $resignRepository;
-    private $blunderRepository;
-    private $solvedBlunderRepository;
-    private $attemptedSolutionRepository;
-    private $channelIsPrivate;
+    private ResignRepository $resignRepository;
+    private BlunderRepository $blunderRepository;
+    private SolvedBlunderRepository $solvedBlunderRepository;
+    private AttemptedSolutionRepository $attemptedSolutionRepository;
+    private ChannelIsPrivate $channelIsPrivate;
 
     public function __construct($message)
     {
@@ -40,7 +40,12 @@ class ResignCommand extends AbstractCommand
         parent::__construct($message);
     }
 
-    public function execute()
+    /**
+     * @throws OptimisticLockException
+     * @throws ORMException
+     * @throws BlunderNotFoundException
+     */
+    public function execute(): AbstractResponse
     {
         $this->denyAccessUnless($this->channelIsPrivate);
 
@@ -52,6 +57,7 @@ class ResignCommand extends AbstractCommand
 
         $blunderToResign = $commandArray[1];
 
+        /** @var Blunder $blunder */
         $blunder = $this->blunderRepository->findOneBy(['id' => $blunderToResign]);
 
         if (!$blunder) {
@@ -78,6 +84,10 @@ class ResignCommand extends AbstractCommand
         return new BlunderResignedResponse($this->message, $blunder, $solution, $attempts);
     }
 
+    /**
+     * @throws OptimisticLockException
+     * @throws ORMException
+     */
     private function saveResignation($blunder)
     {
         $resign = new Resign();

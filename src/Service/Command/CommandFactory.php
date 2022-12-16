@@ -4,7 +4,7 @@ namespace App\Service\Command;
 
 class CommandFactory
 {
-    public function getCommandType($message)
+    public function getCommandType($message): AbstractCommand
     {
         $messageContent = trim($message->content);
 

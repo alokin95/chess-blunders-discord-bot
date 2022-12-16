@@ -8,8 +8,8 @@ use App\Service\Fen\FenFormatService;
 
 class RandomBlunderService implements BlunderInterface
 {
-    private $chessBlundersRequest;
-    private $fenFormatter;
+    private ChessBlundersRequest $chessBlundersRequest;
+    private FenFormatService $fenFormatter;
 
     public function __construct()
     {

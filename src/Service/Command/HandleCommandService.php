@@ -13,7 +13,7 @@ class HandleCommandService
         $this->messageFactory   = new CommandFactory();
     }
 
-    public function handle()
+    public function handle(): void
     {
         $command = $this->messageFactory->getCommandType($this->message);
         $command->execute();

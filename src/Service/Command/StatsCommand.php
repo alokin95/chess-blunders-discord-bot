@@ -2,28 +2,31 @@
 
 namespace App\Service\Command;
 
+use App\Response\AbstractResponse;
 use App\Service\Embed\CreateStatsBlunderMessageService;
+use Discord\Discord;
 use Discord\Parts\Channel\Channel;
+use Discord\Parts\Channel\Message;
+use Exception;
 use Symfony\Component\Console\Command\HelpCommand;
 
 class StatsCommand extends AbstractCommand
 {
-    private $statsEmbed;
-    private $discordApp;
+    private CreateStatsBlunderMessageService $statsEmbed;
+    private ?Discord $discordApp;
 
-    public function __construct($message)
+    public function __construct(Message $message)
     {
         $this->discordApp             = discordApp();
         $this->statsEmbed       = new CreateStatsBlunderMessageService($message);
         parent::__construct($message);
     }
 
-    public function execute()
+    /**
+     * @throws Exception
+     */
+    public function execute(): AbstractResponse
     {
-        if ($this->message->content != '#stats') {
-            return new HelpCommand();
-        }
-
         $embed = $this->statsEmbed->createEmbed();
 
         if ($this->message->channel_id == env('DISCORD_TEXT_CHANNEL_ID'))

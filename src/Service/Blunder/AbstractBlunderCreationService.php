@@ -7,9 +7,9 @@ use App\Service\Fen\FenFormatService;
 
 abstract class  AbstractBlunderCreationService
 {
-    protected $blunder;
-    protected $fenFormatService;
-    protected $blunderRepository;
+    protected BlunderInterface $blunder;
+    protected FenFormatService $fenFormatService;
+    protected BlunderRepository $blunderRepository;
 
     public function __construct(BlunderInterface $blunder)
     {

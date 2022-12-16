@@ -11,7 +11,7 @@ use Discord\Parts\Embed\Image;
 
 class CreateHelpEmbedMessageService extends AbstractEmbed
 {
-    public function createEmbed()
+    public function createEmbed(): Embed
     {
         $embed  = new Embed($this->discord);
 
@@ -24,7 +24,7 @@ class CreateHelpEmbedMessageService extends AbstractEmbed
         return $embed;
     }
 
-    private function createCustomFields()
+    private function createCustomFields(): array
     {
         $solution   = new Field($this->discord);
         $resign     = new Field($this->discord);

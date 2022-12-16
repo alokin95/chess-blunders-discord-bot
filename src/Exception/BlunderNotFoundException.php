@@ -6,6 +6,9 @@ use Exception;
 
 class BlunderNotFoundException extends AbstractException
 {
+    /**
+     * @throws Exception
+     */
     protected function handle()
     {
         $blunderId = explode(" ", $this->discordMessage->content)[1];

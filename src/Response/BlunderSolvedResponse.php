@@ -2,15 +2,17 @@
 
 namespace App\Response;
 
+use App\Entity\Blunder;
 use Discord\Parts\Channel\Channel;
+use Discord\Parts\Channel\Message;
 
 class BlunderSolvedResponse extends AbstractResponse
 {
-    private $blunder;
-    private $numberOfTries;
-    private $discordApp;
+    private Blunder $blunder;
+    private int $numberOfTries;
+    private ?\Discord\Discord $discordApp;
 
-    public function __construct($message, $blunder, $numberOfTries)
+    public function __construct(Message $message, Blunder $blunder, int $numberOfTries)
     {
         $this->blunder          = $blunder;
         $this->numberOfTries    = $numberOfTries;

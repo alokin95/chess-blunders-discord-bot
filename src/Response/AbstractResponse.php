@@ -4,11 +4,13 @@
 namespace App\Response;
 
 
+use Discord\Parts\Channel\Message;
+
 abstract class AbstractResponse
 {
-    protected $message;
+    protected Message $message;
 
-    public function __construct($message)
+    public function __construct(Message $message)
     {
         $this->message = $message;
         $this->sendResponse();

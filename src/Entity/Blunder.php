@@ -14,49 +14,34 @@ class Blunder extends BaseEntity
     /**
      * @ORM\Column(name="blunder_id", type="string")
      */
-    private $blunderId;
+    private ?string $blunderId = null;
 
     /**
      * @ORM\Column(name="blunder_move", type="string")
      */
-    private $blunderMove;
+    private ?string $blunderMove = null;
 
     /**
      * @ORM\Column(name="elo", type="integer")
      */
-    private $elo;
+    private ?int $elo = null;
 
     /**
      * @ORM\Column(name="fen", type="string")
      */
-    private $fen;
+    private ?string $fen = null;
 
     /**
      * @ORM\Column(name="solution", type="array")
      */
-    private $solution;
+    private array $solution = [];
 
     /**
      * @ORM\Column(name="to_play", type="string")
      */
-    private $toPlay;
+    private ?string $toPlay = null;
 
-    /**
-     * @ORM\OneToMany(targetEntity="AttemptedSolution", mappedBy="blunder")
-     */
-    private $userSolutions;
-
-    /**
-     * @ORM\OneToMany(targetEntity="SolvedBlunder", mappedBy="blunder")
-     */
-    private $correctSubmissions;
-
-    public function __construct()
-    {
-        $this->userSolutions = new ArrayCollection();
-    }
-
-    public function getBlunderId()
+    public function getBlunderId(): ?string
     {
         return $this->blunderId;
     }
@@ -66,7 +51,7 @@ class Blunder extends BaseEntity
         $this->blunderId = $blunderId;
     }
 
-    public function getBlunderMove()
+    public function getBlunderMove(): ?string
     {
         return $this->blunderMove;
     }
@@ -76,7 +61,7 @@ class Blunder extends BaseEntity
         $this->blunderMove = $blunderMove;
     }
 
-    public function getElo()
+    public function getElo(): ?int
     {
         return $this->elo;
     }
@@ -86,7 +71,7 @@ class Blunder extends BaseEntity
         $this->elo = $elo;
     }
 
-    public function getFen()
+    public function getFen(): ?string
     {
         return $this->fen;
     }
@@ -96,7 +81,7 @@ class Blunder extends BaseEntity
         $this->fen = $fen;
     }
 
-    public function getSolution()
+    public function getSolution(): array
     {
         return $this->solution;
     }
@@ -106,7 +91,7 @@ class Blunder extends BaseEntity
         $this->solution = $solution;
     }
 
-    public function getToPlay()
+    public function getToPlay(): ?string
     {
         return $this->toPlay;
     }
