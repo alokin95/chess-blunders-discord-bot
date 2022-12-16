@@ -3,6 +3,7 @@
 namespace App\Response;
 
 use App\Service\Embed\CreateHelpEmbedMessageService;
+use App\Service\Message\SendMessageService;
 
 class CommandHelpResponse extends AbstractResponse
 {
@@ -17,6 +18,6 @@ class CommandHelpResponse extends AbstractResponse
     protected function sendResponse()
     {
         $embedHelp = $this->embedHelpService->createEmbed();
-        $this->message->author->sendMessage('', false, $embedHelp);
+        SendMessageService::sendEmbedMessage($this->message->channel, $embedHelp);
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Response;
 
 use App\Service\Embed\AbstractEmbed;
+use App\Service\Message\SendMessageService;
 use Discord\Discord;
 use Discord\Parts\Channel\Channel;
 use Discord\Parts\Channel\Message;
@@ -21,13 +22,6 @@ class UserStatisticResponse extends AbstractResponse
     }
     protected function sendResponse()
     {
-        if ($this->message->channel_id == env('DISCORD_TEXT_CHANNEL_ID'))
-        {
-            return $this->discordApp->factory(Channel::class, [
-                'id' => env('DISCORD_TEXT_CHANNEL_ID')
-            ])->sendMessage('', false, $this->embed);
-        }
-
-        $this->message->author->sendMessage('', false, $this->embed);
+        SendMessageService::sendEmbedMessage($this->message->channel, $this->embed);
     }
 }
