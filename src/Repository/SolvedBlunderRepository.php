@@ -33,7 +33,12 @@ class SolvedBlunderRepository extends AbstractRepository
 
     public function getAverageNumberOfAttempts($user)
     {
-        $sql = "SELECT COUNT(as2.blunder_id ) as tries, as2.blunder_id FROM AttemptedSolutions as2 JOIN Solved_Blunders sb ON as2.blunder_id = sb.blunder_id WHERE as2.user_id = $user GROUP BY as2.blunder_id ";
+        $sql = "SELECT  COUNT(sb.blunder_id) as tries, sb.blunder_id
+                FROM Solved_Blunders sb 
+	                JOIN AttemptedSolutions a123 ON a123.blunder_id = sb.blunder_id AND sb.user_id = a123.user_id 
+                WHERE sb.user_id = $user
+                GROUP BY sb.blunder_id";
+
         $stmt = entityManager()->getConnection()->prepare($sql);
 
         $stmt->execute();
