@@ -10,14 +10,14 @@ use Discord\Parts\Embed\Embed;
 
 class UserStatisticResponse extends AbstractResponse
 {
-    private ?Embed $embed = null;
-    private ?Discord $discordApp = null;
+    private ?Embed $embed;
+    private ?Discord $discordApp;
 
     public function __construct(Message $message, Embed $embed)
     {
-        parent::__construct($message);
         $this->embed = $embed;
-        $this->discordApp             = discordApp();
+        $this->discordApp = discordApp();
+        parent::__construct($message);
     }
     protected function sendResponse()
     {
