@@ -28,7 +28,12 @@ class ResignRepository extends AbstractRepository
 
     public function getAverageNumberOfAttempts($user)
     {
-        $sql = "SELECT COUNT(as2.blunder_id ) as tries, as2.blunder_id FROM AttemptedSolutions as2 JOIN resignations r ON as2.blunder_id = r.blunder_id WHERE as2.user_id = $user GROUP BY as2.blunder_id ";
+        $sql = "SELECT  COUNT(r.blunder_id) as tries, r.blunder_id
+                FROM resignations r 
+	                JOIN AttemptedSolutions a123 ON a123.blunder_id = r.blunder_id AND r.user = a123.user_id 
+                WHERE r.user = $user
+                GROUP BY r.blunder_id";
+
         $stmt = entityManager()->getConnection()->prepare($sql);
 
         $stmt->execute();
