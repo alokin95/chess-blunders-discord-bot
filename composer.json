@@ -2,10 +2,15 @@
     "require": {
         "guzzlehttp/guzzle": "^7.2",
         "ryanhs/chess.php": "^1.0",
-        "doctrine/orm": "^2.7",
         "symfony/http-foundation": "^5.2",
         "monolog/monolog": "^2.1",
-        "team-reflex/discord-php": "^7.3"
+        "team-reflex/discord-php": "^7.3",
+        "doctrine/orm": "^2.11.0",
+        "doctrine/dbal": "^3.2",
+        "symfony/yaml": "^5.4",
+        "symfony/cache": "^5.4",
+        "doctrine/common": "3.4.3",
+        "doctrine/annotations": "^1.14"
     },
 
     "autoload": {

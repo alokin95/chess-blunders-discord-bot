@@ -1,5 +1,9 @@
 <?php
 
+use Discord\Exceptions\IntentException;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\ORMSetup;
+
 include 'Connection.php';
 include 'DiscordConnection.php';
 
@@ -8,10 +12,14 @@ function config(string $file, string $key)
     $path = dirname(__DIR__, 1);
     $configArray = include ($path . '/config/' . $file . '.php');
 
-    return $configArray[$key];
+    if (array_key_exists($key, $configArray)) {
+        return $configArray[$key];
+    }
+
+    return false;
 }
 
-function env($key)
+function env($key): ?string
 {
     $path = dirname(__DIR__, 1);
     $file = file($path . '/.env');
@@ -27,24 +35,22 @@ function env($key)
     return null;
 }
 
-function entityManager()
+function entityManager(): ?EntityManager
 {
-    $configuration = Doctrine\ORM\Tools\Setup::createAnnotationMetadataConfiguration(
-        config('doctrine', 'paths'),
-        config('doctrine', 'isDevMode'),
-        config('doctrine', 'proxyDir'),
-        config('doctrine', 'cache'),
-        config('doctrine', 'useSimpleAnnotationReader')
+    $configuration = ORMSetup::createAttributeMetadataConfiguration(
+        paths: config('doctrine', 'paths'),
+        isDevMode: config('doctrine', 'isDevMode'),
     );
     
     $connection_parameters = config('doctrine', 'connection');
 
-    $entity_manager = Connection::getInstance($connection_parameters, $configuration);
-
-    return $entity_manager;
+    return Connection::getInstance($connection_parameters, $configuration);
 }
 
-function discordApp()
+/**
+ * @throws IntentException
+ */
+function discordApp(): ?\Discord\Discord
 {
     return DiscordConnection::getInstance();
 }

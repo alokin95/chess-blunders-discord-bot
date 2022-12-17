@@ -4,7 +4,7 @@ return [
 
     'paths'                     => [__DIR__ . '/../src/Entity'],
     'isDevMode'                 => true,
-    'proxyDir'                  => true,
+//    'proxyDir'                  => true,
     'cache'                     => null,
     'useSimpleAnnotationReader' => false,
 

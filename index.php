@@ -12,12 +12,12 @@ use Discord\WebSockets\Event;
 $discord = discordApp();
 
 
-$discord->on(Event::READY, function ($discord) {
+$discord->on('ready', function ($discord) {
 	echo "Bot is ready!", PHP_EOL;
 
     $discord->on(Event::MESSAGE_CREATE, function (Message $message, $discord) {
         $exceptionHandler = new ExceptionHandler();
-        if (strpos($message->content, '#') === 0) {
+        if (str_starts_with($message->content, '#')) {
             try {
                 $handleMessageService = new HandleCommandService($message);
                 $handleMessageService->handle();
