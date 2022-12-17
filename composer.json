@@ -1,7 +1,6 @@
 {
     "require": {
         "guzzlehttp/guzzle": "^7.2",
-        "ryanhs/chess.php": "^1.0",
         "symfony/http-foundation": "^5.2",
         "monolog/monolog": "^2.1",
         "team-reflex/discord-php": "^7.3",
@@ -10,7 +9,8 @@
         "symfony/yaml": "^5.4",
         "symfony/cache": "^5.4",
         "doctrine/common": "3.4.3",
-        "doctrine/annotations": "^1.14"
+        "doctrine/annotations": "^1.14",
+        "p-chess/chess": "^0.4.0"
     },
 
     "autoload": {
@@ -19,6 +19,7 @@
         }
     },
     "require-dev": {
-        "symfony/var-dumper": "^5.2"
+        "symfony/var-dumper": "^5.2",
+        "rector/rector": "^0.15.1"
     }
 }

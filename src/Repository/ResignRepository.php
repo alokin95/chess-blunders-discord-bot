@@ -36,8 +36,8 @@ class ResignRepository extends AbstractRepository
 
         $stmt = entityManager()->getConnection()->prepare($sql);
 
-        $stmt->execute();
-        $result = $stmt->fetchAll();
+        $stmt = $stmt->executeQuery();
+        $result = $stmt->fetchAllAssociative();
 
         $numberOfTries = array_sum(array_map(function($item){
             return $item['tries'];

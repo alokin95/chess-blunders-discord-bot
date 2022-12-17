@@ -5,40 +5,26 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity()
- * @ORM\HasLifecycleCallbacks()
- */
+#[ORM\Entity]
+#[ORM\HasLifecycleCallbacks]
 class Blunder extends BaseEntity
 {
-    /**
-     * @ORM\Column(name="blunder_id", type="string")
-     */
+    #[ORM\Column(name: 'blunder_id', type: 'string')]
     private ?string $blunderId = null;
 
-    /**
-     * @ORM\Column(name="blunder_move", type="string")
-     */
+    #[ORM\Column(name: 'blunder_move', type: 'string')]
     private ?string $blunderMove = null;
 
-    /**
-     * @ORM\Column(name="elo", type="integer")
-     */
+    #[ORM\Column(name: 'elo', type: 'integer')]
     private ?int $elo = null;
 
-    /**
-     * @ORM\Column(name="fen", type="string")
-     */
+    #[ORM\Column(name: 'fen', type: 'string')]
     private ?string $fen = null;
 
-    /**
-     * @ORM\Column(name="solution", type="array")
-     */
+    #[ORM\Column(name: 'solution', type: 'array')]
     private array $solution = [];
 
-    /**
-     * @ORM\Column(name="to_play", type="string")
-     */
+    #[ORM\Column(name: 'to_play', type: 'string')]
     private ?string $toPlay = null;
 
     public function getBlunderId(): ?string

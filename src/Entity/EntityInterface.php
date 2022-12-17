@@ -17,9 +17,7 @@ interface EntityInterface
 
     public function setUpdatedAt(DateTime $updatedAt);
 
-    /**
-     * @ORM\PreUpdate()
-     * @ORM\PrePersist()
-     */
+    #[ORM\PreUpdate]
+    #[ORM\PrePersist]
     public function updateTimestamps();
 }

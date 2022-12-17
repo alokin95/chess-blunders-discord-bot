@@ -9,7 +9,13 @@ use Discord\Parts\Embed\Embed;
 
 class SendMessageService
 {
-    public static function sendTextMessage(Channel $channel, string $content, ?Embed $embed = null, ?bool $isTextToSpeech = false): void
+    public static function sendTextMessage(
+        Channel $channel,
+        string $content,
+        ?Embed $embed = null,
+        ?bool $isTextToSpeech = false,
+        callable $callback = null
+    ): void
     {
         $message = MessageBuilder::new()
             ->setContent($content)
@@ -19,15 +25,23 @@ class SendMessageService
             $message->setContent($content);
         }
 
-        $channel->sendMessage($message)->done(function (Message $message) {
-            die();
+        $channel->sendMessage($message)->done(function (Message $message) use ($callback) {
+            if (!is_null($callback)) {
+                $callback();
+            }
         });
     }
 
-    public static function sendEmbedMessage(Channel $channel, Embed $embed): void
+    public static function sendEmbedMessage(
+        Channel $channel,
+        Embed $embed,
+        callable $callback = null
+    ): void
     {
-        $channel->sendEmbed($embed)->done(function (Message $message) {
-            die();
+        $channel->sendEmbed($embed)->done(function (Message $message) use ($callback) {
+            if (!is_null($callback)) {
+                $callback();
+            }
         });
     }
 }

@@ -2,20 +2,15 @@
 
 namespace App\Service\Fen;
 
-use Ryanhs\Chess\Chess;
+use PChess\Chess\Chess;
 
 class FenFormatService
 {
     private Chess $chessGame;
 
-    public function __construct()
-    {
-        $this->chessGame = new Chess();
-    }
-
     public function addBlunderMoveToFenPosition($fenBefore, $blunderMove): string
     {
-        $this->chessGame->load($fenBefore);
+        $this->chessGame = new Chess($fenBefore);
         $this->chessGame->move($blunderMove);
 
         return $this->chessGame->fen();

@@ -5,27 +5,19 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity()
- * @ORM\HasLifecycleCallbacks()
- * @ORM\Table(name="AttemptedSolutions")
- */
+#[ORM\Table(name: 'AttemptedSolutions')]
+#[ORM\Entity]
+#[ORM\HasLifecycleCallbacks]
 class AttemptedSolution extends BaseEntity
 {
-    /**
-     * @ORM\ManyToOne(targetEntity="Blunder")
-     * @ORM\JoinColumn(name="blunder_id", referencedColumnName="id")
-     */
+    #[ORM\ManyToOne(targetEntity: 'Blunder')]
+    #[ORM\JoinColumn(name: 'blunder_id', referencedColumnName: 'id')]
     private Blunder $blunder;
 
-    /**
-     * @ORM\Column(name="user_id", type="string")
-     */
+    #[ORM\Column(name: 'user_id', type: 'string')]
     private ?string $user = null;
 
-    /**
-     * @ORM\Column(name="submitted_solution", type="array")
-     */
+    #[ORM\Column(name: 'submitted_solution', type: 'array')]
     private ?string $submittedSolution = null;
 
     public function getBlunder(): Blunder

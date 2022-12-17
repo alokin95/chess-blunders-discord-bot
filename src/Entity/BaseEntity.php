@@ -7,21 +7,15 @@ use Doctrine\ORM\Mapping as ORM;
 
 class BaseEntity implements EntityInterface
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue(strategy="AUTO")
-     * @ORM\Column(name="id", type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
+    #[ORM\Column(name: 'id', type: 'integer')]
     protected ?int $id = null;
 
-    /**
-     * @ORM\Column(name="created_at", type="datetime", nullable=false)
-     */
+    #[ORM\Column(name: 'created_at', type: 'datetime', nullable: false)]
     protected ?DateTime $createdAt = null;
 
-    /**
-     * @ORM\Column(name="updated_at", type="datetime", nullable=false)
-     */
+    #[ORM\Column(name: 'updated_at', type: 'datetime', nullable: false)]
     protected ?DateTime $updatedAt = null;
 
     public function getCreatedAt(): ?DateTime
@@ -44,10 +38,8 @@ class BaseEntity implements EntityInterface
         $this->updatedAt = $updatedAt;
     }
 
-    /**
-     * @ORM\PrePersist()
-     * @ORM\PreUpdate()
-     */
+    #[ORM\PrePersist]
+    #[ORM\PreUpdate]
     public function updateTimestamps()
     {
         $dateTimeNow = new DateTime('now');

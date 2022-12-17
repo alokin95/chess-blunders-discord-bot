@@ -3,6 +3,7 @@
 
 use Discord\Discord;
 use Discord\Exceptions\IntentException;
+use Discord\WebSockets\Intents;
 
 class DiscordConnection
 {
@@ -18,8 +19,13 @@ class DiscordConnection
     {
         if (null == self::$instance)
         {
+            $intents = Intents::getDefaultIntents();
+//            $intents[] = Intents::GUILDS;
+
             self::$instance = new Discord([
                 'token' => env('DISCORD_BOT_SECRET'),
+                'loadAllMembers' => true,
+                'intents' => Intents::getDefaultIntents() | Intents::GUILD_MEMBERS | Intents::GUILD_MEMBERS | Intents::GUILD_PRESENCES | Intents::MESSAGE_CONTENT
             ]);
         }
 

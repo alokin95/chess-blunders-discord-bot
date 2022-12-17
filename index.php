@@ -3,6 +3,7 @@
 include __DIR__.'/core/bootstrap.php';
 
 use App\Exception\ExceptionHandler;
+use App\Exception\ShouldReturnCommandHelpResponseInterface;
 use App\Response\CommandHelpResponse;
 use App\Service\Command\HandleCommandService;
 use Discord\Discord;
@@ -10,7 +11,6 @@ use Discord\Parts\Channel\Message;
 use Discord\WebSockets\Event;
 
 $discord = discordApp();
-
 
 $discord->on('ready', function ($discord) {
 	echo "Bot is ready!", PHP_EOL;
@@ -23,11 +23,12 @@ $discord->on('ready', function ($discord) {
                 $handleMessageService->handle();
             } catch (Throwable $exception) {
                 $exceptionHandler->handle($exception, $message->content);
-               return new CommandHelpResponse($message);
+                if ($exception instanceof ShouldReturnCommandHelpResponseInterface) {
+                    return new CommandHelpResponse($message);
+                }
             }
         }
     });
-
 });
 
 $discord->run();

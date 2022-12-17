@@ -1,5 +1,6 @@
 <?php
 
+use Discord\Discord;
 use Discord\Exceptions\IntentException;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\ORMSetup;
@@ -21,7 +22,7 @@ function config(string $file, string $key)
 
 function env($key): ?string
 {
-    $path = dirname(__DIR__, 1);
+    $path = dirname(__DIR__);
     $file = file($path . '/.env');
 
     foreach ($file as $row) {
@@ -50,7 +51,7 @@ function entityManager(): ?EntityManager
 /**
  * @throws IntentException
  */
-function discordApp(): ?\Discord\Discord
+function discordApp(): ?Discord
 {
     return DiscordConnection::getInstance();
 }

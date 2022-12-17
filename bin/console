@@ -1,11 +1,12 @@
 #!/usr/bin/env php
 <?php
 
+// replace with path to your own project bootstrap file
+require_once 'core/bootstrap.php';
+
 use Doctrine\ORM\Tools\Console\ConsoleRunner;
 use Doctrine\ORM\Tools\Console\EntityManagerProvider\SingleManagerProvider;
 
-// replace with path to your own project bootstrap file
-require_once '../vendor/autoload.php';
 
 // replace with mechanism to retrieve EntityManager in your app
 $entityManager = entityManager();
