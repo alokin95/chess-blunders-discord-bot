@@ -23,7 +23,7 @@ class HandleCommandService
             $command instanceof ShouldBeSentPrivatelyInterface
             && !$this->message->channel?->is_private
         ) {
-            $this->message->author->sendMessage('Please try again: ' . $this->message->content);
+//            $this->message->author->sendMessage('Please try again: ' . $this->message->content);
             $this->message->delete();
         }
 

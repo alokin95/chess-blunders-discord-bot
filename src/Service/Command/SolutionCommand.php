@@ -49,7 +49,7 @@ class SolutionCommand extends AbstractCommand implements ShouldBeSentPrivatelyIn
      */
     public function execute(): AbstractResponse
     {
-        $this->denyAccessUnless($this->channelIsPrivate);
+        $this->denyAccessUnless($this->channelIsPrivate, $this);
 
         $commandArray = explode(" ", $this->message->content);
 
@@ -159,5 +159,10 @@ class SolutionCommand extends AbstractCommand implements ShouldBeSentPrivatelyIn
         }
 
         return null;
+    }
+
+    public static function getCommandName(): string
+    {
+        return 'Solution command';
     }
 }

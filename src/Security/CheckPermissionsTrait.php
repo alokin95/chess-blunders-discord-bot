@@ -4,10 +4,12 @@
 namespace App\Security;
 
 
+use App\Service\Command\AbstractCommand;
+
 trait CheckPermissionsTrait
 {
-    public function denyAccessUnless(SecurityInterface $security)
+    public function denyAccessUnless(SecurityInterface $security, AbstractCommand $command): void
     {
-        $security->denyAccessUnlessGranted();
+        $security->denyAccessUnlessGranted($command);
     }
 }

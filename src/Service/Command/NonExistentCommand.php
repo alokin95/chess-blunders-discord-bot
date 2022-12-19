@@ -10,4 +10,9 @@ class NonExistentCommand extends AbstractCommand
     {
         return new CommandHelpResponse($this->message);
     }
+
+    public static function getCommandName(): string
+    {
+        return '';
+    }
 }

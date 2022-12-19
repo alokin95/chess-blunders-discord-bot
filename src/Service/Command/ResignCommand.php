@@ -47,7 +47,7 @@ class ResignCommand extends AbstractCommand implements ShouldBeSentPrivatelyInte
      */
     public function execute(): AbstractResponse
     {
-        $this->denyAccessUnless($this->channelIsPrivate);
+        $this->denyAccessUnless($this->channelIsPrivate, $this);
 
         $commandArray = explode(' ', $this->message->content);
 
@@ -96,5 +96,10 @@ class ResignCommand extends AbstractCommand implements ShouldBeSentPrivatelyInte
 
         entityManager()->persist($resign);
         entityManager()->flush();
+    }
+
+    public static function getCommandName(): string
+    {
+        return 'Resign command';
     }
 }

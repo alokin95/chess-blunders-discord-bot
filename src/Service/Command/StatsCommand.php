@@ -31,4 +31,9 @@ class StatsCommand extends AbstractCommand
 
         return new UserStatisticResponse($this->message, $embed);
     }
+
+    public static function getCommandName(): string
+    {
+        return 'Statistics command';
+    }
 }

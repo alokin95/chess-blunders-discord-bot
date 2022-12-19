@@ -3,6 +3,7 @@
 namespace App\Security;
 
 use App\Exception\WrongChannelException;
+use App\Service\Command\AbstractCommand;
 use Discord\Parts\Channel\Message;
 
 class ChannelIsPrivate implements SecurityInterface
@@ -17,11 +18,11 @@ class ChannelIsPrivate implements SecurityInterface
     /**
      * @throws WrongChannelException
      */
-    public function denyAccessUnlessGranted()
+    public function denyAccessUnlessGranted(AbstractCommand $command)
     {
-        if ($this->message->channel_id == env('DISCORD_TEXT_CHANNEL_ID'))
+        if (!$this->message->channel->is_private)
         {
-            throw new WrongChannelException($this->message);
+            throw new WrongChannelException($this->message, $command);
         }
     }
 }

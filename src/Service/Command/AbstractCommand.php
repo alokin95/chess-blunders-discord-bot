@@ -14,4 +14,6 @@ abstract class AbstractCommand implements CommandInterface
     {
         $this->message = $message;
     }
+
+    public static abstract function getCommandName(): string;
 }
