@@ -17,14 +17,16 @@ try {
     $customField = new Field($discord);
 
     $customField->fill([
-        'name'  => "Command improvements\n",
+        'name'  => "New and imrpoved commands\n",
         'value' =>
             "
-            - **#stats** command is now available in the global channel (per Yngvy's request).
+            - **#blunder [blunderId]** command is now available! Send `#blunder blunderId` to receive blunder image to your private message from the Bot!
             
-            -**#solution** and **#resign** commands will no longer be available in the global channel, instead the user will have to send them directly to the Bot (per Yngvy's request).
+            - **#unsolved (`elo`, `id`)** command is now available! Send `#unsolved` message to receive ALL your unsolved blunder ids! Add `elo` or `id` flag for ordering (ex. #unsolved elo).
             
-            -User statistics now showing the average ELO of solved and resigned blunders.
+            -**#blunder** and **#unsolved** commands will not be available in the global channel, instead the user will have to send them directly to the Bot.
+            
+            -Bot is now deleting the messages that are not being sent to the private message (except `#stats` command).
             "
     ]);
 
