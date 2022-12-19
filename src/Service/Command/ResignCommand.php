@@ -19,7 +19,7 @@ use App\Security\CheckPermissionsTrait;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 
-class ResignCommand extends AbstractCommand
+class ResignCommand extends AbstractCommand implements ShouldBeSentPrivatelyInterface
 {
     use CheckPermissionsTrait;
 

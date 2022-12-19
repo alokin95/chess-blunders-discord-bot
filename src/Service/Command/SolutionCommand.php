@@ -15,13 +15,14 @@ use App\Response\BlunderAlreadySolvedResponse;
 use App\Response\BlunderNotSolvedResponse;
 use App\Response\BlunderSolvedResponse;
 use App\Response\CommandHelpResponse;
+use App\Response\SendingSameSolutionTwiceResponse;
 use App\Response\TryingToSolveAfterResignationResponse;
 use App\Security\ChannelIsPrivate;
 use App\Security\CheckPermissionsTrait;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 
-class SolutionCommand extends AbstractCommand
+class SolutionCommand extends AbstractCommand implements ShouldBeSentPrivatelyInterface
 {
     use CheckPermissionsTrait;
 
@@ -88,13 +89,8 @@ class SolutionCommand extends AbstractCommand
             $submittedSolution[] = $commandArray[$i];
         }
 
-        if ($this->solvedBlunderRepository->checkIfUserSolvedTheBlunder($blunder, $this->message->author->id))
-        {
-            return new BlunderAlreadySolvedResponse($this->message);
-        }
-
-        if ($this->resignRepository->getResignsByUserAndBlunder($this->message->author->id, $blunder)) {
-            return new TryingToSolveAfterResignationResponse($this->message);
+        if ($prematureResponse = $this->findPrematureResponse($blunder, $submittedSolution)) {
+            return $prematureResponse;
         }
 
         $this->saveAttemptedSolution($blunder, $submittedSolution);
@@ -138,5 +134,30 @@ class SolutionCommand extends AbstractCommand
 
         entityManager()->persist($newSolution);
         entityManager()->flush();
+    }
+
+    private function findPrematureResponse(Blunder $blunder, array $submittedSolution): ?AbstractResponse
+    {
+        //Send a message if blunder is already solved
+        if ($this->solvedBlunderRepository->checkIfUserSolvedTheBlunder($blunder, $this->message->author->id))
+        {
+            return new BlunderAlreadySolvedResponse($this->message);
+        }
+
+        //Send a message that blunder is already resigned
+        if ($this->resignRepository->getResignsByUserAndBlunder($this->message->author->id, $blunder)) {
+            return new TryingToSolveAfterResignationResponse($this->message);
+        }
+
+        //Prevent sending the same solution multiple times
+        /** @var AttemptedSolution[] $alreadySentSolutions */
+        $alreadySentSolutions = $this->attemptedSolutionRepository->findBy(['user' => $this->message->author->id, 'blunder' => $blunder->getId()]);
+        foreach ($alreadySentSolutions as $solution) {
+            if ($solution->getSubmittedSolution() === $submittedSolution) {
+                return new SendingSameSolutionTwiceResponse($this->message);
+            }
+        }
+
+        return null;
     }
 }

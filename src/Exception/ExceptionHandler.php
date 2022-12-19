@@ -8,11 +8,11 @@ use Throwable;
 
 class ExceptionHandler
 {
-
+    public CONST ERROR_LOG_PATH =  __DIR__ . '/../../var/log/error.log';
     private Logger $logger;
 
     public function __construct() {
-        $this->logger = new Logger('discord_bot', [ new StreamHandler(__DIR__ . '/../../var/log/error.log') ] );
+        $this->logger = new Logger('discord_bot', [ new StreamHandler(self::ERROR_LOG_PATH) ] );
     }
 
     public function handle( Throwable $ex , $discordMessage)

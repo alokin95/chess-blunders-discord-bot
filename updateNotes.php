@@ -1,7 +1,8 @@
 <?php
 
-use Discord\Parts\Channel\Channel;
-use Discord\Parts\Channel\Message;
+use App\Service\Channel\DiscordChannelFactory;
+use App\Service\Message\SendMessageService;
+use Discord\Discord;
 use Discord\Parts\Embed\Embed;
 use Discord\Parts\Embed\Field;
 
@@ -31,10 +32,15 @@ $embed->fill([
     'fields'        => [$customField]
 ]);
 
-$discord->factory(Channel::class, [
-    'id' =>  env('DISCORD_TEXT_CHANNEL_ID')
-])->sendEmbed($embed)->done(function (Message $message){
-    die();
+$discord->on('ready', function (Discord $discord) use ($embed) {
+    echo "Bot is ready!", PHP_EOL;
+
+    $channel = DiscordChannelFactory::getDefaultChannel();
+
+    SendMessageService::sendEmbedMessage($channel, $embed, function () {
+        die();
+    });
 });
+
 
 $discord->run();

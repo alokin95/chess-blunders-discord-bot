@@ -7,9 +7,7 @@ use App\Service\Blunder\Chessblundersorg\BlunderCreationService;
 use App\Service\Blunder\Chessblundersorg\RandomBlunderService;
 use App\Service\Embed\CreateBlunderEmbedMessageService;
 use App\Service\Message\SendMessageService;
-use Discord\Helpers\Collection;
-use Discord\Parts\Channel\Channel;
-use Discord\Parts\Channel\Message;
+use Discord\Discord;
 
 $discord = discordApp();
 
@@ -20,38 +18,15 @@ $blunder = $blunderCreationService->createBlunder();
 $embed = new CreateBlunderEmbedMessageService($blunder, $discord);
 $embed = $embed->createEmbed();
 
+$discord->on('ready', function (Discord $discord) use ($embed) {
+    echo "Bot is ready!", PHP_EOL;
 
-$channel = new Channel($discord);
+    $channel = DiscordChannelFactory::getDefaultChannel();
 
-$channel->fill([
-    'id' => env('DISCORD_TEXT_CHANNEL_ID')
-]);
-
-$channel->getPinnedMessages()->done(function (Collection $messages) {
-
-});
-
-$channel->sendMessage('asdasd')->done(function (Message $message)  {
-
-});
-
-dd($channel->id);
-//$channel->id = env('DISCORD_TEXT_CHANNEL_ID');
-
-//try {
-    SendMessageService::sendTextMessage($channel, 'sdadas', null, false, function () {
-        die('here');
+    SendMessageService::sendEmbedMessage($channel, $embed, function () {
+        die();
     });
+});
 
-//    $discord->factory(Channel::class, [
-//    'id' =>  env('DISCORD_TEXT_CHANNEL_ID')
-//])->sendEmbed($embed)->done(function (Message $message){
-//    die();
-//});
-
-//} catch (Throwable $exception) {
-//    $exceptionHandler->handle($exception, __FILE__);
-//    die();
-//}
 
 $discord->run();

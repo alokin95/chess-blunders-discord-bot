@@ -2,10 +2,12 @@
 
 namespace App\Service\Command;
 
+use Discord\Parts\Channel\Message;
+
 class HandleCommandService
 {
-    private $message;
-    private $messageFactory;
+    private Message$message;
+    private CommandFactory $messageFactory;
 
     public function __construct($message)
     {
@@ -16,6 +18,15 @@ class HandleCommandService
     public function handle(): void
     {
         $command = $this->messageFactory->getCommandType($this->message);
+
+        if (
+            $command instanceof ShouldBeSentPrivatelyInterface
+            && !$this->message->channel?->is_private
+        ) {
+            $this->message->author->sendMessage($this->message->content);
+            $this->message->delete();
+        }
+
         $command->execute();
     }
 }

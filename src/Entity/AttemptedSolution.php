@@ -18,7 +18,7 @@ class AttemptedSolution extends BaseEntity
     private ?string $user = null;
 
     #[ORM\Column(name: 'submitted_solution', type: 'array')]
-    private ?string $submittedSolution = null;
+    private ?array $submittedSolution = [];
 
     public function getBlunder(): Blunder
     {
@@ -40,12 +40,12 @@ class AttemptedSolution extends BaseEntity
         $this->user = $user;
     }
 
-    public function getSubmittedSolution(): ?string
+    public function getSubmittedSolution(): ?array
     {
         return $this->submittedSolution;
     }
 
-    public function setSubmittedSolution($submittedSolution)
+    public function setSubmittedSolution(array $submittedSolution)
     {
         $this->submittedSolution = $submittedSolution;
     }

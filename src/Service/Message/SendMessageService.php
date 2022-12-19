@@ -10,13 +10,18 @@ use Discord\Parts\Embed\Embed;
 class SendMessageService
 {
     public static function sendTextMessage(
-        Channel $channel,
+        ?Channel $channel,
         string $content,
         ?Embed $embed = null,
         ?bool $isTextToSpeech = false,
         callable $callback = null
     ): void
     {
+        if (is_null($channel)) {
+
+            return;
+        }
+
         $message = MessageBuilder::new()
             ->setContent($content)
             ->setTts($isTextToSpeech);
@@ -33,7 +38,7 @@ class SendMessageService
     }
 
     public static function sendEmbedMessage(
-        Channel $channel,
+        ?Channel $channel,
         Embed $embed,
         callable $callback = null
     ): void
