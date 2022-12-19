@@ -3,6 +3,8 @@
 namespace App\Response;
 
 use App\Entity\Blunder;
+use App\Service\Channel\DiscordChannelFactory;
+use App\Service\Message\SendMessageService;
 use Discord\Parts\Channel\Channel;
 use Discord\Parts\Channel\Message;
 
@@ -25,9 +27,7 @@ class BlunderSolvedResponse extends AbstractResponse
         $pluralize = $this->numberOfTries > 1 ? 'attempts' : 'attempt';
         $message = $this->message->author->username . ' has solved the blunder ' . $this->blunder->getId() . ' after ' . $this->numberOfTries . ' ' . $pluralize . '!';
 
-        $this->discordApp->factory(Channel::class, [
-            'id' => env('DISCORD_TEXT_CHANNEL_ID')
-        ])->sendMessage($message);
+        SendMessageService::sendTextMessage(DiscordChannelFactory::getDefaultChannel(), $message);
 
         $this->message->author->sendMessage("Congratulations! You've solved the blunder!");
     }

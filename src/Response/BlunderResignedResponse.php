@@ -5,7 +5,10 @@ namespace App\Response;
 
 
 use App\Entity\Blunder;
+use App\Service\Channel\DiscordChannelFactory;
+use App\Service\Message\SendMessageService;
 use Discord\Discord;
+use Discord\Http\Exceptions\NoPermissionsException;
 use Discord\Parts\Channel\Channel;
 use Discord\Parts\Channel\Message;
 
@@ -25,6 +28,9 @@ class BlunderResignedResponse extends AbstractResponse
         parent::__construct($message);
     }
 
+    /**
+     * @throws NoPermissionsException
+     */
     protected function sendResponse()
     {
         $attempts = "";
@@ -39,9 +45,7 @@ class BlunderResignedResponse extends AbstractResponse
 
         $message = $this->message->author->username . ' has resigned the blunder ' . $this->blunder->getId() . ' ' . $attempts;
 
-        $this->discordApp->factory(Channel::class, [
-            'id' => env('DISCORD_TEXT_CHANNEL_ID')
-        ])->sendMessage($message);
+        SendMessageService::sendTextMessage(DiscordChannelFactory::getDefaultChannel(), $message);
 
         $solution = $this->formatSolution();
 
