@@ -12,17 +12,13 @@ class CommandFactory
 
         $command = explode(" ", $command)[0];
 
-        switch ($command)
-        {
-            case "solution":
-                return new SolutionCommand($message);
-            case "resign":
-                return new ResignCommand($message);
-            case "stats":
-                return new StatsCommand($message);
-            case "help":
-            default:
-                return new NonExistentCommand($message);
-        }
+        return match ($command) {
+            "solution"  => new SolutionCommand($message),
+            "resign"    => new ResignCommand($message),
+            "stats"     => new StatsCommand($message),
+            "blunder"   => new SendSpecificBlunderToUserCommand($message),
+            "unsolved"  => new SendUnsolvedBlunderIdsToUserCommand($message),
+            default => new NonExistentCommand($message),
+        };
     }
 }

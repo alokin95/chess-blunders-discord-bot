@@ -29,6 +29,8 @@ class CreateHelpEmbedMessageService extends AbstractEmbed
         $solution   = new Field($this->discord);
         $resign     = new Field($this->discord);
         $stats      = new Field($this->discord);
+        $unsolved   = new Field($this->discord);
+        $blunder    = new Field($this->discord);
         $help       = new Field($this->discord);
 
         $solution->fill([
@@ -46,11 +48,21 @@ class CreateHelpEmbedMessageService extends AbstractEmbed
             'value' => "*Shows the user stats*"
         ]);
 
+        $unsolved->fill([
+            'name'  => "#unsolved [orderBy (`elo`, `id`)]",
+            'value' => "*See all your unsolved blunders. Send `elo` or `id` flag for ordering*\n```[blunderID] - ID of the blunder```"
+        ]);
+
+        $blunder->fill([
+            'name'  => "#blunder [blunderID]",
+            'value' => "*Send the desired blunder to direct message*\n```[blunderID] - ID of the blunder```"
+        ]);
+
         $help->fill([
             'name'  => '#help',
             'value' => '*Show all bot commands*'
         ]);
 
-        return [$solution, $resign, $stats, $help];
+        return [$solution, $resign, $blunder, $unsolved, $stats, $help];
     }
 }

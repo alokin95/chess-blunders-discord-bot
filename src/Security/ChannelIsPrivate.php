@@ -6,6 +6,9 @@ use App\Exception\WrongChannelException;
 use App\Service\Command\AbstractCommand;
 use Discord\Parts\Channel\Message;
 
+/**
+ * @deprecated
+ */
 class ChannelIsPrivate implements SecurityInterface
 {
     private Message $message;

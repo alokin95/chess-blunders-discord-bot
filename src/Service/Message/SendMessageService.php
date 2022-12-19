@@ -3,12 +3,16 @@
 namespace App\Service\Message;
 
 use Discord\Builders\MessageBuilder;
+use Discord\Http\Exceptions\NoPermissionsException;
 use Discord\Parts\Channel\Channel;
 use Discord\Parts\Channel\Message;
 use Discord\Parts\Embed\Embed;
 
 class SendMessageService
 {
+    /**
+     * @throws NoPermissionsException
+     */
     public static function sendTextMessage(
         ?Channel $channel,
         string $content,
@@ -47,6 +51,26 @@ class SendMessageService
             if (!is_null($callback)) {
                 $callback();
             }
+        });
+    }
+
+    public static function replyToMessage
+    (
+        Message $messageToReplyTo,
+        string $content,
+        ?Embed $embed = null,
+        callable $callback = null
+    ): void
+    {
+        $messageToReplyTo->author->getPrivateChannel()->then(function (Channel $channel) use ($embed, $content, $messageToReplyTo) {
+            if (!is_null($embed)) {
+                self::sendEmbedMessage($channel, $embed);
+                return;
+            }
+
+            self::sendTextMessage($channel, $content);
+
+            $messageToReplyTo->delete();
         });
     }
 }

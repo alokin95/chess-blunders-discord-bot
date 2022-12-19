@@ -17,20 +17,15 @@ use App\Response\BlunderSolvedResponse;
 use App\Response\CommandHelpResponse;
 use App\Response\SendingSameSolutionTwiceResponse;
 use App\Response\TryingToSolveAfterResignationResponse;
-use App\Security\ChannelIsPrivate;
-use App\Security\CheckPermissionsTrait;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 
 class SolutionCommand extends AbstractCommand implements ShouldBeSentPrivatelyInterface
 {
-    use CheckPermissionsTrait;
-
     private BlunderRepository $blunderRepository;
     private AttemptedSolutionRepository $attemptedSolutionRepository;
     private SolvedBlunderRepository $solvedBlunderRepository;
     private ResignRepository $resignRepository;
-    private ChannelIsPrivate $channelIsPrivate;
 
     public function __construct($message)
     {
@@ -38,7 +33,6 @@ class SolutionCommand extends AbstractCommand implements ShouldBeSentPrivatelyIn
         $this->blunderRepository            = new BlunderRepository();
         $this->solvedBlunderRepository      = new SolvedBlunderRepository();
         $this->resignRepository             = new ResignRepository();
-        $this->channelIsPrivate             = new ChannelIsPrivate($message);
         parent::__construct($message);
     }
 
@@ -49,8 +43,6 @@ class SolutionCommand extends AbstractCommand implements ShouldBeSentPrivatelyIn
      */
     public function execute(): AbstractResponse
     {
-        $this->denyAccessUnless($this->channelIsPrivate, $this);
-
         $commandArray = explode(" ", $this->message->content);
 
         if (count($commandArray) <= 2)
@@ -104,7 +96,7 @@ class SolutionCommand extends AbstractCommand implements ShouldBeSentPrivatelyIn
             return new BlunderSolvedResponse($this->message, $blunder, $numberOfTries);
         }
 
-        return new BlunderNotSolvedResponse($this->message);
+        return new BlunderNotSolvedResponse($this->message, implode(' ', $submittedSolution));
     }
 
     /**

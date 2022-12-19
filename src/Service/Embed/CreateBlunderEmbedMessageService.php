@@ -13,7 +13,7 @@ class CreateBlunderEmbedMessageService extends AbstractEmbed
     private Blunder $blunder;
     private FenToPngConverterService $fenToPngConverter;
 
-    public function __construct(Blunder $blunder, $discord)
+    public function __construct(Blunder $blunder)
     {
         $this->blunder              = $blunder;
         $this->fenToPngConverter    = new FenToPngConverterService();

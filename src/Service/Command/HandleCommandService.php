@@ -2,11 +2,12 @@
 
 namespace App\Service\Command;
 
+use App\Service\Message\SendMessageService;
 use Discord\Parts\Channel\Message;
 
 class HandleCommandService
 {
-    private Message$message;
+    private Message $message;
     private CommandFactory $messageFactory;
 
     public function __construct($message)
@@ -23,8 +24,16 @@ class HandleCommandService
             $command instanceof ShouldBeSentPrivatelyInterface
             && !$this->message->channel?->is_private
         ) {
-//            $this->message->author->sendMessage('Please try again: ' . $this->message->content);
-            $this->message->delete();
+            SendMessageService::replyToMessage(
+                $this->message,
+                $command::getCommandName()
+                . ' is allowed only when chatting directly with the Bot! Please try again: '
+                . $this->message->content,
+                null,
+                function () {
+                    $this->message->delete();
+                }
+            );
         }
 
         $command->execute();

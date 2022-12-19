@@ -2,6 +2,7 @@
 
 namespace App\Exception;
 
+use Discord\Parts\Channel\Message;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 use Throwable;
@@ -15,7 +16,7 @@ class ExceptionHandler
         $this->logger = new Logger('discord_bot', [ new StreamHandler(self::ERROR_LOG_PATH) ] );
     }
 
-    public function handle( Throwable $ex , $discordMessage)
+    public function handle( Throwable $ex , mixed $discordMessage = '')
     {
         $message = $this->get_message($ex);
 

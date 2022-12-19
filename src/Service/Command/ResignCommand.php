@@ -14,20 +14,15 @@ use App\Response\BlunderAlreadyResignedResponse;
 use App\Response\BlunderResignedResponse;
 use App\Response\CommandHelpResponse;
 use App\Response\ResignAfterSolvedResponse;
-use App\Security\ChannelIsPrivate;
-use App\Security\CheckPermissionsTrait;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 
 class ResignCommand extends AbstractCommand implements ShouldBeSentPrivatelyInterface
 {
-    use CheckPermissionsTrait;
-
     private ResignRepository $resignRepository;
     private BlunderRepository $blunderRepository;
     private SolvedBlunderRepository $solvedBlunderRepository;
     private AttemptedSolutionRepository $attemptedSolutionRepository;
-    private ChannelIsPrivate $channelIsPrivate;
 
     public function __construct($message)
     {
@@ -35,7 +30,6 @@ class ResignCommand extends AbstractCommand implements ShouldBeSentPrivatelyInte
         $this->blunderRepository            = new BlunderRepository();
         $this->solvedBlunderRepository      = new SolvedBlunderRepository();
         $this->attemptedSolutionRepository  = new AttemptedSolutionRepository();
-        $this->channelIsPrivate             = new ChannelIsPrivate($message);
         $this->message                      = $message;
         parent::__construct($message);
     }
@@ -47,8 +41,6 @@ class ResignCommand extends AbstractCommand implements ShouldBeSentPrivatelyInte
      */
     public function execute(): AbstractResponse
     {
-        $this->denyAccessUnless($this->channelIsPrivate, $this);
-
         $commandArray = explode(' ', $this->message->content);
 
         if (count($commandArray) != 2) {
