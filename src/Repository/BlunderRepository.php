@@ -22,9 +22,23 @@ class BlunderRepository extends AbstractRepository
         return $stmt->fetchFirstColumn();
     }
 
+    /**
+     * @throws Exception
+     */
+    private function getIdsOfResignedBlundersForUser(string $user): array
+    {
+        $sql = "SELECT b.id FROM Blunder b INNER JOIN resignations r ON b.id = r.blunder_id WHERE r.user = $user";
+
+        $stmt = entityManager()->getConnection()->prepare($sql);
+
+        $stmt = $stmt->executeQuery();
+        return $stmt->fetchFirstColumn();
+    }
+
     public function getUnsolvedBlundersForUser(string $user, string $orderByColumn = 'id'): array
     {
         $idsOfSolvedBlunders = $this->getIdsOfSolvedBlundersForUser($user);
+        $idsOfSolvedBlunders = array_merge($idsOfSolvedBlunders, $this->getIdsOfResignedBlundersForUser($user));
 
         $idsOfSolvedBlunders = implode(',', $idsOfSolvedBlunders);
         $sql = "SELECT * FROM Blunder b WHERE b.id NOT IN ($idsOfSolvedBlunders) ORDER BY $orderByColumn";
