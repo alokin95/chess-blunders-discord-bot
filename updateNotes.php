@@ -15,25 +15,28 @@ try {
     $embed = new Embed($discord);
 
     $customField = new Field($discord);
+    $customField1 = new Field($discord);
 
     $customField->fill([
-        'name'  => "New and imrpoved commands\n",
+        'name'  => "**Lichess integration is here!**\n",
         'value' =>
             "
-            - **#blunder [blunderId]** command is now available! Send `#blunder blunderId` to receive blunder image to your private message from the Bot!
-            
-            - **#unsolved (`elo`, `id`)** command is now available! Send `#unsolved` message to receive ALL your unsolved blunder ids! Add `elo` or `id` flag for ordering (ex. #unsolved elo).
-            
-            -**#blunder** and **#unsolved** commands will not be available in the global channel, instead the user will have to send them directly to the Bot.
-            
-            -Bot is now deleting the messages that are not being sent to the private message (except `#stats` command).
+            - We are now receiving the daily puzzles from the Lichess.org. Good luck!
+            "
+    ]);
+
+    $customField1->fill([
+        'name'  => "**Improvements:**\n",
+        'value' =>
+            "
+            - Chess board now shows what is the last move that was being played before the blunder solution.
             "
     ]);
 
     $embed->fill([
         'title'         => 'Chess Blunders Bot received an update!',
         'description'   => '**Update notes:**',
-        'fields'        => [$customField]
+        'fields'        => [$customField, $customField1]
     ]);
 
     $discord->on('ready', function (Discord $discord) use ($embed) {

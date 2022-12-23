@@ -25,7 +25,7 @@ class CreateBlunderEmbedMessageService extends AbstractEmbed
         $embed  = new Embed($this->discord);
         $image  = new Image($this->discord);
 
-        $pngUrl = $this->fenToPngConverter->convert($this->blunder->getFen());
+        $pngUrl = $this->fenToPngConverter->convert($this->blunder);
 
         $image->fill([
             'url' => $pngUrl

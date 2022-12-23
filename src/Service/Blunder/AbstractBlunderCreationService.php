@@ -2,27 +2,33 @@
 
 namespace App\Service\Blunder;
 
+use App\Entity\Blunder;
 use App\Repository\BlunderRepository;
 use App\Service\Fen\FenFormatService;
 
 abstract class  AbstractBlunderCreationService
 {
-    protected BlunderInterface $blunder;
+    protected GetBlunderInterface $getBlunder;
     protected FenFormatService $fenFormatService;
     protected BlunderRepository $blunderRepository;
 
-    public function __construct(BlunderInterface $blunder)
+    public function __construct(GetBlunderInterface $getBlunder)
     {
-        $this->blunder              = $blunder;
+        $this->getBlunder           = $getBlunder;
         $this->fenFormatService     = new FenFormatService();
         $this->blunderRepository    = new BlunderRepository();
     }
 
-    public abstract function createBlunder();
+    public abstract function createBlunder(): Blunder;
 
-    protected function checkIfBlunderAlreadyExists($blunder)
+    protected function checkIfBlunderAlreadyExists(Blunder $blunder)
     {
-        return $this->blunderRepository->findOneBy(['blunderId' => $blunder->getBlunderId()]);
+        return $this->blunderRepository->findOneBy(
+            [
+                'blunderId' => $blunder->getBlunderId(),
+                'blunderProvider' => $blunder->getBlunderProvider()
+            ]
+        );
     }
 
 }

@@ -3,20 +3,20 @@
 namespace App\Service\Blunder\Chessblundersorg;
 
 use App\Entity\Blunder;
+use App\Entity\Enum\BlunderProvider;
 use App\Service\Blunder\AbstractBlunderCreationService;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 
-class BlunderCreationService extends AbstractBlunderCreationService
+class ChessBlundersBlunderCreationService extends AbstractBlunderCreationService
 {
-
     /**
      * @throws OptimisticLockException
      * @throws ORMException
      */
     public function createBlunder(): Blunder
     {
-        $blunderApi = $this->blunder->getBlunder();
+        $blunderApi = $this->getBlunder->getBlunder();
         $blunderApi = $blunderApi['data'];
 
         $blunderEntity = new Blunder();
@@ -24,6 +24,7 @@ class BlunderCreationService extends AbstractBlunderCreationService
         $blunderEntity->setElo($blunderApi['elo']);
         $blunderEntity->setBlunderMove($blunderApi['blunderMove']);
         $blunderEntity->setSolution($blunderApi['forcedLine']);
+        $blunderEntity->setBlunderProvider(BlunderProvider::ChessBlunders->value);
 
         $blunderAddedToFenPosition = $this->fenFormatService->addBlunderMoveToFenPosition($blunderApi['fenBefore'], $blunderApi['blunderMove']);
         $blunderEntity->setFen($blunderAddedToFenPosition);

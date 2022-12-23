@@ -3,9 +3,9 @@
 namespace App\Service\Blunder\Chessblundersorg;
 
 use App\Request\ChessBlundersRequest;
-use App\Service\Blunder\BlunderInterface;
+use App\Service\Blunder\GetBlunderInterface;
 
-class RatedBlunderService implements BlunderInterface
+class ChessBlundersRatedGetBlunderService implements GetBlunderInterface
 {
     private ChessBlundersRequest $chessBlunderRequest;
 
