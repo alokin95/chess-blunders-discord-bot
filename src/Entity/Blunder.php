@@ -13,7 +13,7 @@ class Blunder extends BaseEntity
     #[ORM\Column(name: 'blunder_id', type: 'string')]
     private ?string $blunderId = null;
 
-    #[ORM\Column(name: 'blunder_move', type: 'string')]
+    #[ORM\Column(name: 'blunder_move', type: 'string', nullable: true)]
     private ?string $blunderMove = null;
 
     #[ORM\Column(name: 'elo', type: 'integer')]

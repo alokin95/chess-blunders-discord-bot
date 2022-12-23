@@ -8,9 +8,16 @@ class FenFormatService
 {
     private Chess $chessGame;
 
-    public function addBlunderMoveToFenPosition($fenBefore, $blunderMove): string
+    public function createChessGameFromFen(string $fen): Chess
     {
-        $this->chessGame = new Chess($fenBefore);
+        $this->chessGame = new Chess($fen);
+
+        return $this->chessGame;
+    }
+
+    public function addBlunderMoveToFenPosition(string $fenBefore, string $blunderMove): string
+    {
+        $this->createChessGameFromFen($fenBefore);
         $this->chessGame->move($blunderMove);
 
         return $this->chessGame->fen();
@@ -27,7 +34,7 @@ class FenFormatService
         return 'white';
     }
 
-    public function isEnPassantAvailable($fen): bool
+    public function isEnPassantAvailable(string $fen): bool
     {
         $enPassant = explode(" ", $fen);
 
