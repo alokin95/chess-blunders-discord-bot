@@ -3,10 +3,10 @@
 namespace App\Service\Blunder\Chessblundersorg;
 
 use App\Request\ChessBlundersRequest;
-use App\Service\Blunder\BlunderInterface;
+use App\Service\Blunder\GetBlunderInterface;
 use App\Service\Fen\FenFormatService;
 
-class RandomBlunderService implements BlunderInterface
+class ChessBlundersRandomGetBlunderService implements GetBlunderInterface
 {
     private ChessBlundersRequest $chessBlundersRequest;
     private FenFormatService $fenFormatter;

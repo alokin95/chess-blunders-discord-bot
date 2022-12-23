@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Enum\BlunderProvider;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -26,6 +27,9 @@ class Blunder extends BaseEntity
 
     #[ORM\Column(name: 'to_play', type: 'string')]
     private ?string $toPlay = null;
+
+    #[ORM\Column(name: 'blunder_provider', type: 'string')]
+    private ?string $blunderProvider = null;
 
     public function getBlunderId(): ?string
     {
@@ -87,4 +91,13 @@ class Blunder extends BaseEntity
         $this->toPlay = $toPlay;
     }
 
+    public function getBlunderProvider(bool $useEnum = false): BlunderProvider|string
+    {
+        return $useEnum ? BlunderProvider::from($this->blunderProvider) : $this->blunderProvider;
+    }
+
+    public function setBlunderProvider(?string $blunderProvider): void
+    {
+        $this->blunderProvider = $blunderProvider;
+    }
 }

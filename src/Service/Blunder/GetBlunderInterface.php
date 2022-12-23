@@ -2,7 +2,7 @@
 
 namespace App\Service\Blunder;
 
-interface BlunderInterface
+interface GetBlunderInterface
 {
     public function getBlunder();
 }

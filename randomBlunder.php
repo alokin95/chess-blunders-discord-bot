@@ -1,8 +1,9 @@
 <?php
 
 use App\Exception\ExceptionHandler;
-use App\Service\Blunder\Chessblundersorg\BlunderCreationService;
-use App\Service\Blunder\Chessblundersorg\RandomBlunderService;
+use App\Service\Blunder\BlunderCreationFactory;
+use App\Service\Blunder\Chessblundersorg\ChessBlundersBlunderCreationService;
+use App\Service\Blunder\Chessblundersorg\ChessBlundersRandomGetBlunderService;
 use App\Service\Channel\DiscordChannelFactory;
 use App\Service\Embed\CreateBlunderEmbedMessageService;
 use App\Service\Message\SendMessageService;
@@ -13,7 +14,7 @@ try {
 
     $discord = discordApp();
 
-    $blunderCreationService = new BlunderCreationService(new RandomBlunderService());
+    $blunderCreationService = new ChessBlundersBlunderCreationService(new ChessBlundersRandomGetBlunderService());
     $blunder = $blunderCreationService->createBlunder();
     $embed = new CreateBlunderEmbedMessageService($blunder);
     $embed = $embed->createEmbed();
