@@ -10,7 +10,8 @@
         "symfony/cache": "^5.4",
         "doctrine/common": "3.4.3",
         "doctrine/annotations": "^1.14",
-        "p-chess/chess": "^0.4.0"
+        "p-chess/chess": "^0.4.0",
+        "onspli/chess": "^0.2.0"
     },
 
     "autoload": {

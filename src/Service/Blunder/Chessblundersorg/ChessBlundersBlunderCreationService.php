@@ -10,14 +10,13 @@ use Doctrine\ORM\ORMException;
 
 class ChessBlundersBlunderCreationService extends AbstractBlunderCreationService
 {
-
     /**
      * @throws OptimisticLockException
      * @throws ORMException
      */
     public function createBlunder(): Blunder
     {
-        $blunderApi = $this->blunder->getBlunder();
+        $blunderApi = $this->getBlunder->getBlunder();
         $blunderApi = $blunderApi['data'];
 
         $blunderEntity = new Blunder();

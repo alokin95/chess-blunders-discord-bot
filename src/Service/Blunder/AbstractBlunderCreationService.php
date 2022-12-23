@@ -8,13 +8,13 @@ use App\Service\Fen\FenFormatService;
 
 abstract class  AbstractBlunderCreationService
 {
-    protected GetBlunderInterface $blunder;
+    protected GetBlunderInterface $getBlunder;
     protected FenFormatService $fenFormatService;
     protected BlunderRepository $blunderRepository;
 
-    public function __construct(GetBlunderInterface $blunder)
+    public function __construct(GetBlunderInterface $getBlunder)
     {
-        $this->blunder              = $blunder;
+        $this->getBlunder           = $getBlunder;
         $this->fenFormatService     = new FenFormatService();
         $this->blunderRepository    = new BlunderRepository();
     }
@@ -26,7 +26,7 @@ abstract class  AbstractBlunderCreationService
         return $this->blunderRepository->findOneBy(
             [
                 'blunderId' => $blunder->getBlunderId(),
-                'blunder_provider' => $blunder->getBlunderProvider()
+                'blunderProvider' => $blunder->getBlunderProvider()
             ]
         );
     }
