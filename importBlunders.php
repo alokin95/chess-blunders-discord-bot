@@ -12,20 +12,26 @@ include __DIR__.'/core/bootstrap.php';
 
 $fenFormatService = new FenFormatService();
 
-$filepath = config('lichess', 'file_path');
-$file = fopen($filepath, 'r');
 
-$key = 0;
-while (($data = fgetcsv($file)) !== false) {
-    if ($key == 50000) {
-        break;
+try {
+    $filepath = config('lichess', 'file_path');
+    $file = fopen($filepath, 'r');
+    
+    $key = 0;
+    while (($data = fgetcsv($file)) !== false) {
+        if ($key == 50000) {
+            break;
+        }
+        $apiBlunder = new APIBlunder();
+        $apiBlunder->setJson($data);
+    
+        entityManager()->persist($apiBlunder);
+        $key++;
     }
-    $apiBlunder = new APIBlunder();
-    $apiBlunder->setJson($data);
-
-    entityManager()->persist($apiBlunder);
-    $key++;
+    fclose($file);
+    
+    entityManager()->flush();
+} catch (Throwable $throwable) {
+    $exceptionHandler = new ExceptionHandler();
+    $exceptionHandler->handle($throwable, basename(__FILE__, '.php'));
 }
-fclose($file);
-
-entityManager()->flush();
