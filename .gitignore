@@ -4,3 +4,4 @@ node_modules/
 test.txt
 .env
 var/
+data_source/

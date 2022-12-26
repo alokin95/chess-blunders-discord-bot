@@ -6,7 +6,7 @@ use App\Entity\Blunder;
 use App\Repository\BlunderRepository;
 use App\Service\Fen\FenFormatService;
 
-abstract class  AbstractBlunderCreationService
+abstract class AbstractBlunderCreationService
 {
     protected GetBlunderInterface $getBlunder;
     protected FenFormatService $fenFormatService;

@@ -22,12 +22,12 @@ class FenToPngConverterService implements FenConverterInterface
         $fen = explode(" ", $fen)[0];
         $png = config('boards', 'chessboards') . $fen;
 
-        if ($colorToPlay === 'black') {
-            $png.= '-flip';
-        }
-
         if ($blunder->getBlunderProvider() === BlunderProvider::Lichess->value) {
             $png.= '-' . $blunder->getBlunderMove();
+        }
+
+        if ($colorToPlay === 'black') {
+            $png.= '-flip';
         }
 
         return $png . '.png';

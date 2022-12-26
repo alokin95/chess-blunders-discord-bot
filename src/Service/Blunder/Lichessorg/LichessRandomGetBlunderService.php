@@ -4,6 +4,7 @@ namespace App\Service\Blunder\Lichessorg;
 
 use App\DTO\LichessBlunder;
 use App\Entity\Enum\BlunderProvider;
+use App\Repository\APIBlunderRepository;
 use App\Repository\BlunderRepository;
 use App\Request\LichessRequest;
 use App\Service\Blunder\GetBlunderInterface;
@@ -19,11 +20,14 @@ class LichessRandomGetBlunderService implements GetBlunderInterface
     private FenFormatService $fenFormatService;
     private BlunderRepository $blunderRepository;
 
+    private APIBlunderRepository $APIBlunderRepository;
+
     public function __construct()
     {
         $this->lichessRequest = new LichessRequest();
         $this->fenFormatService = new FenFormatService();
         $this->blunderRepository = new BlunderRepository();
+        $this->APIBlunderRepository = new APIBlunderRepository();
     }
 
     /**
@@ -58,36 +62,31 @@ class LichessRandomGetBlunderService implements GetBlunderInterface
             return $this->lichessRequest->getRandomBlunder();
         }
 
-        $filepath = config('lichess', 'file_path');
-        $file = fopen($filepath, 'r');
+        $data = $this->APIBlunderRepository->getRandomBlunder();
 
-        $lichessBlunder = new LichessBlunder();
-
-        while (($data = fgetcsv($file)) !== false) {
-            $lichessBlunder = $this->mapToDto($data);
-
-            //If this blunder is already in the database, skip it
-            if ($this->blunderRepository->findOneBy(
-                [
-                    'blunderId' => $lichessBlunder->getBlunderId(),
-                    'blunderProvider' => BlunderProvider::Lichess->value
-                ])
-            ) {
-                continue;
-            }
-
-            //Make first move, because first element in the solution array is the starting position of the blunder
-            $chessGame = new Chess($lichessBlunder->getFenBeforeBlunderMove());
-            $chessGame = $this->makeFirstMove($chessGame, $lichessBlunder->getUnformattedSolution()[0]);
-            $lichessBlunder->setFenAfterBlunderMove($chessGame->fen());
-            $lichessBlunder->setBlunderMove($lichessBlunder->getUnformattedSolution()[0]);
-
-            $lichessBlunder->setStandardNotationSolution($this->convertMovesToStandardNotation($chessGame, $lichessBlunder->getUnformattedSolution()));
-
-            break;
+        if (!$data) {
+            $this->getBlunderFromSource($readFromFile);
         }
 
-        fclose($file);
+        $lichessBlunder = $this->mapToDto(json_decode($data[0]['data']));
+
+        //If this blunder is already in the database, then call the method again
+        if ($this->blunderRepository->findOneBy(
+            [
+                'blunderId' => $lichessBlunder->getBlunderId(),
+                'blunderProvider' => BlunderProvider::Lichess->value
+            ])
+        ) {
+            $this->getBlunderFromSource($readFromFile);
+        }
+
+        //Make first move, because first element in the solution array is the starting position of the blunder
+        $chessGame = new Chess($lichessBlunder->getFenBeforeBlunderMove());
+        $chessGame = $this->makeFirstMove($chessGame, $lichessBlunder->getUnformattedSolution()[0]);
+        $lichessBlunder->setFenAfterBlunderMove($chessGame->fen());
+        $lichessBlunder->setBlunderMove($lichessBlunder->getUnformattedSolution()[0]);
+
+        $lichessBlunder->setStandardNotationSolution($this->convertMovesToStandardNotation($chessGame, $lichessBlunder->getUnformattedSolution()));
 
         return $lichessBlunder;
     }
