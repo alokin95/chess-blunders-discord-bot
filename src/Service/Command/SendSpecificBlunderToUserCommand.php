@@ -8,7 +8,11 @@ use App\Repository\BlunderRepository;
 use App\Response\AbstractResponse;
 use App\Response\CommandHelpResponse;
 use App\Response\SendSpecificBlunderResponse;
+use App\Service\Channel\DiscordChannelFactory;
+use App\Service\Message\SendMessageService;
 use Discord\Parts\Channel\Message;
+use Discord\Parts\Embed\Embed;
+use Discord\Parts\Embed\Image;
 
 class SendSpecificBlunderToUserCommand extends AbstractCommand implements ShouldBeSentPrivatelyInterface
 {
@@ -47,5 +51,14 @@ class SendSpecificBlunderToUserCommand extends AbstractCommand implements Should
         }
 
         return new SendSpecificBlunderResponse($this->message, $blunder);
+    }
+
+    public function sendProperMessage(callable $callback): void
+    {
+        $content = $this->message->author->username . ' is requesting a blunder.';
+        $filepath = dirname(__DIR__ . '/..', 4) . '/assets/img/needMoreBlunder.jpg';
+        $filename = 'needMoreBlunder.jpg';
+
+        SendMessageService::sendMessageWithFile($content, $filepath, $filename, null, null, $callback);
     }
 }

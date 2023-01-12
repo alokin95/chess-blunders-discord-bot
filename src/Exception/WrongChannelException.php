@@ -25,10 +25,11 @@ class WrongChannelException extends AbstractException
     {
         $this->discordMessage->author->getPrivateChannel()->then(function (Channel $channel) {
             SendMessageService::sendTextMessage(
-                $channel,
                 $this->abstractCommand::getCommandName()
                 . ' is allowed only when chatting directly with the Bot! Please try again: '
-                . $this->discordMessage->content);
+                . $this->discordMessage->content,
+                $channel
+            );
         });
     }
 }

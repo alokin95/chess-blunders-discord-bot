@@ -2,6 +2,7 @@
 
 namespace App\Service\Message;
 
+use App\Service\Channel\DiscordChannelFactory;
 use Discord\Builders\MessageBuilder;
 use Discord\Http\Exceptions\NoPermissionsException;
 use Discord\Parts\Channel\Channel;
@@ -14,25 +15,18 @@ class SendMessageService
      * @throws NoPermissionsException
      */
     public static function sendTextMessage(
-        ?Channel $channel,
         string $content,
-        ?Embed $embed = null,
-        ?bool $isTextToSpeech = false,
+        ?Channel $channel = null,
         callable $callback = null
     ): void
     {
         if (is_null($channel)) {
-
-            return;
+            $channel = DiscordChannelFactory::getDefaultChannel();
         }
 
         $message = MessageBuilder::new()
             ->setContent($content)
-            ->setTts($isTextToSpeech);
-
-        if (!is_null($embed)) {
-            $message->setContent($content);
-        }
+            ->setTts(false);
 
         $channel->sendMessage($message)->done(function (Message $message) use ($callback) {
             if (!is_null($callback)) {
@@ -42,11 +36,15 @@ class SendMessageService
     }
 
     public static function sendEmbedMessage(
-        ?Channel $channel,
         Embed $embed,
+        ?Channel $channel = null,
         callable $callback = null
     ): void
     {
+        if (is_null($channel)) {
+            $channel = DiscordChannelFactory::getDefaultChannel();
+        }
+
         $channel->sendEmbed($embed)->done(function (Message $message) use ($callback) {
             if (!is_null($callback)) {
                 $callback();
@@ -62,15 +60,38 @@ class SendMessageService
         callable $callback = null
     ): void
     {
-        $messageToReplyTo->author->getPrivateChannel()->then(function (Channel $channel) use ($embed, $content, $messageToReplyTo) {
-            if (!is_null($embed)) {
-                self::sendEmbedMessage($channel, $embed);
-                return;
-            }
+        $messageToReplyTo->author->getPrivateChannel()->then(function (Channel $channel)
+            use ($embed, $content, $messageToReplyTo, $callback) {
+                if (!is_null($embed)) {
+                    self::sendEmbedMessage($embed, $channel);
+                    $callback();
+                    return;
+                }
 
-            self::sendTextMessage($channel, $content);
+                self::sendTextMessage($content, $channel, $callback);
 
-            $messageToReplyTo->delete();
+                $messageToReplyTo->delete();
         });
+    }
+
+    public static function sendMessageWithFile(
+        string $content,
+        string $filePath,
+        string $fileName,
+        ?Channel $channel = null,
+        ?Embed $embed = null,
+        callable $callback = null
+    ): void
+    {
+        if (is_null($channel)) {
+            $channel = DiscordChannelFactory::getDefaultChannel();
+        }
+
+        // /home/nikola/discordbot/assets/img/needMoreBlunder.jpg
+
+        $messagebuilder = MessageBuilder::new()
+            ->setContent($content)
+            ->addFile($filePath, $fileName);
+        $channel->sendMessage($messagebuilder);
     }
 }

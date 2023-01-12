@@ -6,7 +6,7 @@ use App\Service\Command\ShouldBeSentPrivatelyInterface;
 use App\Service\Message\SendMessageService;
 use Discord\Parts\Channel\Message;
 
-class UnsolvedBlundersIdsResponse extends AbstractResponse implements ShouldBeSentPrivatelyInterface
+class UnsolvedBlundersIdsResponse extends AbstractResponse
 {
     private string $responseContent;
 

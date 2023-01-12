@@ -9,7 +9,7 @@ use App\Service\Embed\CreateBlunderEmbedMessageService;
 use App\Service\Message\SendMessageService;
 use Discord\Parts\Channel\Message;
 
-class SendSpecificBlunderResponse extends AbstractResponse implements ShouldBeSentPrivatelyInterface
+class SendSpecificBlunderResponse extends AbstractResponse
 {
     private Blunder $blunder;
 

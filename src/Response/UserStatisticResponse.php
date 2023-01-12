@@ -22,6 +22,6 @@ class UserStatisticResponse extends AbstractResponse
     }
     protected function sendResponse()
     {
-        SendMessageService::sendEmbedMessage($this->message->channel, $this->embed);
+        SendMessageService::sendEmbedMessage($this->embed, $this->message->channel);
     }
 }
