@@ -45,7 +45,7 @@ class BlunderResignedResponse extends AbstractResponse
 
         $message = $this->message->author->username . ' has resigned the blunder ' . $this->blunder->getId() . ' ' . $attempts;
 
-        SendMessageService::sendTextMessage(DiscordChannelFactory::getDefaultChannel(), $message);
+        SendMessageService::sendTextMessage($message);
 
         $solution = $this->formatSolution();
 

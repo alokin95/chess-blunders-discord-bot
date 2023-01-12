@@ -14,6 +14,7 @@ use App\Response\BlunderAlreadyResignedResponse;
 use App\Response\BlunderResignedResponse;
 use App\Response\CommandHelpResponse;
 use App\Response\ResignAfterSolvedResponse;
+use App\Service\Message\SendMessageService;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 
@@ -93,5 +94,10 @@ class ResignCommand extends AbstractCommand implements ShouldBeSentPrivatelyInte
     public static function getCommandName(): string
     {
         return 'Resign command';
+    }
+
+    public function sendProperMessage(callable $callback): void
+    {
+        $callback();
     }
 }

@@ -27,7 +27,7 @@ try {
 
         $channel = DiscordChannelFactory::getDefaultChannel();
 
-        SendMessageService::sendEmbedMessage($channel, $embed, function () {
+        SendMessageService::sendEmbedMessage($embed, $channel, function () {
             die();
         });
     });

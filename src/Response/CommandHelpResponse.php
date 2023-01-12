@@ -18,6 +18,6 @@ class CommandHelpResponse extends AbstractResponse
     protected function sendResponse()
     {
         $embedHelp = $this->embedHelpService->createEmbed();
-        SendMessageService::sendEmbedMessage($this->message->channel, $embedHelp);
+        SendMessageService::sendEmbedMessage($embedHelp, $this->message->channel);
     }
 }

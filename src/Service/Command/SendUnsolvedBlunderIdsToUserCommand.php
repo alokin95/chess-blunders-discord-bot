@@ -6,9 +6,10 @@ use App\Entity\Blunder;
 use App\Repository\BlunderRepository;
 use App\Response\AbstractResponse;
 use App\Response\UnsolvedBlundersIdsResponse;
+use App\Service\Message\SendMessageService;
 use Discord\Parts\Channel\Message;
 
-class SendUnsolvedBlunderIdsToUserCommand extends AbstractCommand
+class SendUnsolvedBlunderIdsToUserCommand extends AbstractCommand implements ShouldBeSentPrivatelyInterface
 {
     const NAME = 'Send unsolved blunders command';
 
@@ -55,5 +56,12 @@ class SendUnsolvedBlunderIdsToUserCommand extends AbstractCommand
         $response = rtrim($response, ',');
 
         return new UnsolvedBlundersIdsResponse($this->message, $response);
+    }
+
+    public function sendProperMessage(callable $callback): void
+    {
+        $content = $this->message->author->username . ' is checking his unsolved blunders';
+
+        SendMessageService::sendTextMessage($content, null, $callback);
     }
 }

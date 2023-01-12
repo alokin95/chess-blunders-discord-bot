@@ -17,6 +17,7 @@ use App\Response\BlunderSolvedResponse;
 use App\Response\CommandHelpResponse;
 use App\Response\SendingSameSolutionTwiceResponse;
 use App\Response\TryingToSolveAfterResignationResponse;
+use App\Service\Message\SendMessageService;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 
@@ -156,5 +157,13 @@ class SolutionCommand extends AbstractCommand implements ShouldBeSentPrivatelyIn
     public static function getCommandName(): string
     {
         return 'Solution command';
+    }
+
+
+    public function sendProperMessage(callable $callback): void
+    {
+        $content = $this->message->author . ' is trying to solve a blunder!';
+
+        SendMessageService::sendTextMessage($content, null, $callback);
     }
 }
