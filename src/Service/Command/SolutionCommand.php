@@ -6,6 +6,7 @@ use App\Entity\AttemptedSolution;
 use App\Entity\Blunder;
 use App\Entity\SolvedBlunder;
 use App\Exception\BlunderNotFoundException;
+use App\Exception\InvalidBlunderIdException;
 use App\Repository\AttemptedSolutionRepository;
 use App\Repository\BlunderRepository;
 use App\Repository\ResignRepository;
@@ -49,6 +50,10 @@ class SolutionCommand extends AbstractCommand implements ShouldBeSentPrivatelyIn
         if (count($commandArray) <= 2)
         {
             return new CommandHelpResponse($this->message);
+        }
+
+        if (!is_numeric($commandArray[1])) {
+            throw new InvalidBlunderIdException($this->message);
         }
 
         $blunder = $this->findBlunder($commandArray[1]);
