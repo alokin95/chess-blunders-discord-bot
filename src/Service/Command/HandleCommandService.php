@@ -24,9 +24,25 @@ class HandleCommandService
             $command instanceof ShouldBeSentPrivatelyInterface
             && !$this->message->channel?->is_private
         ) {
-            $command->sendProperMessage(function () {
+            $command->sendProperMessage(function () use ($command) {
+
+                //Reply to message sender
+                SendMessageService::replyToMessage(
+                    $this->message,
+                    $command::getCommandName()
+                    . ' is allowed only when chatting directly with the Bot! Please try again: '
+                    . $this->message->content
+                );
+
+                //Execute the command
+                $command->execute();
+
+                //Delete the message from public channel
                 $this->message->delete();
             });
+
+            //Return because of the ReactPHP handling of async events
+            return;
         }
 
         $command->execute();

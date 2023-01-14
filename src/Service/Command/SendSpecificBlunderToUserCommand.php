@@ -59,6 +59,7 @@ class SendSpecificBlunderToUserCommand extends AbstractCommand implements Should
         $filepath = dirname(__DIR__ . '/..', 4) . '/assets/img/needMoreBlunder.jpg';
         $filename = 'needMoreBlunder.jpg';
 
-        SendMessageService::sendMessageWithFile($content, $filepath, $filename, null, null, $callback);
+        SendMessageService::sendMessageWithFile($content, $filepath, $filename);
+        $callback();
     }
 }
