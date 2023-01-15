@@ -37,14 +37,14 @@ class CreateStatsBlunderMessageService extends AbstractEmbed
 
     private function createCustomFields($userStatistics): array
     {
-        $solvedBlunders             = new Field($this->discord);
-        $resignedBlunders           = new Field($this->discord);
-        $highestRatedSolved         = new Field($this->discord);
-        $lowestRatedResigned        = new Field($this->discord);
-        $averageNumberPerSolved     = new Field($this->discord);
-        $averageNumberPerResign     = new Field($this->discord);
-        $averageEloOfSolvedBlunders = new Field($this->discord);
-        $averageEloOfResignedBlunders = new Field($this->discord);
+        $solvedBlunders                 = new Field($this->discord);
+        $resignedBlunders               = new Field($this->discord);
+        $highestRatedSolved             = new Field($this->discord);
+        $lowestRatedResigned            = new Field($this->discord);
+        $averageNumberPerSolved         = new Field($this->discord);
+        $averageNumberPerResign         = new Field($this->discord);
+        $averageEloOfSolvedBlunders     = new Field($this->discord);
+        $averageEloOfResignedBlunders   = new Field($this->discord);
 
         $solvedBlunders->fill([
             'name'  => "Solved blunders",

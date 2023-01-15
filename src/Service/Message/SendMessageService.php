@@ -26,7 +26,7 @@ class SendMessageService
 
         $message = MessageBuilder::new()
             ->setContent($content)
-            ->setTts(false);
+        ;
 
         $channel->sendMessage($message)->done(function (Message $message) use ($callback) {
             if (!is_null($callback)) {

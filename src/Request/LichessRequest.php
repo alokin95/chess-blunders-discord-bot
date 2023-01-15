@@ -4,6 +4,7 @@ namespace App\Request;
 
 use App\Client\LichessClient;
 use Doctrine\ORM\Cache\Exception\FeatureNotImplemented;
+use Exception;
 use GuzzleHttp\Exception\GuzzleException;
 
 class LichessRequest
@@ -24,11 +25,18 @@ class LichessRequest
     }
 
     /**
-     * @throws GuzzleException
-     * @throws \Exception
+     * @throws Exception
      */
     public function getRatedBlunder()
     {
-        throw new \Exception('NOT IMPLEMENTED');
+        throw new Exception('NOT IMPLEMENTED');
+    }
+
+    /**
+     * @throws GuzzleException
+     */
+    public function getStatsByUsername(string $username)
+    {
+        return $this->client->get("api/user/$username");
     }
 }

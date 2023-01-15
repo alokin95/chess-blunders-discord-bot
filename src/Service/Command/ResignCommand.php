@@ -15,6 +15,7 @@ use App\Response\BlunderResignedResponse;
 use App\Response\CommandHelpResponse;
 use App\Response\ResignAfterSolvedResponse;
 use App\Service\Message\SendMessageService;
+use Discord\Parts\Channel\Message;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 
@@ -25,7 +26,7 @@ class ResignCommand extends AbstractCommand implements ShouldBeSentPrivatelyInte
     private SolvedBlunderRepository $solvedBlunderRepository;
     private AttemptedSolutionRepository $attemptedSolutionRepository;
 
-    public function __construct($message)
+    public function __construct(Message $message)
     {
         $this->resignRepository             = new ResignRepository();
         $this->blunderRepository            = new BlunderRepository();

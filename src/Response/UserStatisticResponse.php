@@ -5,6 +5,7 @@ namespace App\Response;
 use App\Service\Embed\AbstractEmbed;
 use App\Service\Message\SendMessageService;
 use Discord\Discord;
+use Discord\Exceptions\IntentException;
 use Discord\Parts\Channel\Channel;
 use Discord\Parts\Channel\Message;
 use Discord\Parts\Embed\Embed;
@@ -14,6 +15,9 @@ class UserStatisticResponse extends AbstractResponse
     private ?Embed $embed;
     private ?Discord $discordApp;
 
+    /**
+     * @throws IntentException
+     */
     public function __construct(Message $message, Embed $embed)
     {
         $this->embed = $embed;
