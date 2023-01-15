@@ -1,12 +1,8 @@
 <?php
 
-use App\DTO\LichessBlunder;
 use App\Entity\APIBlunder;
-use App\Entity\Blunder;
-use App\Entity\Enum\BlunderProvider;
-use App\Service\Blunder\Lichessorg\LichessBlunderHelperService;
+use App\Exception\ExceptionHandler;
 use App\Service\Fen\FenFormatService;
-use PChess\Chess\Chess;
 
 include __DIR__.'/core/bootstrap.php';
 
@@ -19,13 +15,12 @@ try {
     
     $key = 0;
     while (($data = fgetcsv($file)) !== false) {
-        if ($key == 50000) {
-            break;
-        }
         $apiBlunder = new APIBlunder();
         $apiBlunder->setJson($data);
     
         entityManager()->persist($apiBlunder);
+
+        echo "Blunder $key imported\n";
         $key++;
     }
     fclose($file);
