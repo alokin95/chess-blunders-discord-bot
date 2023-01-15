@@ -26,12 +26,14 @@ class CreateHelpEmbedMessageService extends AbstractEmbed
 
     private function createCustomFields(): array
     {
-        $solution   = new Field($this->discord);
-        $resign     = new Field($this->discord);
-        $stats      = new Field($this->discord);
-        $unsolved   = new Field($this->discord);
-        $blunder    = new Field($this->discord);
-        $help       = new Field($this->discord);
+        $solution           = new Field($this->discord);
+        $resign             = new Field($this->discord);
+        $stats              = new Field($this->discord);
+        $unsolved           = new Field($this->discord);
+        $blunder            = new Field($this->discord);
+        $lichessRegister    = new Field($this->discord);
+        $lichessStats       = new Field($this->discord);
+        $help               = new Field($this->discord);
 
         $solution->fill([
             'name'  => "#solution [blunderID] [moves]",
@@ -58,11 +60,29 @@ class CreateHelpEmbedMessageService extends AbstractEmbed
             'value' => "*Send the desired blunder to direct message*\n```[blunderID] - ID of the blunder```"
         ]);
 
+        $lichessRegister->fill([
+            'name'  => "#lichessRegister [lichessUsername]",
+            'value' => "*Register Lichess username to the bot*\n```[lichessUsername] - Your Lichess username```"
+        ]);
+
+        $lichessStats->fill([
+            'name'  => "#lichessStats",
+            'value' => "*Brag with your Lichess stats!*\n"
+        ]);
+
         $help->fill([
             'name'  => '#help',
             'value' => '*Show all bot commands*'
         ]);
 
-        return [$solution, $resign, $blunder, $unsolved, $stats, $help];
+        return [
+            $solution,
+            $resign,
+            $blunder,
+            $unsolved,
+            $stats,
+            $lichessRegister,
+            $lichessStats,
+            $help];
     }
 }
