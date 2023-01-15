@@ -14,11 +14,18 @@ try {
     $file = fopen($filepath, 'r');
     
     $key = 0;
+    $batchSize = 50000;
     while (($data = fgetcsv($file)) !== false) {
         $apiBlunder = new APIBlunder();
         $apiBlunder->setJson($data);
     
         entityManager()->persist($apiBlunder);
+
+        if ($key % $batchSize === 0) {
+            echo "Persisting batch...";
+            entityManager()->flush();
+            entityManager()->clear();
+        }
 
         echo "Blunder $key imported\n";
         $key++;
