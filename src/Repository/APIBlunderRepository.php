@@ -14,11 +14,24 @@ class APIBlunderRepository extends AbstractRepository
      */
     public function getRandomBlunder(): array
     {
-        $sql = "SELECT * FROM APIBlunder ORDER BY rand() LIMIT 1";
+        $numberOfBlunders = $this->countNumberOfBlunders();
+        $randomBlunder = rand(1, $numberOfBlunders);
+
+        $sql = "SELECT * FROM APIBlunder WHERE id = $randomBlunder LIMIT 1";
 
         $stmt = entityManager()->getConnection()->prepare($sql);
 
         $stmt = $stmt->executeQuery();
         return $stmt->fetchAllAssociative();
+    }
+
+    private function countNumberOfBlunders(): ?int
+    {
+        $sql = "SELECT COUNT(id) FROM APIBlunder";
+
+        $stmt = entityManager()->getConnection()->prepare($sql);
+
+        $stmt = $stmt->executeQuery();
+        return $stmt->fetchNumeric()[0];
     }
 }
