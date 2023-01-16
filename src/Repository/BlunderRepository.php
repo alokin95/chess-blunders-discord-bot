@@ -37,11 +37,15 @@ class BlunderRepository extends AbstractRepository
 
     public function getUnsolvedBlundersForUser(string $user, string $orderByColumn = 'id'): array
     {
+        $sql = "SELECT * FROM Blunder b WHERE b.id ORDER BY $orderByColumn";
+
         $idsOfSolvedBlunders = $this->getIdsOfSolvedBlundersForUser($user);
         $idsOfSolvedBlunders = array_merge($idsOfSolvedBlunders, $this->getIdsOfResignedBlundersForUser($user));
 
-        $idsOfSolvedBlunders = implode(',', $idsOfSolvedBlunders);
-        $sql = "SELECT * FROM Blunder b WHERE b.id NOT IN ($idsOfSolvedBlunders) ORDER BY $orderByColumn";
+        if (!empty($idsOfSolvedBlunders)) {
+            $idsOfSolvedBlunders = implode(',', $idsOfSolvedBlunders);
+            $sql = "SELECT * FROM Blunder b WHERE b.id NOT IN ($idsOfSolvedBlunders) ORDER BY $orderByColumn";
+        }
 
         $stmt = entityManager()->getConnection()->prepare($sql);
 

@@ -47,13 +47,17 @@ class SendUnsolvedBlunderIdsToUserCommand extends AbstractCommand implements Sho
         /** @var Blunder[] $unsolvedBlunders */
         $unsolvedBlunders = $this->blunderRepository->getUnsolvedBlundersForUser($this->message->author->id, $orderByColumn);
 
-        $response = 'Your unsolved blunders: ';
+        $response = 'No unsolved blunders!';
 
-        foreach ($unsolvedBlunders as $blunder) {
-            $response.= $blunder['id'] . ' (' . $blunder['elo'] . '), ';
+        if (!empty($unsolvedBlunders)) {
+            $response = 'Your unsolved blunders: ';
+
+            foreach ($unsolvedBlunders as $blunder) {
+                $response.= $blunder['id'] . ' (' . $blunder['elo'] . '), ';
+            }
+
+            $response = rtrim($response, ',');
         }
-
-        $response = rtrim($response, ',');
 
         return new UnsolvedBlundersIdsResponse($this->message, $response);
     }
