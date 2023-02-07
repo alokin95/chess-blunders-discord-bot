@@ -8,7 +8,10 @@ use App\Entity\Resign;
 
 class ResignRepository extends AbstractRepository
 {
-    protected string $entity = Resign::class;
+    public function __construct()
+    {
+        parent::__construct(Resign::class);
+    }
 
     public function getResignsByUserAndBlunder($user, $blunder)
     {

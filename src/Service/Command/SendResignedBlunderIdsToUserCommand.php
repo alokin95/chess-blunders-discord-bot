@@ -3,6 +3,7 @@
 namespace App\Service\Command;
 
 use App\Entity\Blunder;
+use App\Entity\Resign;
 use App\Repository\BlunderRepository;
 use App\Response\AbstractResponse;
 use App\Response\SolvedBlundersIdsResponse;
@@ -11,9 +12,9 @@ use Discord\Http\Exceptions\NoPermissionsException;
 use Discord\Parts\Channel\Message;
 use Doctrine\DBAL\Exception;
 
-class SendSolvedBlunderIdsToUserCommand extends AbstractCommand
+class SendResignedBlunderIdsToUserCommand extends AbstractCommand
 {
-    const NAME = 'Send unsolved blunders command';
+    const NAME = 'Send resigned blunders command';
 
     private BlunderRepository $blunderRepository;
 
@@ -32,7 +33,7 @@ class SendSolvedBlunderIdsToUserCommand extends AbstractCommand
     }
 
     /**
-     * #solved [elo, id, moves] [asc, desc]
+     * #resigned [elo, id, moves] [asc, desc]
      *
      * @throws Exception
      */
@@ -52,9 +53,9 @@ class SendSolvedBlunderIdsToUserCommand extends AbstractCommand
             $orderDirection = 'asc';
         }
 
-        /** @var Blunder[] $solvedBlunders */
-        $solvedBlunders =
-            $this->blunderRepository->getSolvedBlundersForUser(
+        /** @var Blunder[] $resignedBlundersForUser */
+        $resignedBlundersForUser =
+            $this->blunderRepository->getResignedBlundersForUser(
                 $this->message->author->id,
                 $orderByColumn,
                 $orderDirection
@@ -62,28 +63,28 @@ class SendSolvedBlunderIdsToUserCommand extends AbstractCommand
 
         $response = 'No solved blunders...';
 
-        if (!empty($solvedBlunders)) {
+        if (!empty($resignedBlundersForUser)) {
             if ($orderByColumn === 'moves') {
-                usort($solvedBlunders, [$this, 'sortSolvedBlunders']);
+                usort($resignedBlundersForUser, [$this, 'sortResignedBlunders']);
                 if ($orderDirection === 'desc') {
-                    $solvedBlunders = array_reverse($solvedBlunders);
+                    $resignedBlundersForUser = array_reverse($resignedBlundersForUser);
                 }
             }
 
-            $response = 'Your solved blunders: ';
+            $response = 'Your resigned blunders: ';
 
-            foreach ($solvedBlunders as $blunder) {
+            foreach ($resignedBlundersForUser as $resignedBlunder) {
                 $blunderId = $orderByColumn === 'id'
-                    ? '**' . $blunder->getId() . '**'
-                    : $blunder->getId();
+                    ? '**' . $resignedBlunder->getId() . '**'
+                    : $resignedBlunder->getId();
 
                 $elo = $orderByColumn === 'elo'
-                    ? '**' . $blunder->getElo() . '**'
-                    : $blunder->getElo();
+                    ? '**' . $resignedBlunder->getElo() . '**'
+                    : $resignedBlunder->getElo();
 
                 $moves = $orderByColumn === 'moves'
-                    ? '**' . $blunder->getNumberOfMoves() . '**'
-                    : $blunder->getNumberOfMoves();
+                    ? '**' . $resignedBlunder->getNumberOfMoves() . '**'
+                    : $resignedBlunder->getNumberOfMoves();
 
                 $response.= $blunderId . ' (' . $elo . ', ' . $moves . '), ';
             }
@@ -99,12 +100,12 @@ class SendSolvedBlunderIdsToUserCommand extends AbstractCommand
      */
     public function sendProperMessage(callable $callback): void
     {
-        $content = $this->message->author->username . ' is checking his solved blunders';
+        $content = $this->message->author->username . ' is checking his resigned blunders';
 
         SendMessageService::sendTextMessage($content, null, $callback);
     }
 
-    private function sortSolvedBlunders(Blunder $a, Blunder $b): int
+    private function sortResignedBlunders(Blunder $a, Blunder $b): int
     {
         if ($a->getNumberOfMoves() >= $b->getNumberOfMoves()) {
             return 1;
