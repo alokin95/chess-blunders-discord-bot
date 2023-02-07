@@ -4,10 +4,14 @@ namespace App\Repository;
 
 use App\Entity\Blunder;
 use Doctrine\DBAL\Exception;
+use Doctrine\Persistence\ManagerRegistry;
 
 class BlunderRepository extends AbstractRepository
 {
-    protected string $entity = Blunder::class;
+    public function __construct()
+    {
+        parent::__construct(Blunder::class);
+    }
 
     /**
      * @throws Exception
@@ -35,21 +39,32 @@ class BlunderRepository extends AbstractRepository
         return $stmt->fetchFirstColumn();
     }
 
-    public function getUnsolvedBlundersForUser(string $user, string $orderByColumn = 'id'): array
+    public function getUnsolvedBlundersForUser
+    (
+        string $user,
+        string $orderColumn = 'id',
+        string $orderDirection = 'asc'
+    ): array
     {
-        $sql = "SELECT * FROM Blunder b WHERE b.id ORDER BY $orderByColumn";
+        $orderMap = [
+            'id',
+            'elo',
+        ];
+
+        if (!in_array($orderColumn, $orderMap)) {
+            $orderColumn = 'id';
+        }
 
         $idsOfSolvedBlunders = $this->getIdsOfSolvedBlundersForUser($user);
         $idsOfSolvedBlunders = array_merge($idsOfSolvedBlunders, $this->getIdsOfResignedBlundersForUser($user));
 
-        if (!empty($idsOfSolvedBlunders)) {
-            $idsOfSolvedBlunders = implode(',', $idsOfSolvedBlunders);
-            $sql = "SELECT * FROM Blunder b WHERE b.id NOT IN ($idsOfSolvedBlunders) ORDER BY $orderByColumn";
-        }
+        $qb = $this
+            ->createQueryBuilder('b')
+            ->andWhere('b.id NOT IN (:unsolvedBlunders)')
+            ->setParameter('unsolvedBlunders', $idsOfSolvedBlunders)
+            ->orderBy('b.' . $orderColumn, $orderDirection)
+        ;
 
-        $stmt = entityManager()->getConnection()->prepare($sql);
-
-        $stmt = $stmt->executeQuery();
-        return $stmt->fetchAllAssociative();
+        return $qb->getQuery()->execute();
     }
 }

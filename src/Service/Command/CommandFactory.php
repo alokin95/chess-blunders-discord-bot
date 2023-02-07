@@ -14,7 +14,6 @@ class CommandFactory
 
         $command = explode(" ", $command)[0];
 
-//        dd($message->content);
         return match ($command) {
             "solution"          => new SolutionCommand($message),
             "resign"            => new ResignCommand($message),
