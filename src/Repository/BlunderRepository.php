@@ -101,4 +101,35 @@ class BlunderRepository extends AbstractRepository
 
         return $qb->getQuery()->execute();
     }
+
+    /**
+     * @throws Exception
+     */
+    public function getResignedBlundersForUser
+    (
+        string $user,
+        string $orderColumn = 'id',
+        string $orderDirection = 'asc'
+    ): array
+    {
+        $orderMap = [
+            'id',
+            'elo',
+        ];
+
+        if (!in_array($orderColumn, $orderMap)) {
+            $orderColumn = 'id';
+        }
+
+        $idsOfResignedBlunders = $this->getIdsOfResignedBlundersForUser($user);
+
+        $qb = $this
+            ->createQueryBuilder('b')
+            ->andWhere('b.id IN (:resignedBlunders)')
+            ->setParameter('resignedBlunders', $idsOfResignedBlunders)
+            ->orderBy('b.' . $orderColumn, $orderDirection)
+        ;
+
+        return $qb->getQuery()->execute();
+    }
 }

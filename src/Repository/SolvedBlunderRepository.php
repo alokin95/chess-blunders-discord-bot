@@ -7,7 +7,10 @@ use App\Entity\SolvedBlunder;
 
 class SolvedBlunderRepository extends AbstractRepository
 {
-    protected string $entity = SolvedBlunder::class;
+    public function __construct()
+    {
+        parent::__construct(SolvedBlunder::class);
+    }
 
     public function checkIfUserSolvedTheBlunder($blunder, string $user)
     {

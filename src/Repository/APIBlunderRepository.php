@@ -7,7 +7,10 @@ use Doctrine\DBAL\Exception;
 
 class APIBlunderRepository extends AbstractRepository
 {
-    protected string $entity = APIBlunder::class;
+    public function __construct()
+    {
+        parent::__construct(APIBlunder::class);
+    }
 
     /**
      * @throws Exception
