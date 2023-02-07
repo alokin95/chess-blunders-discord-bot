@@ -20,6 +20,7 @@ class CommandFactory
             "stats"             => new StatsCommand($message),
             "blunder"           => new SendSpecificBlunderToUserCommand($message),
             "unsolved"          => new SendUnsolvedBlunderIdsToUserCommand($message),
+            "solved"            => new SendSolvedBlunderIdsToUserCommand($message),
             "lichessRegister"   => new RegisterLichessAccountCommand($message),
             "lichessStats"      => new LichessStatsCommand($message),
             default => new NonExistentCommand($message),

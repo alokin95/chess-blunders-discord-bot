@@ -39,6 +39,9 @@ class BlunderRepository extends AbstractRepository
         return $stmt->fetchFirstColumn();
     }
 
+    /**
+     * @throws Exception
+     */
     public function getUnsolvedBlundersForUser
     (
         string $user,
@@ -62,6 +65,37 @@ class BlunderRepository extends AbstractRepository
             ->createQueryBuilder('b')
             ->andWhere('b.id NOT IN (:unsolvedBlunders)')
             ->setParameter('unsolvedBlunders', $idsOfSolvedBlunders)
+            ->orderBy('b.' . $orderColumn, $orderDirection)
+        ;
+
+        return $qb->getQuery()->execute();
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function getSolvedBlundersForUser
+    (
+        string $user,
+        string $orderColumn = 'id',
+        string $orderDirection = 'asc'
+    ): array
+    {
+        $orderMap = [
+            'id',
+            'elo',
+        ];
+
+        if (!in_array($orderColumn, $orderMap)) {
+            $orderColumn = 'id';
+        }
+
+        $idsOfSolvedBlunders = $this->getIdsOfSolvedBlundersForUser($user);
+
+        $qb = $this
+            ->createQueryBuilder('b')
+            ->andWhere('b.id IN (:solvedBlunders)')
+            ->setParameter('solvedBlunders', $idsOfSolvedBlunders)
             ->orderBy('b.' . $orderColumn, $orderDirection)
         ;
 
