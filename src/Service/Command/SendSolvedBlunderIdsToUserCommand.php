@@ -13,7 +13,7 @@ use Doctrine\DBAL\Exception;
 
 class SendSolvedBlunderIdsToUserCommand extends AbstractCommand
 {
-    const NAME = 'Send unsolved blunders command';
+    const NAME = 'Send solved blunders command';
 
     private BlunderRepository $blunderRepository;
 
