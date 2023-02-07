@@ -3,10 +3,11 @@
 namespace App\Entity;
 
 use App\Entity\Enum\BlunderProvider;
+use App\Repository\BlunderRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity]
+#[ORM\Entity(repositoryClass: BlunderRepository::class)]
 #[ORM\HasLifecycleCallbacks]
 class Blunder extends BaseEntity
 {
@@ -99,5 +100,10 @@ class Blunder extends BaseEntity
     public function setBlunderProvider(?string $blunderProvider): void
     {
         $this->blunderProvider = $blunderProvider;
+    }
+
+    public function getNumberOfMoves(): int
+    {
+        return count($this->getSolution());
     }
 }

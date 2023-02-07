@@ -4,27 +4,14 @@
 namespace App\Repository;
 
 
-abstract class AbstractRepository
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Mapping\ClassMetadata;
+
+abstract class AbstractRepository extends EntityRepository
 {
-    protected string $entity;
-
-    public function findOneBy(array $criteria, array $orderBy = null)
+    public function __construct(string $classPath)
     {
-        return entityManager()->getRepository($this->entity)->findOneBy($criteria, $orderBy);
-    }
-
-    public function find(int $id)
-    {
-        return entityManager()->getRepository($this->entity)->find($id);
-    }
-
-    public function all()
-    {
-        return entityManager()->getRepository($this->entity)->findBy([]);
-    }
-
-    public function findBy(array $criteria, array $orderBy = null): array
-    {
-        return entityManager()->getRepository($this->entity)->findBy($criteria, $orderBy);
+        parent::__construct(entityManager(), entityManager()->getClassMetadata($classPath));
     }
 }
