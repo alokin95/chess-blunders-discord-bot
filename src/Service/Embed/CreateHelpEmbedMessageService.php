@@ -29,6 +29,8 @@ class CreateHelpEmbedMessageService extends AbstractEmbed
         $solution           = new Field($this->discord);
         $resign             = new Field($this->discord);
         $stats              = new Field($this->discord);
+        $solved             = new Field($this->discord);
+        $resigned           = new Field($this->discord);
         $unsolved           = new Field($this->discord);
         $blunder            = new Field($this->discord);
         $lichessRegister    = new Field($this->discord);
@@ -50,9 +52,19 @@ class CreateHelpEmbedMessageService extends AbstractEmbed
             'value' => "*Shows the user stats*"
         ]);
 
+        $solved->fill([
+            'name'  => "#solved (`elo`, `id`, `moves`) (`asc`, `desc`)",
+            'value' => "*See all your solved blunders. Send `elo`,`id` or `moves` flag for ordering*"
+        ]);
+
+        $resigned->fill([
+            'name'  => "#resigned (`elo`, `id`, `moves`) (`asc`, `desc`)",
+            'value' => "*See all your resigned blunders. Send `elo`,`id` or `moves` flag for ordering*"
+        ]);
+
         $unsolved->fill([
-            'name'  => "#unsolved [orderBy (`elo`, `id`)]",
-            'value' => "*See all your unsolved blunders. Send `elo` or `id` flag for ordering*\n```[blunderID] - ID of the blunder```"
+            'name'  => "#unsolved (`elo`, `id`, `moves`) (`asc`, `desc`)",
+            'value' => "*See all your unsolved blunders. Send `elo`,`id` or `moves` flag for ordering*"
         ]);
 
         $blunder->fill([
@@ -79,6 +91,8 @@ class CreateHelpEmbedMessageService extends AbstractEmbed
             $solution,
             $resign,
             $blunder,
+            $solved,
+            $resigned,
             $unsolved,
             $stats,
             $lichessRegister,
