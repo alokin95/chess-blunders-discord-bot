@@ -23,6 +23,8 @@ class StatsCommand extends AbstractCommand
     }
 
     /**
+     * #stats
+     *
      * @throws Exception
      */
     public function execute(): AbstractResponse

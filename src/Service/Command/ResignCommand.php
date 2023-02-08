@@ -37,6 +37,8 @@ class ResignCommand extends AbstractCommand implements ShouldBeSentPrivatelyInte
     }
 
     /**
+     * #resign (blunderId)
+     *
      * @throws OptimisticLockException
      * @throws ORMException
      * @throws BlunderNotFoundException

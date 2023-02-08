@@ -31,6 +31,8 @@ class SendSpecificBlunderToUserCommand extends AbstractCommand implements Should
     }
 
     /**
+     * #blunder (blunderId)
+     *
      * @throws BlunderNotFoundException
      */
     public function execute(): AbstractResponse
