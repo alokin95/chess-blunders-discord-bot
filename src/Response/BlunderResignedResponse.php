@@ -18,13 +18,22 @@ class BlunderResignedResponse extends AbstractResponse
     private ?Discord $discordApp;
     private array $solution;
     private int $attempts;
+    private int $rating;
 
-    public function __construct(Message $message, Blunder $blunder, array $solution, int $attempts)
+    public function __construct
+    (
+        Message $message,
+        Blunder $blunder,
+        array $solution,
+        int $attempts,
+        int $rating
+    )
     {
         $this->blunder      = $blunder;
         $this->discordApp   = discordApp();
         $this->solution     = $solution;
         $this->attempts     = $attempts;
+        $this->rating       = $rating;
         parent::__construct($message);
     }
 
@@ -43,13 +52,27 @@ class BlunderResignedResponse extends AbstractResponse
         }
         else $attempts = "after $this->attempts tries.";
 
-        $message = $this->message->author->username . ' has resigned the blunder ' . $this->blunder->getId() . ' ' . $attempts;
+        $message = $this->message->author->username
+            . ' has resigned the blunder '
+            . $this->blunder->getId()
+            . ' '
+            . $attempts
+            . '. His new rating is '
+            . $this->rating
+        ;
 
         SendMessageService::sendTextMessage($message);
 
         $solution = $this->formatSolution();
 
-        $this->message->author->sendMessage('The solution for blunder ' . $this->blunder->getId() . ' is ' . $solution . '.');
+        $this->message->author->sendMessage(
+            'The solution for blunder '
+            . $this->blunder->getId()
+            . ' is '
+            . $solution
+            . '. Your new rating is '
+            . $this->rating
+        );
     }
 
     private function formatSolution(): string

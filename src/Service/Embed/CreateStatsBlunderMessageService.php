@@ -4,6 +4,8 @@
 namespace App\Service\Embed;
 
 
+use App\Entity\UserRating;
+use App\Repository\UserRatingRepository;
 use App\Service\Statistic\UserStatisticService;
 use Discord\Parts\Channel\Message;
 use Discord\Parts\Embed\Embed;
@@ -13,22 +15,32 @@ class CreateStatsBlunderMessageService extends AbstractEmbed
 {
     private UserStatisticService $statisticService;
     private Message $message;
+    private UserRatingRepository $userRatingRepository;
 
     public function __construct(Message $message)
     {
-        $this->message          = $message;
-        $this->statisticService = new UserStatisticService();
+        $this->message              = $message;
+        $this->statisticService     = new UserStatisticService();
+        $this->userRatingRepository = new UserRatingRepository();
         parent::__construct();
     }
 
     public function createEmbed(): Embed
     {
+        /** @var UserRating $userRating */
+        if (!$userRating = $this->userRatingRepository->findOneBy(['user' => $this->message->author->id])) {
+            $userRating = new UserRating();
+        }
+
+        $rating = $userRating->getRating();
+        $title = $this->getTitleBasedOnRating($rating);
+
         $userStatistics = $this->statisticService->getUserStatistics($this->message->author->id);
 
         $embed  = new Embed($this->discord);
 
         $embed->fill([
-            'title'         => $this->message->author->username . ' stats',
+            'title'         => $this->message->author->username . ' stats (' . $title . ') - ' . $rating,
             'fields'        => $this->createCustomFields($userStatistics)
         ]);
 
@@ -110,5 +122,50 @@ class CreateStatsBlunderMessageService extends AbstractEmbed
             $averageEloOfResignedBlunders,
             $averageEloOfUnsolvedBlunders
         ];
+    }
+
+    private function getTitleBasedOnRating(int $rating): string
+    {
+        if ($rating >= 2700) {
+            return 'Super GM';
+        }
+
+        if ($rating >= 2500) {
+            return 'GM';
+        }
+
+        if ($rating >= 2400) {
+            return 'IM';
+        }
+
+        if ($rating >= 2300) {
+            return 'FM';
+        }
+
+        if ($rating >= 2200) {
+            return 'NM';
+        }
+
+        if ($rating >= 2000) {
+            return 'CM';
+        }
+
+        if ($rating >= 1800) {
+            return 'Class A';
+        }
+
+        if ($rating >= 1600) {
+            return 'Class B';
+        }
+
+        if ($rating >= 1400) {
+            return 'Class C';
+        }
+
+        if ($rating >= 1200) {
+            return 'Class D';
+        }
+
+        return 'Novice';
     }
 }
