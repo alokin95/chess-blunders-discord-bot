@@ -16,6 +16,7 @@ use App\Response\BlunderAlreadySolvedResponse;
 use App\Response\BlunderNotSolvedResponse;
 use App\Response\BlunderSolvedResponse;
 use App\Response\CommandHelpResponse;
+use App\Response\NumberOfMovesDoesNotMatchResponse;
 use App\Response\SendingSameSolutionTwiceResponse;
 use App\Response\TryingToSolveAfterResignationResponse;
 use App\Service\Message\SendMessageService;
@@ -85,6 +86,10 @@ class SolutionCommand extends AbstractCommand implements ShouldBeSentPrivatelyIn
         for ($i = 2; $i < count($commandArray); $i++)
         {
             $submittedSolution[] = $commandArray[$i];
+        }
+
+        if (count($submittedSolution) != count($blunder->getSolution())) {
+            return new NumberOfMovesDoesNotMatchResponse($this->message);
         }
 
         if ($prematureResponse = $this->findPrematureResponse($blunder, $submittedSolution)) {
