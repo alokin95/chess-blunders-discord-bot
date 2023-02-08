@@ -12,7 +12,7 @@ use Discord\Http\Exceptions\NoPermissionsException;
 use Discord\Parts\Channel\Message;
 use Doctrine\DBAL\Exception;
 
-class SendResignedBlunderIdsToUserCommand extends AbstractCommand
+class SendResignedBlunderIdsToUserCommand extends AbstractCommand implements ShouldBeSentPrivatelyInterface
 {
     const NAME = 'Send resigned blunders command';
 
