@@ -65,10 +65,14 @@ class BlunderRepository extends AbstractRepository
 
         $qb = $this
             ->createQueryBuilder('b')
-            ->andWhere('b.id NOT IN (:unsolvedBlunders)')
-            ->setParameter('unsolvedBlunders', $idsOfSolvedBlunders)
             ->orderBy('b.' . $orderColumn, $orderDirection)
         ;
+
+        if (!empty($idsOfSolvedBlunders)) {
+            $qb
+                ->andWhere('b.id NOT IN (:solvedBlunders)')
+                ->setParameter('solvedBlunders', $idsOfSolvedBlunders);
+        }
 
         return $qb->getQuery()->execute();
     }
@@ -96,10 +100,14 @@ class BlunderRepository extends AbstractRepository
 
         $qb = $this
             ->createQueryBuilder('b')
-            ->andWhere('b.id IN (:solvedBlunders)')
-            ->setParameter('solvedBlunders', $idsOfSolvedBlunders)
             ->orderBy('b.' . $orderColumn, $orderDirection)
         ;
+
+        if (!empty($idsOfSolvedBlunders)) {
+            $qb
+                ->andWhere('b.id IN (:solvedBlunders)')
+                ->setParameter('solvedBlunders', $idsOfSolvedBlunders);
+        }
 
         return $qb->getQuery()->execute();
     }
@@ -127,10 +135,14 @@ class BlunderRepository extends AbstractRepository
 
         $qb = $this
             ->createQueryBuilder('b')
-            ->andWhere('b.id IN (:resignedBlunders)')
-            ->setParameter('resignedBlunders', $idsOfResignedBlunders)
             ->orderBy('b.' . $orderColumn, $orderDirection)
         ;
+
+        if (!empty($idsOfResignedBlunders))  {
+            $qb
+                ->andWhere('b.id IN (:resignedBlunders)')
+                ->setParameter('resignedBlunders', $idsOfResignedBlunders);
+        }
 
         return $qb->getQuery()->execute();
     }
