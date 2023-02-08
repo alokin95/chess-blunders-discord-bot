@@ -61,7 +61,7 @@ class SendResignedBlunderIdsToUserCommand extends AbstractCommand
                 $orderDirection
             );
 
-        $response = 'No solved blunders...';
+        $response = 'No resigned blunders!';
 
         if (!empty($resignedBlundersForUser)) {
             if ($orderByColumn === 'moves') {
