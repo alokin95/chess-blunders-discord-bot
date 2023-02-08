@@ -14,29 +14,47 @@ try {
 
     $embed = new Embed($discord);
 
-    $customField = new Field($discord);
-    $customField1 = new Field($discord);
+    $mainChangesField = new Field($discord);
+    $improvementsField = new Field($discord);
+    $newCommandsField = new Field($discord);
 
-    $customField->fill([
-        'name'  => "**Lichess integration is here!**\n",
+    $mainChangesField->fill([
+        'name'  => "**RANKINGS ARE HERE!**\n",
         'value' =>
             "
-            - We are now receiving the daily puzzles from the Lichess.org. Good luck!
+            -   We are now rating the players by their performance! 
+                Every player will see his rating deviate based on the submitted solution.
+                Be aware that the more moves you take, the less point you gain than your adversaries!
+                And did we forget to mention that every time you resign, you will lose ratings?
+                Be careful and good luck!
             "
     ]);
 
-    $customField1->fill([
-        'name'  => "**Improvements:**\n",
+    $newCommandsField->fill([
+        'name'  => "**New and improved commands:**\n",
         'value' =>
             "
-            - Chess board now shows what is the last move that was being played before the blunder solution.
+            - **#solution** command has been renamed to **#solve**! Use **#solve** command to send your awesome solutions!
+            - **#solved** - Now you can see all your already solved commands! See **#help** for sorting options
+            - **#resigned** - Now you can see all your resigned commands! See **#help** for sorting options
+            "
+    ]);
+
+    $improvementsField->fill([
+        'name'  => "**Quality of live improvements:**\n",
+        'value' =>
+            "
+            - **#solve** command now returns an error when a user submits a wrong number of moves.
+            - **#unsolved** command now sortable by number of moves by typing `#unsolved moves`. You can also choose the 
+                sorting direction with `asc` or `desc`. Example: `#unsolved moves asc`
+            - #stats command now shows the user's title, rating, number of unsolved blunders and the average elo of unsolved blunders
             "
     ]);
 
     $embed->fill([
         'title'         => 'Chess Blunders Bot received an update!',
         'description'   => '**Update notes:**',
-        'fields'        => [$customField, $customField1]
+        'fields'        => [$mainChangesField, $newCommandsField, $improvementsField]
     ]);
 
     $discord->on('ready', function (Discord $discord) use ($embed) {

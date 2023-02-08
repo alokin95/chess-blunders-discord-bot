@@ -4,17 +4,20 @@ namespace App\Service\Command;
 
 use App\Entity\Blunder;
 use App\Entity\Resign;
+use App\Entity\UserRating;
 use App\Exception\BlunderNotFoundException;
 use App\Repository\AttemptedSolutionRepository;
 use App\Repository\BlunderRepository;
 use App\Repository\ResignRepository;
 use App\Repository\SolvedBlunderRepository;
+use App\Repository\UserRatingRepository;
 use App\Response\AbstractResponse;
 use App\Response\BlunderAlreadyResignedResponse;
 use App\Response\BlunderResignedResponse;
 use App\Response\CommandHelpResponse;
 use App\Response\ResignAfterSolvedResponse;
 use App\Service\Message\SendMessageService;
+use App\Service\Rating\UserRatingService;
 use Discord\Parts\Channel\Message;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
@@ -25,6 +28,8 @@ class ResignCommand extends AbstractCommand implements ShouldBeSentPrivatelyInte
     private BlunderRepository $blunderRepository;
     private SolvedBlunderRepository $solvedBlunderRepository;
     private AttemptedSolutionRepository $attemptedSolutionRepository;
+    private UserRatingRepository $userRatingRepository;
+    private UserRatingService $userRatingService;
 
     public function __construct(Message $message)
     {
@@ -32,6 +37,8 @@ class ResignCommand extends AbstractCommand implements ShouldBeSentPrivatelyInte
         $this->blunderRepository            = new BlunderRepository();
         $this->solvedBlunderRepository      = new SolvedBlunderRepository();
         $this->attemptedSolutionRepository  = new AttemptedSolutionRepository();
+        $this->userRatingRepository         = new UserRatingRepository();
+        $this->userRatingService            = new UserRatingService();
         $this->message                      = $message;
         parent::__construct($message);
     }
@@ -72,12 +79,13 @@ class ResignCommand extends AbstractCommand implements ShouldBeSentPrivatelyInte
             return new BlunderAlreadyResignedResponse($this->message);
         }
 
+        $newRating = $this->calculateRating($this->message->author->id, $blunder);
         $this->saveResignation($blunder);
         $solution = $blunder->getSolution();
 
         $attempts = $this->attemptedSolutionRepository->getNumberOfTries($this->message->author->id, $blunder);
 
-        return new BlunderResignedResponse($this->message, $blunder, $solution, $attempts);
+        return new BlunderResignedResponse($this->message, $blunder, $solution, $attempts, $newRating->getRating());
     }
 
     /**
@@ -102,5 +110,31 @@ class ResignCommand extends AbstractCommand implements ShouldBeSentPrivatelyInte
     public function sendProperMessage(callable $callback): void
     {
         $callback();
+    }
+
+    /**
+     * @throws \Doctrine\ORM\Exception\ORMException
+     */
+    private function calculateRating(string $id, Blunder $blunder): UserRating
+    {
+        $numberOfTries = $this->attemptedSolutionRepository->getNumberOfTries($this->message->author->id, $blunder);
+
+        if (!$userRating = $this->userRatingRepository->findOneBy(['user' => $id])) {
+            $userRating = new UserRating();
+            $userRating->setUser($id);
+        }
+
+        $newUserRating = $this->userRatingService->calculateUserRating(
+            $userRating->getRating(),
+            $blunder->getElo(),
+            $this->userRatingService->getConstantByNumberOfTries($numberOfTries),
+            false
+        );
+
+        $userRating->setRating($newUserRating);
+
+        entityManager()->persist($userRating);
+
+        return $userRating;
     }
 }
