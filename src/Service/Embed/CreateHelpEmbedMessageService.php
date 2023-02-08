@@ -26,7 +26,7 @@ class CreateHelpEmbedMessageService extends AbstractEmbed
 
     private function createCustomFields(): array
     {
-        $solution           = new Field($this->discord);
+        $solve              = new Field($this->discord);
         $resign             = new Field($this->discord);
         $stats              = new Field($this->discord);
         $solved             = new Field($this->discord);
@@ -37,8 +37,8 @@ class CreateHelpEmbedMessageService extends AbstractEmbed
         $lichessStats       = new Field($this->discord);
         $help               = new Field($this->discord);
 
-        $solution->fill([
-            'name'  => "#solution [blunderID] [moves]",
+        $solve->fill([
+            'name'  => "#solve [blunderID] [moves]",
             'value' => "*Submit the solution for the blunder*\n```[blunderID] - ID of the blunder\n[moves] - Chess valid moves separated by spaces```"
         ]);
 
@@ -88,7 +88,7 @@ class CreateHelpEmbedMessageService extends AbstractEmbed
         ]);
 
         return [
-            $solution,
+            $solve,
             $resign,
             $blunder,
             $solved,

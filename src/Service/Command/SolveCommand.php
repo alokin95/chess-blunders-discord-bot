@@ -23,7 +23,7 @@ use App\Service\Message\SendMessageService;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 
-class SolutionCommand extends AbstractCommand implements ShouldBeSentPrivatelyInterface
+class SolveCommand extends AbstractCommand implements ShouldBeSentPrivatelyInterface
 {
     private BlunderRepository $blunderRepository;
     private AttemptedSolutionRepository $attemptedSolutionRepository;
@@ -40,9 +40,11 @@ class SolutionCommand extends AbstractCommand implements ShouldBeSentPrivatelyIn
     }
 
     /**
+     * #solve (blunderId) (arrayOfMoves)
+     *
      * @throws BlunderNotFoundException
      * @throws ORMException
-     * @throws OptimisticLockException
+     * @throws OptimisticLockException|InvalidBlunderIdException
      */
     public function execute(): AbstractResponse
     {
@@ -77,8 +79,6 @@ class SolutionCommand extends AbstractCommand implements ShouldBeSentPrivatelyIn
     }
 
     /**
-     * #solution (blunderId) (arrayOfMoves)
-     *
      * @throws OptimisticLockException
      * @throws ORMException
      */
