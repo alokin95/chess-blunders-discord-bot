@@ -30,7 +30,7 @@ class LichessStatsCommand extends AbstractCommand
     }
 
     /**
-     * #solution (blunderId) (array of moves)
+     * #lichessStats
      *
      * @throws IntentException|GuzzleException
      */

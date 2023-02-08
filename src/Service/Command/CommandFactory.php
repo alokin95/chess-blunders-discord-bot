@@ -15,7 +15,7 @@ class CommandFactory
         $command = explode(" ", $command)[0];
 
         return match ($command) {
-            "solution"          => new SolutionCommand($message),
+            "solve"             => new SolveCommand($message),
             "resign"            => new ResignCommand($message),
             "stats"             => new StatsCommand($message),
             "blunder"           => new SendSpecificBlunderToUserCommand($message),
