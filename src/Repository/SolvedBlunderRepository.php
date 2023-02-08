@@ -19,7 +19,7 @@ class SolvedBlunderRepository extends AbstractRepository
 
     public function countSolvedBlunders($user): int
     {
-        return entityManager()->getRepository($this->entity)->count(['user' => $user]);
+        return $this->count(['user' => $user]);
     }
 
     public function getHighestRated($user)
