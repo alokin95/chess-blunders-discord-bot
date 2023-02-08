@@ -13,6 +13,6 @@ class AttemptedSolutionRepository extends AbstractRepository
 
     public function getNumberOfTries($user, $blunder)
     {
-        return count(entityManager()->getRepository($this->entity)->findBy(['user' => $user, 'blunder' => $blunder]));
+        return count($this->findBy(['user' => $user, 'blunder' => $blunder]));
     }
 }

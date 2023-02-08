@@ -20,7 +20,7 @@ class ResignRepository extends AbstractRepository
 
     public function countResignedBlunders($user)
     {
-        return entityManager()->getRepository($this->entity)->count(['user' => $user]);
+        return $this->count(['user' => $user]);
     }
 
     public function getLowestRatedResigned($user)

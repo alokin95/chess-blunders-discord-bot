@@ -4,6 +4,8 @@ namespace App\Repository;
 
 use App\Entity\Blunder;
 use Doctrine\DBAL\Exception;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
 use Doctrine\Persistence\ManagerRegistry;
 
 class BlunderRepository extends AbstractRepository
@@ -131,5 +133,33 @@ class BlunderRepository extends AbstractRepository
         ;
 
         return $qb->getQuery()->execute();
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function countUnsolvedBlunders($user): int
+    {
+        return count($this->getUnsolvedBlundersForUser($user));
+    }
+
+    /**
+     * @throws NonUniqueResultException
+     * @throws NoResultException
+     * @throws Exception
+     */
+    public function getAverageEloOfUnsolvedBlunders($user)
+    {
+        $idsOfSolvedBlunders = $this->getIdsOfSolvedBlundersForUser($user);
+        $idsOfSolvedBlunders = array_merge($idsOfSolvedBlunders, $this->getIdsOfResignedBlundersForUser($user));
+
+        return $this->createQueryBuilder('b')
+            ->select('avg(b.elo)')
+            ->andWhere('b.id NOT IN (:idsOfSolvedBlunders)')
+            ->setParameter('idsOfSolvedBlunders', $idsOfSolvedBlunders)
+
+            ->getQuery()->getSingleScalarResult()
+        ;
+
     }
 }

@@ -45,6 +45,8 @@ class CreateStatsBlunderMessageService extends AbstractEmbed
         $averageNumberPerResign         = new Field($this->discord);
         $averageEloOfSolvedBlunders     = new Field($this->discord);
         $averageEloOfResignedBlunders   = new Field($this->discord);
+        $unsolvedBlunders               = new Field($this->discord);
+        $averageEloOfUnsolvedBlunders   = new Field($this->discord);
 
         $solvedBlunders->fill([
             'name'  => "Solved blunders",
@@ -86,14 +88,27 @@ class CreateStatsBlunderMessageService extends AbstractEmbed
             'value' => round($userStatistics['averageEloOfResignedBlunders'][0][1], 0)
         ]);
 
+        $unsolvedBlunders->fill([
+            'name'  => 'Unsolved blunders',
+            'value' => $userStatistics['unsolvedBlunders']
+        ]);
+
+        $averageEloOfUnsolvedBlunders->fill([
+            'name'  => 'Average ELO of unsolved',
+            'value' => round($userStatistics['averageEloOfUnsolvedBlunders'])
+        ]);
+
         return [
             $solvedBlunders,
             $resignedBlunders,
+            $unsolvedBlunders,
             $highestRatedSolved,
             $lowestRatedResigned,
             $averageNumberPerSolved,
             $averageNumberPerResign,
             $averageEloOfSolvedBlunders,
-            $averageEloOfResignedBlunders];
+            $averageEloOfResignedBlunders,
+            $averageEloOfUnsolvedBlunders
+        ];
     }
 }
