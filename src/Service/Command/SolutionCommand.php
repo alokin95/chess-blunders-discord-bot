@@ -77,6 +77,8 @@ class SolutionCommand extends AbstractCommand implements ShouldBeSentPrivatelyIn
     }
 
     /**
+     * #solution (blunderId) (arrayOfMoves)
+     *
      * @throws OptimisticLockException
      * @throws ORMException
      */

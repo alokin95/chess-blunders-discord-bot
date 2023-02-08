@@ -30,6 +30,8 @@ class RegisterLichessAccountCommand extends AbstractCommand implements ShouldBeS
     }
 
     /**
+     * #lichessRegister (username)
+     *
      * @throws OptimisticLockException
      * @throws ORMException
      */

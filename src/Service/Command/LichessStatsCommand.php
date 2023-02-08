@@ -9,6 +9,7 @@ use App\Service\Embed\CreateLichessStatsMessageService;
 use Discord\Exceptions\IntentException;
 use Discord\Parts\Channel\Message;
 use App\Response\UserStatisticResponse;
+use GuzzleHttp\Exception\GuzzleException;
 
 class LichessStatsCommand extends AbstractCommand
 {
@@ -29,7 +30,9 @@ class LichessStatsCommand extends AbstractCommand
     }
 
     /**
-     * @throws IntentException
+     * #solution (blunderId) (array of moves)
+     *
+     * @throws IntentException|GuzzleException
      */
     public function execute(): AbstractResponse
     {
