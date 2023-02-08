@@ -13,7 +13,7 @@ class SolvedBlunder extends BaseEntity
     #[ORM\Column(name: 'user_id', type: 'string')]
     private ?string $user = null;
 
-    #[ORM\ManyToOne(targetEntity: 'Blunder', inversedBy: 'correctSubmissions')]
+    #[ORM\ManyToOne(targetEntity: 'Blunder')]
     #[ORM\JoinColumn(name: 'blunder_id', referencedColumnName: 'id')]
     private Blunder $blunder;
 
