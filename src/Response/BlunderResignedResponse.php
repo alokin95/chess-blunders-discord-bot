@@ -57,7 +57,7 @@ class BlunderResignedResponse extends AbstractResponse
             . $this->blunder->getId()
             . ' '
             . $attempts
-            . '. His new rating is '
+            . 'His new rating is '
             . $this->rating
         ;
 
