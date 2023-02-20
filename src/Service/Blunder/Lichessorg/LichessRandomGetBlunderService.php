@@ -112,8 +112,15 @@ class LichessRandomGetBlunderService implements GetBlunderInterface
 
         for ($i = 1; $i < count($solutionArray); $i++) {
             $move = str_split($solutionArray[$i], 2);
+            $promotion = count($move) === 3 ? $move[2] : null;
 
-            $standardNotationSolution[] = $chessGame->move(['from' => $move[0], 'to' => $move[1]])->san;
+            $standardNotationSolution[] = $chessGame->move(
+                [
+                    'from'      => $move[0],
+                    'to'        => $move[1],
+                    'promotion' => $promotion
+                ]
+            )->san;
         }
 
         return $standardNotationSolution;
