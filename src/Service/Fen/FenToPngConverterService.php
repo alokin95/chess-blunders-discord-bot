@@ -23,7 +23,7 @@ class FenToPngConverterService implements FenConverterInterface
         $png = config('boards', 'chessboards') . $fen;
 
         if ($blunder->getBlunderProvider() === BlunderProvider::Lichess->value) {
-            $png.= '-' . $blunder->getBlunderMove();
+            $png.= '-' . substr($blunder->getBlunderMove(), 0, 4);
         }
 
         if ($colorToPlay === 'black') {
