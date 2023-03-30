@@ -103,7 +103,9 @@ class LichessRandomGetBlunderService implements GetBlunderInterface
     private function makeFirstMove(Chess $chessGame, string $move): Chess
     {
         $move = str_split($move, 2);
-        return LichessBlunderHelperService::makeMove($chessGame, null, $move[0], $move[1]);
+        $promotion = count($move) === 3 ? $move[2] : null;
+
+        return LichessBlunderHelperService::makeMove($chessGame, null, $move[0], $move[1], $promotion);
     }
 
     private function convertMovesToStandardNotation(Chess $chessGame, array $solutionArray): array

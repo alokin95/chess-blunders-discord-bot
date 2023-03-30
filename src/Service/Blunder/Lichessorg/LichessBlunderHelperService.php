@@ -16,7 +16,8 @@ class LichessBlunderHelperService
         Chess $chessGame,
         ?string $sanMove = null,
         ?string $moveFrom = null,
-        ?string $moveTo = null
+        ?string $moveTo = null,
+        ?string $promotion = null
     ): Chess
     {
         if (!is_null($sanMove)) {
@@ -25,20 +26,15 @@ class LichessBlunderHelperService
         }
 
         if (!is_null($moveFrom) && !is_null($moveTo)) {
-            $chessGame->move(['from' => $moveFrom, 'to' => $moveTo]);
+            $chessGame->move([
+                'from'      => $moveFrom,
+                'to'        => $moveTo,
+                'promotion' => $promotion
+            ]);
+
             return $chessGame;
         }
 
         throw new Exception("INVALID MOVES ---" . ' san: ' . $sanMove . ', from: ' . $moveFrom . ' to: ' . $moveTo);
-    }
-
-    public static function convertSolutionToStandardNotation(Chess $chessGame, array $standardNotationMoves): array
-    {
-        foreach ($standardNotationMoves as $key => $move) {
-            $move = str_split($move, 2);
-
-        }
-
-        return [];
     }
 }
